@@ -79,7 +79,7 @@ export const scenarios: Scenario[] = [
     topic: "Digital · Consent",
     title: "AITA for calling out my boys when someone dropped a nude in the group chat?",
     body:
-      "So this happened in our guys' group chat last night and I'm still kinda shook about it. Out of nowhere, someone posts a nude of a woman I don't even know. The chat just explodes with fire emojis and "damn" reactions. A couple of my boys are saying it's no big deal because "it's already online somewhere" and "she probably posted it herself." I'm sitting there feeling this instant urge to just mute the chat and keep scrolling, but I also know that if nobody says something clear, this becomes the new normal for our group. I don't want to be that dude who lectures everyone, but I also don't want to just let this slide. I'm just a guy trying to figure out how to reset the vibe without making it weird. What would you do?",
+      "So this happened in our guys' group chat last night and I'm still kinda shook about it. Out of nowhere, someone posts a nude of a woman I don't even know. The chat just explodes with fire emojis and 'damn' reactions. A couple of my boys are saying it's no big deal because 'it's already online somewhere' and 'she probably posted it herself.' I'm sitting there feeling this instant urge to just mute the chat and keep scrolling, but I also know that if nobody says something clear, this becomes the new normal for our group. I don't want to be that dude who lectures everyone, but I also don't want to just let this slide. I'm just a guy trying to figure out how to reset the vibe without making it weird. What would you do?",
     cues: [
       "Non-consensual image sharing",
       "Rationalizing with ‘it’s online’",
