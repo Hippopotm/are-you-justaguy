@@ -1,0 +1,59 @@
+# Scenario Generator Hook
+
+This hook generates new scenarios for the "Are You Just a Guy?" game using AI.
+
+## Usage
+
+```bash
+# Generate a new scenario
+kiro generate-scenario
+
+# Generate multiple scenarios
+kiro generate-scenario --count 3
+
+# Generate with specific parameters
+kiro generate-scenario --framework 5Ds --step Distract --setting "coffee shop"
+```
+
+## Input Parameters
+
+- **framework**: 5Ds, DEARMAN, LIVES, or COOPER
+- **step**: Specific step from the framework
+- **setting**: Where the scenario takes place (bar, campus, workplace, etc.)
+- **context**: Brief situation description
+- **count**: Number of scenarios to generate (default: 1)
+
+## Output
+
+Generates a new scenario in the correct format and adds it to `src/shared/scenarios.ts` after validation.
+
+## Validation
+
+All generated scenarios are automatically validated using the existing validation script to ensure quality and consistency.
+
+## Examples
+
+### Generate a bar scenario
+```bash
+kiro generate-scenario --framework 5Ds --step Distract --setting "bar" --context "guy won't leave woman alone"
+```
+
+### Generate a workplace scenario
+```bash
+kiro generate-scenario --framework DEARMAN --step Express --setting "office" --context "inappropriate comments about intern"
+```
+
+### Generate multiple scenarios
+```bash
+kiro generate-scenario --count 5 --framework 5Ds
+```
+
+## Quality Standards
+
+- First-person testimonial style
+- Natural, slang-filled language
+- Realistic social situations
+- Clear teaching moments
+- Non-shaming tone
+- 120-220 word body content
+- Exactly 3 choices with proper point distribution

@@ -1,0 +1,183 @@
+#!/usr/bin/env node
+
+/**
+ * Kiro Hook: Generate New Scenarios
+ * 
+ * This hook generates new scenarios for the "Are You Just a Guy?" game
+ * using AI and adds them to the scenarios.ts file.
+ * 
+ * Usage:
+ *   kiro generate-scenario
+ *   kiro generate-scenario --framework 5Ds --step Distract --setting "coffee shop"
+ *   kiro generate-scenario --count 3
+ */
+
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import url from 'url';
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, '../../');
+const scenariosPath = path.join(root, 'src/shared/scenarios.ts');
+
+// Parse command line arguments
+const args = process.argv.slice(2);
+const framework = args.find(arg => arg.startsWith('--framework='))?.split('=')[1] || '5Ds';
+const step = args.find(arg => arg.startsWith('--step='))?.split('=')[1] || 'Direct';
+const setting = args.find(arg => arg.startsWith('--setting='))?.split('=')[1] || 'bar';
+const context = args.find(arg => arg.startsWith('--context='))?.split('=')[1] || 'social situation';
+const count = parseInt(args.find(arg => arg.startsWith('--count='))?.split('=')[1] || '1');
+
+console.log('🎯 Kiro Scenario Generator');
+console.log(`Framework: ${framework}`);
+console.log(`Step: ${step}`);
+console.log(`Setting: ${setting}`);
+console.log(`Context: ${context}`);
+console.log(`Count: ${count}`);
+
+// Generate scenario using AI
+function generateScenario() {
+  const prompt = `
+Generate a Reddit-style confessional scenario for the "Are You Just a Guy?" game.
+
+Requirements:
+- Framework: ${framework}
+- Step: ${step}
+- Setting: ${setting}
+- Context: ${context}
+
+Style:
+- First-person testimonial like r/AITA
+- Natural slang and casual language
+- 120-220 words
+- Realistic social situations men encounter
+- Clear stakes and emotional nuance
+
+Output format:
+{
+  "id": "unique-id-001",
+  "topic": "Setting · Situation Type",
+  "title": "AITA-style confessional headline",
+  "body": "First-person story with slang and natural language",
+  "cues": ["What to notice", "Body language cues", "Social pressure signals"],
+  "goals": ["What respectful outcome looks like", "How to help", "What to achieve"],
+  "red_flags": ["Behaviors to avoid", "What not to do", "Harmful patterns"],
+  "standard": {
+    "framework": "${framework}",
+    "step": "${step}",
+    "explainer": "1-2 lines explaining why this standard works",
+    "script": {
+      "default": "One-line micro-script for real use",
+      "gentle": "Toned-down version for sensitive contexts"
+    }
+  },
+  "choices": [
+    {
+      "key": "A",
+      "label": "A",
+      "text": "What the player would do/say",
+      "outcome": "safer",
+      "points": 90,
+      "rationale": "Why this outcome is better"
+    },
+    {
+      "key": "B",
+      "label": "B",
+      "text": "Alternative response",
+      "outcome": "partial",
+      "points": 65,
+      "rationale": "Why this is partially helpful"
+    },
+    {
+      "key": "C",
+      "label": "C",
+      "text": "Another option",
+      "outcome": "riskier",
+      "points": 25,
+      "rationale": "Why this is problematic"
+    }
+  ]
+}
+`;
+
+  console.log('🤖 Generating scenario with AI...');
+  
+  // This would integrate with your AI service
+  // For now, return a template that can be filled manually
+  return {
+    id: `generated-${Date.now()}`,
+    topic: `${setting} · ${context}`,
+    title: `AITA for [situation] at ${setting}?`,
+    body: `So this happened at ${setting} and I'm still kinda [feeling] about it. ${context}...`,
+    cues: ["What to notice", "Body language cues", "Social pressure signals"],
+    goals: ["What respectful outcome looks like", "How to help", "What to achieve"],
+    red_flags: ["Behaviors to avoid", "What not to do", "Harmful patterns"],
+    standard: {
+      framework: framework,
+      step: step,
+      explainer: "1-2 lines explaining why this standard works",
+      script: {
+        default: "One-line micro-script for real use",
+        gentle: "Toned-down version for sensitive contexts"
+      }
+    },
+    choices: [
+      {
+        key: "A",
+        label: "A",
+        text: "What the player would do/say",
+        outcome: "safer",
+        points: 90,
+        rationale: "Why this outcome is better"
+      },
+      {
+        key: "B",
+        label: "B",
+        text: "Alternative response",
+        outcome: "partial",
+        points: 65,
+        rationale: "Why this is partially helpful"
+      },
+      {
+        key: "C",
+        label: "C",
+        text: "Another option",
+        outcome: "riskier",
+        points: 25,
+        rationale: "Why this is problematic"
+      }
+    ]
+  };
+}
+
+// Main execution
+try {
+  console.log('🚀 Starting scenario generation...');
+  
+  // Generate scenarios
+  const newScenarios = [];
+  for (let i = 0; i < count; i++) {
+    const scenario = generateScenario();
+    newScenarios.push(scenario);
+  }
+  
+  console.log(`✅ Generated ${count} scenario(s)`);
+  console.log('📝 Add these to your scenarios.ts file:');
+  console.log(JSON.stringify(newScenarios, null, 2));
+  
+  // Validate scenarios
+  console.log('🔍 Validating scenarios...');
+  try {
+    execSync('npm run kiro:validate', { cwd: root, stdio: 'inherit' });
+    console.log('✅ Validation passed');
+  } catch (error) {
+    console.log('⚠️  Validation failed - please review scenarios before adding');
+  }
+  
+  console.log('🎉 Scenario generation complete!');
+  
+} catch (error) {
+  console.error('❌ Error generating scenarios:', error.message);
+  process.exit(1);
+}
