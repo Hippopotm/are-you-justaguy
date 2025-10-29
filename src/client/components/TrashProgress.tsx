@@ -2,6 +2,14 @@ import { motion } from 'framer-motion';
 
 type LB = { username: string; score: number; iconUrl: string };
 
+const ANCHORS = [
+  { at: 0, emoji: '💀', label: 'Embarrassing' },
+  { at: 25, emoji: '🙈', label: 'Cringe' },
+  { at: 50, emoji: '😬', label: 'Mixed' },
+  { at: 75, emoji: '😎', label: 'Cool' },
+  { at: 100, emoji: '🦸‍♂️', label: 'Hero' },
+];
+
 export default function TrashProgress({
   overallAverage,
   roundScore,
@@ -11,68 +19,78 @@ export default function TrashProgress({
   overallAverage: number; // your cumulative 0–100
   roundScore?: number; // last answer 0–100 (optional)
   avatarUrl?: string | null; // your Snoovatar
-  leaderboard?: LB[]; // top players for the bar
+  leaderboard?: LB[]; // avatars along the rail
 }) {
   const clamp = (v: number) => Math.max(0, Math.min(100, v));
+  const youAt = clamp(typeof roundScore === 'number' ? roundScore : overallAverage);
 
   return (
-    <div className="w-full p-3">
-      <div className="relative w-full h-12 rounded-full overflow-visible bg-gradient-to-r from-red-500 via-amber-400 to-green-600">
-        {/* Tier emojis like Hot&Cold */}
-        <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-2 text-2xl select-none">
-          <span title="Embarrassing">💀</span>
-          <span title="Just a Guy">🙈</span>
-          <span title="Recovering Guy">😬</span>
-          <span title="Decent Human">😎</span>
-          <span title="Golden Retriever">🦸‍♂️</span>
-        </div>
+    <div className="w-full">
+      {/* rail */}
+      <div className="relative w-full h-14">
+        {/* track */}
+        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-3 rounded-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-400" />
 
-        {/* Top players lined along the bar */}
-        {leaderboard.slice(0, 10).map((p) => (
+        {/* anchor emojis on the rail */}
+        {ANCHORS.map((a) => (
           <div
-            key={p.username}
-            className="absolute -bottom-11"
-            style={{ left: `${clamp(p.score)}%`, transform: 'translateX(-50%)' }}
-            title={`${p.username} • ${Math.round(p.score)}%`}
+            key={a.at}
+            className="absolute top-1/2 -translate-y-1/2"
+            style={{ left: `${a.at}%`, transform: 'translate(-50%, -50%)' }}
+            aria-hidden
+          >
+            <div className="text-xl select-none leading-none">{a.emoji}</div>
+          </div>
+        ))}
+
+        {/* small leaderboard avatars pinned to their score positions */}
+        {leaderboard.map((m) => (
+          <div
+            key={`${m.username}-${m.score}`}
+            className="absolute top-1/2 -translate-y-1/2"
+            style={{ left: `${clamp(m.score)}%`, transform: 'translate(-50%, -50%)' }}
+            title={`u/${m.username} • ${clamp(m.score)}%`}
           >
             <img
-              src={p.iconUrl}
-              alt={p.username}
-              className="w-9 h-9 rounded-full border-2 border-white shadow"
+              src={m.iconUrl}
+              width={26}
+              height={26}
+              className="rounded-full border border-white shadow-sm bg-white"
+              alt=""
             />
           </div>
         ))}
 
-        {/* Your avatar — bigger & animated */}
+        {/* YOUR avatar (no arrow) – this alone indicates position */}
         {avatarUrl && (
           <motion.div
-            className="absolute -top-14 z-20"
-            animate={{ left: `${clamp(overallAverage)}%` }}
-            style={{ transform: 'translateX(-50%)' }}
-            transition={{ type: 'spring', stiffness: 260, damping: 24, mass: 0.9 }}
+            className="absolute z-10"
+            style={{ left: `${youAt}%`, top: '-8px', transform: 'translateX(-50%)' }}
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
           >
             <img
               src={avatarUrl}
-              alt="You"
-              className="w-14 h-14 rounded-full border-2 border-white shadow-lg"
+              width={40}
+              height={40}
+              className="rounded-full border-2 border-white shadow bg-white"
+              alt="Your avatar"
             />
           </motion.div>
         )}
+      </div>
 
-        {/* Arrow marking THIS answer (no text) */}
-        {typeof roundScore === 'number' && (
-          <motion.div
-            className="absolute -top-3 z-10 text-gray-900"
-            animate={{ left: `${clamp(roundScore)}%`, y: [-2, -12, -2] }}
-            style={{ transform: 'translateX(-50%)' }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            aria-hidden
+      {/* descriptors row under emojis (BLACK for visibility) */}
+      <div className="relative mt-2 h-5">
+        {ANCHORS.map((a) => (
+          <div
+            key={`label-${a.at}`}
+            className="absolute text-[11px] text-black"
+            style={{ left: `${a.at}%`, transform: 'translateX(-50%)' }}
           >
-            <svg width="12" height="10" viewBox="0 0 12 10" fill="currentColor">
-              <path d="M6 0 L12 10 H0 Z" />
-            </svg>
-          </motion.div>
-        )}
+            {a.label}
+          </div>
+        ))}
       </div>
     </div>
   );
