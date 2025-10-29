@@ -51,23 +51,30 @@ export default function TrashProgress({
 
 
 
-        {/* Small leaderboard avatars */}
-        {leaderboard.map((m) => (
-          <div
-            key={`${m.username}-${m.score}`}
-            className="absolute z-10"
-            style={{ left: `${clamp(m.score)}%`, top: '50%', transform: 'translate(-50%, -50%)' }}
-            title={`u/${m.username} • ${clamp(m.score)}%`}
-          >
-            <img
-              src={m.iconUrl}
-              width={24}
-              height={24}
-              className="rounded-full border border-white bg-white shadow-sm"
-              alt=""
-            />
-          </div>
-        ))}
+        {/* Small leaderboard avatars with directional flipping */}
+        {leaderboard.map((m) => {
+          const position = clamp(m.score);
+          const shouldFlip = position > 50; // Flip avatars on the right side of the meter
+          
+          return (
+            <div
+              key={`${m.username}-${m.score}`}
+              className="absolute z-10"
+              style={{ left: `${position}%`, top: '50%', transform: 'translate(-50%, -50%)' }}
+              title={`u/${m.username} • ${position}%`}
+            >
+              <img
+                src={m.iconUrl}
+                width={24}
+                height={24}
+                className={`rounded-full border border-white bg-white shadow-sm transition-transform duration-200 ${
+                  shouldFlip ? 'scale-x-[-1]' : ''
+                }`}
+                alt=""
+              />
+            </div>
+          );
+        })}
 
         {/* PLAYER AVATAR - Advances along the meter showing progress */}
         {avatarUrl && (
@@ -82,7 +89,9 @@ export default function TrashProgress({
               src={avatarUrl}
               width={48}
               height={48}
-              className="rounded-full border-3 border-white bg-white shadow-lg"
+              className={`rounded-full border-3 border-white bg-white shadow-lg transition-transform duration-200 ${
+                safeAverage > 50 ? 'scale-x-[-1]' : ''
+              }`}
               alt="Your progress"
             />
           </motion.div>

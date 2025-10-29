@@ -70,23 +70,56 @@ export const App = () => {
     for (let i = content.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const temp = content[i];
-      content[i] = content[j];
-      content[j] = temp;
+      if (temp && content[j]) {
+        content[i] = content[j];
+        content[j] = temp;
+      }
     }
     
     // Return choices with shuffled content but original keys/labels
-    return choices.map((choice, index) => ({
-      ...choice,
-      text: content[index].text,
-      points: content[index].points,
-    }));
+    return choices.map((choice, index) => {
+      const shuffledContent = content[index];
+      if (!shuffledContent) return choice;
+      
+      return {
+        ...choice,
+        text: shuffledContent.text,
+        points: shuffledContent.points,
+      };
+    });
   };
 
   // Load scenario on mount
   useEffect(() => {
     loadNewScenario();
     setProfile(loadProfile());
+    loadUserData();
+    loadLeaderboard();
   }, []);
+
+  const loadUserData = async () => {
+    try {
+      const response = await fetch('/api/me');
+      if (response.ok) {
+        const userData = await response.json();
+        setMe(userData);
+      }
+    } catch (e) {
+      console.error('Failed to load user data:', e);
+    }
+  };
+
+  const loadLeaderboard = async () => {
+    try {
+      const response = await fetch('/api/best');
+      if (response.ok) {
+        const leaderboardData = await response.json();
+        setLeaderboard(leaderboardData);
+      }
+    } catch (e) {
+      console.error('Failed to load leaderboard:', e);
+    }
+  };
 
   const loadNewScenario = async () => {
     try {

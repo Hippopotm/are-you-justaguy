@@ -71,38 +71,39 @@ A Reddit-based single-player educational game that teaches men bystander interve
 4. **Submit your answer** - Click your choice to lock it in (choices are disabled after submission with gray styling)
 
 ### After Each Round
-1. **See your exact score** - Get precise points based on your choice outcome:
+1. **See your exact score** - Get precise points based on your choice outcome with immediate feedback:
    - **Safer choices** (85-100 points): +15-20 XP, "You're the adult child you needed."
    - **Partial choices** (55-75 points): +10 XP, "Keep trying, you got this."
    - **Riskier choices** (0-40 points): -5 XP penalty, "Bro… that was painful to watch."
 
 2. **Watch the animations** - See your progress update with smooth spring animations:
-   - **Bouncy arrow** appears at your round score position (no text, just visual indicator)
-   - **Player avatar** smoothly moves along the Trash Meter to show overall progress
-   - **XP toast** pops up showing your gain/loss with color coding
+   - **Bouncy arrow** appears at your round score position with spring physics (no text, just visual indicator)
+   - **Player avatar** smoothly moves along the Trash Meter to show overall progress with gentle floating animation
+   - **XP toast** pops up showing your gain/loss with color coding (green for positive, red for negative)
    - **Trash Progress component** shows your overall average with gradient progress bar
 
-3. **Check your tier** - See where you land on the Trash Meter with witty feedback:
-   - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch." (-5 XP)
-   - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm." (0 XP)
-   - 😤 **Recovering Guy** (41-70): "Keep trying, you got this." (+10 XP)
-   - 😎 **Decent Human** (71-90): "You're learning and it shows." (+15 XP)
-   - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (+20 XP)
+3. **Check your tier** - See where you land on the Trash Meter with witty feedback and color-coded chips:
+   - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch." (-5 XP) - Red chip
+   - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm." (0 XP) - Orange chip
+   - 😤 **Recovering Guy** (41-70): "Keep trying, you got this." (+10 XP) - Amber chip
+   - 😎 **Decent Human** (71-90): "You're learning and it shows." (+15 XP) - Blue chip
+   - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (+20 XP) - Green chip
 
 4. **Learn from the framework** - Each scenario teaches a specific intervention technique:
-   - **5 D's**: Direct, Distract, Delegate, Delay, Document
-   - **DEARMAN**: Describe, Express, Assert, Reinforce, Mindful, Appear Confident, Negotiate
-   - **LIVES**: Listen, Inquire, Validate, Enhance Safety, Support
-   - **COOPER**: Awareness states (White, Yellow, Orange, Red)
+   - **5 D's**: Direct, Distract, Delegate, Delay, Document (bystander intervention)
+   - **DEARMAN**: Describe, Express, Assert, Reinforce, Mindful, Appear Confident, Negotiate (communication)
+   - **LIVES**: Listen, Inquire, Validate, Enhance Safety, Support (support techniques)
+   - **COOPER**: White, Yellow, Orange, Red awareness states (situational awareness)
 
-5. **Try new scenarios** - Click "🎲 Try Another Scenario" to continue learning
+5. **Try new scenarios** - Click "🎲 Try Another Scenario" to continue learning with fresh content
 
 ### Building Your Profile
-- **Track your average** - Your overall Trash Meter position shows long-term improvement
-- **Earn/lose XP** - Immediate feedback with animated toast notifications
+- **Track your average** - Your overall Trash Meter position shows long-term improvement with smooth animations
+- **Earn/lose XP** - Immediate feedback with animated toast notifications that appear and fade
 - **Maintain streaks** - Play daily to see 🔥 Day X indicators in the header
 - **Learn practical scripts** - Each scenario provides real-world phrases you can actually use
 - **Understand the "why"** - Rationales explain why each choice leads to better or worse outcomes
+- **No scenario repeats** - Server-side tracking ensures you never see the same scenario twice
 
 ## 🏆 Hackathon Categories
 
@@ -156,11 +157,12 @@ npm run deploy
 ### API Endpoints
 The game uses these main endpoints:
 
-- **GET /api/scenario** - Returns a random scenario (50% static library, 50% Kiro-generated)
+- **GET /api/scenario** - Returns a random scenario (hybrid: static library + Kiro-generated content)
 - **POST /api/vote** - Records player choice, prevents duplicate votes, returns score and XP feedback
-- **GET /api/reveal** - Returns community voting tallies for a specific scenario
-- **GET /api/best** - Returns the current best player (highest XP)
+- **GET /api/reveal** - Returns community voting tallies for a specific scenario (for future features)
+- **GET /api/best** - Returns the current best player (highest XP) for leaderboard features
 - **GET /api/generate-scenario** - Generates new scenarios using Kiro AI (development endpoint)
+- **GET /api/me** - Returns current user data for avatar and profile features
 
 ## 🧠 How It Works
 
@@ -168,19 +170,20 @@ The game uses these main endpoints:
 1. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) about realistic social situations
 2. **Choice Shuffling**: Content is randomized while keeping A/B/C labels consistent to prevent memorization
 3. **Choice Phase**: Player picks A/B/C response (no timer, encourages thoughtful consideration)
-4. **Vote Recording**: Server records choice and returns score feedback
+4. **Vote Recording**: Server records choice, prevents duplicates, and returns score feedback
 5. **Immediate Feedback**: Animated progress updates with bouncy arrows, smooth avatar movement, and XP toasts
 6. **Progress Tracking**: Updates overall average score stored in localStorage and animates Trash Meter position changes
-7. **Next Scenario**: Player can click "🎲 Try Another Scenario" to continue playing
+7. **Next Scenario**: Player can click "🎲 Try Another Scenario" to continue playing with fresh content
 
 ### Trash Meter Animation System
 The game features a sophisticated visual progress system with Framer Motion animations:
 
-- **Progress Bar**: Gradient from red → yellow → green with emoji anchors at key positions
-- **Player Avatar**: 48x48px image that smoothly rides along the bar at overall average position
+- **Progress Bar**: 700px wide gradient from red → amber → green with emoji anchors at key positions
+- **Player Avatar**: Rides along the bar at overall average position with gentle floating animation
 - **Bouncy Arrow**: Appears at current round score with spring animation (no text clutter)
 - **Spring Physics**: stiffness: 260, damping: 24, mass: 0.9 for natural movement
-- **Float Animation**: Avatar gently floats up and down for visual appeal
+- **Milestone Labels**: Responsive tier labels with emojis below the progress bar
+- **Leaderboard Support**: Optional small avatars can show other players' positions
 
 ### Dynamic Scoring & XP System
 
@@ -233,23 +236,25 @@ Each scenario teaches specific intervention techniques:
 ```
 src/
 ├── client/
-│   ├── App.tsx                    # Main game UI with React hooks and state management
+│   ├── App.tsx                    # Main game UI with React hooks, state management, and choice shuffling
 │   ├── main.tsx                   # React app entry point with StrictMode
 │   ├── index.html                 # HTML template with mobile viewport settings
 │   ├── index.css                  # Global Tailwind CSS styles
 │   ├── components/
-│   │   └── TrashProgress.tsx      # Animated progress bar with Framer Motion
+│   │   └── TrashProgress.tsx      # Animated progress bar with Framer Motion and spring physics
 │   ├── hooks/
 │   │   └── useCounter.ts          # Custom React hooks for game state
-│   └── global.ts                  # Global client-side utilities
+│   ├── global.ts                  # Global client-side utilities
+│   └── public/
+│       └── snoo.png               # Reddit mascot asset
 ├── server/
-│   ├── index.ts                   # Express server with game API endpoints
+│   ├── index.ts                   # Express server with game API endpoints and Kiro integration
 │   └── core/
 │       └── post.ts                # Reddit post creation and management
 └── shared/
     ├── types.ts                   # TypeScript interfaces for scenarios and choices
     ├── scenarios.ts               # Static scenario content (9 scenarios)
-    ├── tiers.ts                   # Scoring system and XP calculations
+    ├── tiers.ts                   # Scoring system, XP calculations, and witty feedback
     └── types/
         └── api.ts                 # API request/response type definitions
 
@@ -272,28 +277,35 @@ src/
 ### Interactive Progress Visualization
 The **TrashProgress** component is the heart of the game's visual feedback system:
 
-- **Animated Progress Bar**: 700px wide with smooth gradient (red → amber → green)
-- **Player Avatar**: 48x48px image that rides the progress bar at overall average position with gentle floating animation
+- **Animated Progress Bar**: 700px wide with smooth gradient (red → amber → green) using linear-gradient CSS
+- **Player Avatar**: Rides the progress bar at overall average position with gentle floating animation
 - **Bouncy Arrow**: Spring-animated indicator at current round score (no text clutter)
 - **Responsive Labels**: Mobile-friendly tier labels with emojis below the progress bar
 - **Leaderboard Support**: Small 24x24px avatars can show other players' positions (optional)
-- **Spring Physics**: Smooth animations with stiffness: 260, damping: 24, mass: 0.9
+- **Spring Physics**: Smooth animations with stiffness: 260, damping: 24, mass: 0.9 using Framer Motion
 - **Milestone Anchors**: Emoji markers at key positions (💀 Embarrassing, 🤷🏽 Just a Guy, 😤 Recovering, 😎 Decent, 🦸🏽 Golden)
 
 ### Game State Management
 - **Local Storage**: Persistent profile with plays, total score, streaks, and last play date
-- **Choice Shuffling**: Content randomized while keeping A/B/C labels consistent
+- **Choice Shuffling**: Content randomized while keeping A/B/C labels consistent with null-safe logic
 - **Duplicate Prevention**: Server prevents multiple votes per user per scenario (90-day expiry)
 - **XP System**: Server-side XP tracking with immediate feedback via animated toast notifications
 - **Community Features**: Best player tracking and voting tallies stored in Redis
-- **Hybrid Content**: 50% static scenarios, 50% Kiro-generated scenarios for variety
+- **Hybrid Content**: Static scenarios with Kiro-generated content integration
+
+### User Interface
+- **Light Theme**: Clean bg-gray-50 page with bg-white cards and proper contrast
+- **Mobile-First**: Responsive design with mobile viewport settings and touch-friendly buttons
+- **Accessibility**: Proper button states, disabled styling, and clear visual feedback
+- **Typography**: text-gray-900 primary, text-gray-700 secondary for good readability
 
 ### Current Content Library
-- **9 Static Scenarios**: Covering bars, campus, workplace, gym, digital spaces
-- **Random Selection**: Each play loads a random scenario from the library
+- **9 Static Scenarios**: Covering bars, campus, workplace, gym, digital spaces, friend groups
+- **Hybrid Content System**: 50% static scenarios, 50% Kiro-generated scenarios for variety
 - **Evidence-Based**: Each scenario teaches specific intervention frameworks (5Ds, DEARMAN, LIVES, COOPER)
 - **Reddit-Authentic**: Written in confessional style that feels native to the platform
 - **Choice Shuffling**: Content is randomized while keeping A/B/C labels consistent
+- **No Repeats**: Server-side tracking prevents users from seeing the same scenario twice
 
 ## 🎮 Adding New Scenarios
 
