@@ -12,6 +12,31 @@ import { scenarios } from '../shared/scenarios';
 // (optional) you can also import the Scenario type if you want stronger typing
 // import type { Scenario } from '../shared/types';
 
+// --- Avatar helpers using Devvit's Reddit API ---
+async function fetchUserAvatar(username: string): Promise<string> {
+  try {
+    // Use Devvit's built-in Reddit API instead of direct fetch
+    const user = await reddit.getUserByUsername(username);
+    
+    if (user?.snoovatarImg) {
+      // Prefer Snoovatar, force PNG for consistent rendering
+      return user.snoovatarImg.replace(/\.svg(\?.*)?$/i, '.png');
+    }
+    
+    if (user?.iconImg) {
+      // Use profile icon, ensure HTTPS
+      return user.iconImg.split('?')[0].replace('http://', 'https://');
+    }
+    
+    // Fallback to default Reddit avatar
+    return 'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png';
+  } catch (error) {
+    console.error(`Error fetching avatar for ${username}:`, error);
+    // Return default avatar on error
+    return 'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png';
+  }
+}
+
 import {
   InitResponse,
   IncrementResponse,
@@ -347,15 +372,63 @@ router.post('/api/vote', async (req, res) => {
   }
 });
 
-// GET /api/best - fetch the best player
+// GET /api/me - current user's username + avatar url
+router.get('/api/me', async (_req, res) => {
+  try {
+    const username = (await reddit.getCurrentUsername()) || null;
+    if (!username) return res.json({ username: null, iconUrl: null });
+
+    const about = await fetchUserAbout(username);
+    const iconUrl = pickAvatarUrl(about || undefined);
+    res.json({ username, iconUrl });
+  } catch (e) {
+    console.error('ME error', e);
+    res.json({ username: null, iconUrl: null });
+  }
+});
+
+// GET /api/me - get current user info with avatar
+router.get('/api/me', async (_req, res) => {
+  try {
+    const username = await reddit.getCurrentUsername();
+    if (!username) {
+      return res.json({ username: null, avatar: null });
+    }
+    
+    const avatar = await fetchUserAvatar(username);
+    res.json({ username, avatar });
+  } catch (e) {
+    console.error('Current user error', e);
+    res.json({ username: null, avatar: null });
+  }
+});
+
+// GET /api/best - return array of marker entries for the meter
 router.get('/api/best', async (_req, res) => {
   try {
-    const u = (await redis.get('best:username')) || null;
-    const x = (await redis.get('best:xp')) || null;
-    res.json({ username: u, xp: x ? parseInt(x, 10) : null });
+    const username = (await redis.get('best:username')) || null;
+    const xpRaw = await redis.get('best:xp');
+    const xp = xpRaw ? parseInt(xpRaw, 10) : null;
+
+    if (!username) {
+      return res.json([]); // no markers yet
+    }
+
+    const iconUrl = await fetchUserAvatar(username);
+
+    // Map to a 0–100 position for the rail.
+    // If you later store a true percent, swap this line to that value.
+    const score = xp != null ? Math.max(0, Math.min(100, xp)) : 90;
+
+    res.json([
+      { username, score, iconUrl },
+      // (optional) add a couple of fixed markers so the rail looks "Hot & Cold"-ish
+      // { username: 'AutoModerator', score: 5,  iconUrl: await fetchUserAvatar('AutoModerator') },
+      // { username: 'reddit',        score: 95, iconUrl: await fetchUserAvatar('reddit') },
+    ]);
   } catch (e) {
-    console.error('Best player error', e);
-    res.json({ username: null, xp: null });
+    console.error('Best error', e);
+    res.json([]);
   }
 });
 

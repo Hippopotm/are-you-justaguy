@@ -6,16 +6,7 @@ import { tierFrom, getXPDelta, getWittyFeedback } from '../shared/tiers';
 
 const PROF_KEY = 'guy_profile_v2';
 
-type LeaderboardPlayer = {
-  username: string;
-  score: number;
-  iconUrl: string;
-};
 
-type Me = {
-  username?: string | null;
-  iconUrl?: string | null;
-};
 
 // Profile helpers for streak and average
 function loadProfile() {
@@ -64,9 +55,9 @@ export const App = () => {
   const [lastDelta, setLastDelta] = useState<number>(0);
   const [profile, setProfile] = useState(loadProfile());
   const [shuffledChoices, setShuffledChoices] = useState<any[]>([]);
-  const [me, setMe] = useState<Me>({});
-  const [leaderboardAvatars, setLeaderboardAvatars] = useState<LeaderboardPlayer[]>([]);
-  const [overallAverage, setOverallAverage] = useState<number>(0);
+  const [me, setMe] = useState<{ username?: string | null; iconUrl?: string | null }>({});
+  const [leaderboard, setLeaderboard] = useState<Array<{ username: string; score: number; iconUrl: string }>>([]);
+  const [overallAverage, setOverallAverage] = useState(0);
   const [roundScore, setRoundScore] = useState<number | undefined>(undefined);
 
   // Fetch me + leaderboard + scenario immediately on mount
@@ -80,7 +71,7 @@ export const App = () => {
     // Fetch leaderboard
     fetch('/api/best')
       .then(r => r.json())
-      .then(setLeaderboardAvatars)
+      .then(setLeaderboard)
       .catch(() => {});
 
     // Load first scenario immediately
@@ -177,7 +168,7 @@ export const App = () => {
       // Refresh leaderboard after submit
       fetch('/api/best')
         .then(r => r.json())
-        .then(setLeaderboardAvatars)
+        .then(setLeaderboard)
         .catch(() => {});
       
     } catch (e) {
@@ -197,8 +188,8 @@ export const App = () => {
           <TrashProgress 
             overallAverage={overallAverage} 
             {...(submitted && typeof roundScore === 'number' ? { roundScore } : {})}
-            avatarUrl={me.iconUrl || null}
-            leaderboard={leaderboardAvatars}
+            avatarUrl={me?.iconUrl || null}
+            leaderboard={leaderboard}
           />
         </div>
 

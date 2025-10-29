@@ -1,121 +1,77 @@
-# UI Contract — Are You Just a Guy
-Version: 2.0 - Complete Game Specification
+# UI Contract — "Are You Just a Guy?" v2
 
-This document defines **non‑negotiable UI rules** that Kiro MUST follow when generating or editing client code based on the complete game specification.
+This document defines **non‑negotiable UI rules** for the single-player bystander training game.
 
-## 0) Scope
-These rules apply to React components in:
-- `src/client/App.tsx`
-- `src/client/components/TrashProgress.tsx`
-- `src/client/components/Avatar.tsx`
-- `src/shared/tiers.ts`
-- `src/shared/theme.ts`
+## Core Requirements
 
-## 1) Header Requirements
-- Title: **"Are You Just a Guy?"** (left side, white text)
-- XP toast animation: Shows **"+20 XP"**, **"+10 XP"**, or **"-5 XP"** for 1.2s (left side, next to title)
-- Best player display: **"🏆 Best: u/username · XP"** or **"🏆 Be the first on the board"** (right side)
-- Background: **Blue to purple gradient** (`bg-gradient-to-r from-blue-500 to-purple-600`)
-- Streak count integration (consecutive days played)
+### Header
+- Title: **"Are You Just a Guy?"** (left side)
+- Streak badge: **🔥 Day N** (show consecutive days played)
+- XP toast animation: Shows **"+20 XP"**, **"+10 XP"**, or **"-5 XP"** for 1.2s
+- Light theme: bg-white or bg-gray-50, NO black backgrounds
 
-## 2) Scoring System & XP Logic (EXACT SPECIFICATION)
-- **0-20**: Embarrassing 💀 **"Bro… that was painful to watch."** (0 XP, -5 XP penalty)
-- **21-40**: Just a Guy 🤷🏽 **"Mhhmmm."** (0 XP)
-- **41-70**: Recovering Guy 😤 **"Keep trying, you got this."** (+10 XP)
-- **71-90**: Decent Human 😎 **"You're learning and it shows."** (+15 XP)
-- **91-100**: Golden Retriever 🦸🏽 **"You're the adult child you needed."** (+20 XP)
+### Scoring System (EXACT)
+- **0%**: Embarrassing 💀 (0 XP, -5 XP penalty)
+- **60%**: Partial 🤷🏽 (+10 XP) 
+- **100%**: Golden 🦸🏽 (+20 XP)
 
-## 3) Choice Shuffling Rules (CRITICAL)
-- Choice **content** is shuffled each round so the best answer is not always A, B, or C
-- Choice **labels** A, B, C must ALWAYS appear in that exact order
+### Choices
+- Three buttons labeled **A, B, C** (in exact order)
+- **Content shuffled** but labels stay A/B/C
 - **NO emojis inside choice buttons** - clean text only
-- Buttons: full width, hover effects (`hover:scale-[1.02]`), proper spacing
+- Disabled after submission: bg-gray-200 text-gray-500 cursor-not-allowed
 
-## 4) Trash Meter Component (SINGLE INSTANCE)
-- **ONLY ONE** Trash Meter visible at any time
-- Shows **overall player average** (not current round score)
-- Gradient fill: `linear-gradient(90deg,#ef4444,#f59e0b,#4ade80)` (red → yellow → green)
-- Avatar **🤖** rides along the progress bar at current average position
-- When round finishes: **bouncy arrow** appears at current round's position
-- Background: `bg-[#202028]` for unfilled portion
-- Height: `h-3 rounded-full`
-- **Embarrassing tier**: `bg-red-50 text-red-700` for readable contrast
+### Trash Meter (CRITICAL)
+- **SINGLE INSTANCE ONLY** - appears after submission
+- **Avatar (🤖) ≥48×48px** rides the bar at overall average position
+- **Bouncy arrow** at current round position **WITHOUT any text nearby**
+- **NO "Your answer landed here"** or similar text
+- Gradient: red → amber → green (left to right)
+- Spring animation: stiffness: 260, damping: 24, mass: 0.9
 
-## 5) Verdict Section (NO LEARNING MOMENTS)
-- Background: `bg-gradient-to-r from-blue-50 to-purple-50`
-- Border: `border-blue-200`
-- Shows: emoji + percentage + title + feedback line
-- **FORBIDDEN**: Learning moments, framework explanations, "5Ds" references
-- Keep it **fast and funny**, not educational
+### Tier Chips (EXACT COLORS)
+- **Embarrassing**: bg-red-50 text-red-700 (never white-on-white)
+- **Just a Guy**: bg-orange-50 text-orange-700
+- **Recovering**: bg-amber-50 text-amber-700
+- **Decent**: bg-blue-50 text-blue-700
+- **Golden**: bg-green-50 text-green-700
 
-## 6) Community Results
-- Shows **immediately after voting** (`submitted && reveal`)
-- Total vote count display
-- Percentage bars for each choice with animation (`transition-all duration-500`)
-- Background: `bg-gray-50 rounded-lg`
-- **Do not count same player more than once per question**
+### Verdict Section
+- Short, witty one-liner (2 sentences max)
+- NO learning moments or framework explanations
+- Emoji + percentage + tier name only
 
-## 7) Scenario Requirements
-- **First-person** casual Reddit tone
-- **Maximum 5 sentences**
-- Written like confessional or "Am I the A-hole" posts
-- Must sound authentic, diverse, and modern
-- Display in `bg-gray-50 rounded-lg` container
+## STRICTLY FORBIDDEN
+❌ Community results or percentages
+❌ "Your answer landed here" text
+❌ Text near arrow markers
+❌ Black backgrounds behind titles/results
+❌ Emojis inside choice buttons
+❌ Multiple trash meters
+❌ Learning moments or educational content
+❌ Scenario repeats for same user
+❌ White text on white backgrounds
 
-## 8) Next Scenario Button
-- Text: **"🎲 Try Another Scenario"**
-- Background: `bg-green-600 hover:bg-green-700`
-- Full width, `rounded-xl`
-- Appears only after `reveal` is available
+## Theme Requirements
+- **Light theme only**
+- Page: bg-gray-50
+- Cards: bg-white rounded-2xl shadow-sm
+- Text: text-gray-900 primary, text-gray-700 secondary
+- Typography: Modern sans-serif, 16-18px body, 20-24px titles
 
-## 9) Theme Requirements (LIGHT ONLY)
-- **Light theme only** - no dark mode
-- Page background: `bg-gray-50`
-- Card background: `bg-white`
-- Primary text: `text-gray-900`
-- Secondary text: `text-gray-600` or `text-gray-800`
-- **Readable contrast throughout** (minimum AA compliance)
-- Must fit on standard laptop screen **without scrolling**
+## Files Allowed to Edit
+- src/client/App.tsx
+- src/client/components/TrashProgress.tsx
+- src/client/components/Avatar.tsx
+- src/shared/tiers.ts
+- src/shared/theme.ts
 
-## 10) STRICTLY FORBIDDEN ELEMENTS
-- ❌ **"Your answer landed here"** text or any directional text
-- ❌ Helper arrows with text labels
-- ❌ Black backgrounds behind titles/results
-- ❌ White text on white backgrounds
-- ❌ Emojis inside choice buttons
-- ❌ Multiple trash meters or avatars
-- ❌ Learning moments, framework explanations, or educational content
-- ❌ Duplicate components
-- ❌ Requiring scroll to see feedback or score
-
-## 11) Avatar Requirements
-- Avatar **🤖** MUST be visible at all times inside the Trash Meter
-- Minimum size: **48×48 px** with `rounded-full` and `border`
-- Rides along the progress bar showing current average position
-- **NO additional avatars** floating around
-
-## 12) Files Kiro is permitted to edit
-- `src/client/components/TrashProgress.tsx`
-- `src/client/components/Avatar.tsx`
-- `src/shared/tiers.ts`
-- `src/shared/theme.ts`
-- `src/client/App.tsx` (UI wiring only)
-
-## 13) Technical Requirements
-- Framer Motion for animations
-- Tailwind CSS for styling
-- TypeScript for type safety
-- 30-second API timeout compatibility
-- Mobile-first responsive design consideration
-
-## 14) Success Criteria Checklist
-✅ Trash Meter visible at launch
-✅ Smooth XP animation on score gain/loss
-✅ Immediate community results after submission
-✅ Shuffled choice content but A/B/C order maintained
-✅ One avatar riding along progress bar
-✅ First-person tone, short prompts, high replayability
-✅ No scroll needed to see feedback or score
-✅ Streak + leaderboard encourage return play
-✅ No banned strings or elements
-✅ Proper contrast for all tiers including Embarrassing
+## Success Criteria
+✅ Single trash meter appears after submission with animation
+✅ Avatar ≥48px visible on progress bar
+✅ Bouncy arrow without text at round score position
+✅ Choices lock after submit
+✅ No scenario repeats per user
+✅ Exact tier colors with proper contrast
+✅ No community results anywhere
+✅ Light theme throughout
