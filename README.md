@@ -6,27 +6,27 @@ A single-player Reddit-based bystander intervention training game that teaches m
 
 **"Are You Just a Guy?"** is an inline educational game that helps men practice bystander intervention skills through humor and real-world scenarios. Players read Reddit-style confessional stories (like r/AITA posts) about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-The game runs completely inline within Reddit posts with no splash screens or barriers to entry - it loads immediately with the first scenario visible. Players track their progress on a visual "Trash Meter" featuring their real Reddit avatar and see other players' avatars positioned at their score percentages along the progress bar.
+The game runs completely inline within Reddit posts with immediate gameplay - no splash screens or barriers to entry. Players track their progress on a visual "Trash Meter" featuring their real Reddit avatar that bounces and moves along a progress bar based on their overall average score. The leaderboard shows other players' avatars positioned at their exact score percentages for social motivation without pressure.
 
 ### Core Gameplay Features
-- **Immediate start** - Game loads instantly on mount with first scenario visible, no splash screens
+- **Immediate start** - Game loads instantly with first scenario visible, no splash screens or loading barriers
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
 - **Choose your response** from 3 shuffled options (A/B/C) based on real intervention frameworks
 - **Get exact scores** - Points range from 0-100 based on choice quality with 5 distinct tiers
-- **Track your progress** on a single "Trash Meter" with your real Reddit avatar (56×56px) riding at your overall average
-- **See leaderboard players** with their real Reddit avatars (36×36px) positioned at their exact score percentages
-- **Earn/lose XP** with immediate animated feedback: Golden (+20 XP), Decent (+15 XP), Recovering (+10 XP), Just a Guy (0 XP), Embarrassing (-5 XP)
-- **Build daily streaks** with fire emoji badges (🔥 Day N) for consecutive play
-- **Dynamic content** - Mix of curated scenarios and AI-generated content for variety
+- **Track your progress** on a single "Trash Meter" with your real Reddit avatar (40×40px) that bounces and moves to your overall average
+- **See leaderboard players** with their real Reddit avatars (26×26px) positioned at their exact score percentages along the progress bar
+- **Earn/lose XP** with immediate animated feedback: Golden Retriever (+20 XP), Decent Human (+15 XP), Recovering Guy (+10 XP), Just a Guy (0 XP), Embarrassing (-5 XP)
+- **Build daily streaks** with fire emoji badges (🔥 Day N) for consecutive play days
+- **Dynamic content** - Mix of curated scenarios and AI-generated content for endless variety
 
 ### Recent Major Updates (Complete Inline Experience)
-- **Removed all splash screen logic** - Game loads immediately on mount with first scenario visible
-- **Real Reddit avatar integration** - Your profile picture (48×48px) and leaderboard players' avatars (36×36px) display on progress bar
-- **Big, clear avatars** - User avatar prominently positioned above progress bar, leaderboard avatars along the bar
-- **Enhanced trash meter** - Tier emoji anchors (💀🙈😬😎🦸‍♂️) below the progress bar for context
+- **Streamlined progress visualization** - Single horizontal progress bar with gradient background (green to red)
+- **Real Reddit avatar integration** - Your profile picture (40×40px) bounces above the progress bar at your overall average position
+- **Leaderboard avatars** - Other players' avatars (26×26px) positioned along the progress bar at their exact score percentages
+- **Tier emoji anchors** - Visual markers (💀🤷🏽😤😎🦸🏽) with labels below the progress bar for context
 - **Hover affordance** - Main game card has subtle hover lift effect for professional polish
-- **Immediate meter visibility** - Trash meter always mounted at top, shows 0% for new players, animates to current average
-- **Streamlined UX** - Choices lock immediately after submission, meter animates instantly, leaderboard refreshes after each submission
+- **Immediate meter visibility** - Trash meter always mounted at top, shows current progress with smooth animations
+- **Streamlined UX** - Choices lock immediately after submission, instant visual feedback, leaderboard updates automatically
 
 ## 🚀 What Makes This Game Innovative
 
@@ -37,15 +37,15 @@ The game runs completely inline within Reddit posts with no splash screens or ba
 - **Professional polish** - Smooth transitions, hover effects, and bouncy animations create a premium feel
 
 ### 2. **Real Reddit Avatar Integration**
-- **Your avatar prominently displayed** - Real Reddit profile picture (56×56px) rides above the progress bar at your overall average
-- **Leaderboard avatars positioned precisely** - Other players' avatars (36×36px) positioned along the bar at their exact score percentages
+- **Your avatar prominently displayed** - Real Reddit profile picture (40×40px) bounces above the progress bar at your overall average
+- **Leaderboard avatars positioned precisely** - Other players' avatars (26×26px) positioned along the bar at their exact score percentages
 - **White borders and shadows** - Clear visibility against the gradient background for professional appearance
-- **Tier emoji anchors** - 💀🙈😬😎🦸‍♂️ below the bar provide context and visual interest
+- **Tier emoji anchors** - 💀🤷🏽😤😎🦸🏽 with descriptive labels below the bar provide context and visual interest
 
 ### 3. **Immediate Visual Feedback System**
-- **Trash meter always visible** - Mounted at top of screen, shows 0% for new players, animates to current average
-- **Real-time updates** - Meter updates immediately after each answer submission with spring animations
-- **Bouncy arrow marker** - Appears at round score position with 2-bounce animation for visual feedback
+- **Trash meter always visible** - Mounted at top of screen, shows current progress with smooth animations
+- **Real-time updates** - Meter updates immediately after each answer submission with bouncy avatar movement
+- **Animated avatar positioning** - Your avatar bounces continuously and moves to reflect your overall average score
 - **Animated XP toasts** - Immediate feedback in header with green/red backgrounds and smooth fade transitions
 
 ### 4. **Educational Gaming with Social Context**
@@ -55,8 +55,8 @@ The game runs completely inline within Reddit posts with no splash screens or ba
 - **Evidence-based learning** - Integrates proven frameworks (5 D's, DEARMAN, LIVES, COOPER) with practical micro-scripts
 
 ### 5. **Streamlined User Experience**
-- **Choices lock immediately** - No confusion about submission state, clear visual feedback
-- **Meter animates instantly** - No extra clicks required, smooth spring animations with precise physics
+- **Choices lock immediately** - No confusion about submission state, clear visual feedback with disabled styling
+- **Content shuffling** - Choice content is randomized while A/B/C labels stay consistent for familiarity
 - **Leaderboard refreshes automatically** - Updates after each submission to show current standings
 - **Daily streak tracking** - Fire emoji badges (🔥 Day N) encourage consistent practice and habit formation
 
@@ -73,9 +73,9 @@ The game runs completely inline within Reddit posts with no splash screens or ba
 2. **Click "Launch App"** to open the game inline within the Reddit post
 3. **Game starts immediately** - No splash screen, first scenario loads instantly with all data
 4. **Check the header** - Shows game title, your streak badge (🔥 Day N), and current leaderboard leader (🏆 Best: username)
-5. **See your Trash Meter** - Always visible at top with your real Reddit avatar (56×56px) showing your overall average
-6. **View leaderboard avatars** - Other players' real Reddit avatars (36×36px) positioned along the progress bar at their score percentages
-7. **Notice the tier anchors** - Emoji indicators (💀🙈😬😎🦸‍♂️) below the progress bar show the scoring tiers
+5. **See your Trash Meter** - Always visible at top with your real Reddit avatar (40×40px) bouncing above the progress bar
+6. **View leaderboard avatars** - Other players' real Reddit avatars (26×26px) positioned along the progress bar at their score percentages
+7. **Notice the tier anchors** - Emoji indicators (💀🙈😬😎🦸‍♂️) with descriptive labels below the progress bar show the scoring tiers
 
 ### During Gameplay
 1. **Read the scenario** - First-person confessional stories about realistic social situations
@@ -110,12 +110,11 @@ The game runs completely inline within Reddit posts with no splash screens or ba
    - 😎 **Decent Human** (71-90): "You're learning and it shows." (blue background)
    - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (green background)
 
-3. **Watch the Trash Meter animate** - Single progress bar with smooth spring animations:
-   - **Your Reddit avatar** (56×56px) with white border and shadow, animates to your new overall average position
-   - **Leaderboard avatars** (36×36px) positioned at their exact score percentages with username tooltips
-   - **Bouncy arrow** appears at your current round score with 2-bounce animation
-   - **Spring animation** with precise physics for smooth movement
-   - **Color gradient** from red → amber → green (left to right) with tier emoji anchors below
+3. **Watch the Trash Meter animate** - Single horizontal progress bar with smooth animations:
+   - **Your Reddit avatar** (40×40px) with white border and shadow, bounces continuously and moves to your new overall average position
+   - **Leaderboard avatars** (26×26px) positioned at their exact score percentages with username tooltips
+   - **Gradient background** from green → yellow → red (left to right) with tier emoji anchors and labels below
+   - **Smooth positioning** - Avatar moves fluidly to reflect your cumulative performance
 
 4. **Get XP feedback** - Animated toast notification shows your XP change in the header
    - Green background for positive XP, red background for penalties
@@ -215,26 +214,26 @@ The game includes 9+ realistic scenarios covering:
 ### Game Flow
 1. **Immediate Start**: Game loads directly inline within Reddit post, fetches user data, leaderboard, and first scenario simultaneously
 2. **Header Display**: Shows game title, streak badge (🔥 Day N), leaderboard leader (🏆 Best: username), and space for animated XP toasts
-3. **Avatar Integration**: Displays your real Reddit profile picture (56×56px) and leaderboard players' avatars (36×36px) on progress bar
-4. **Trash Meter**: Always mounted at top with gradient background (red → amber → green) and tier emoji anchors below
+3. **Avatar Integration**: Displays your real Reddit profile picture (40×40px) bouncing above progress bar and leaderboard players' avatars (26×26px) along the bar
+4. **Trash Meter**: Always mounted at top with gradient background (green → yellow → red) and tier emoji anchors with labels below
 5. **Scenario Display**: Player reads confessional Reddit-style story with hover affordance on main card
 6. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order, no emojis in buttons)
 7. **Instant Submission**: Choice locks immediately on click, all buttons become disabled with gray styling
 8. **Server Processing**: `/api/vote` records choice, updates leaderboard, returns exact score and XP change
 9. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, animated XP toast in header
-10. **Trash Meter Animation**: Bouncy arrow appears at round score, avatar animates to new average with spring physics
+10. **Trash Meter Animation**: Avatar bounces continuously and moves to new average position reflecting overall performance
 11. **Leaderboard Refresh**: Updates leaderboard data and repositions avatars after each submission
 12. **Continue Playing**: "🎲 Try Another Scenario" button loads next scenario (curated or AI-generated)
 
 ### Trash Meter System
-The game uses a single visual progress bar with your real Reddit avatar that rides along based on your overall average:
+The game uses a single visual progress bar with your real Reddit avatar that moves based on your overall average:
 
 **Visual Components:**
-- **Your avatar** (56×56px) with white border and shadow, positioned above the bar at your overall average
-- **Leaderboard avatars** (36×36px) positioned along the bar at their exact score percentages with username tooltips
-- **Gradient background** from red → amber → green (left to right)
-- **Tier emoji anchors** below the bar: 💀🙈😬😎🦸‍♂️
-- **Bouncy arrow** appears at round score position with 2-bounce animation for visual feedback
+- **Your avatar** (40×40px) with white border and shadow, bounces continuously above the bar at your overall average position
+- **Leaderboard avatars** (26×26px) positioned along the bar at their exact score percentages with username tooltips
+- **Gradient background** from green → yellow → red (left to right)
+- **Tier emoji anchors** below the bar: 💀🤷🏽😤😎🦸🏽 with descriptive labels (Embarrassing, Just a Guy, Recovering Guy, Decent Human, Golden Retriever)
+- **Smooth animations** - Avatar moves fluidly to reflect your cumulative performance across all scenarios
 
 **Scoring Tiers:**
 
@@ -261,11 +260,11 @@ The game uses a single visual progress bar with your real Reddit avatar that rid
 
 ### Visual Features
 - **Complete inline experience** - No splash screens, immediate gameplay start with hover affordance on main card
-- **Single trash meter** always mounted at top with spring animation using precise physics
-- **Big, clear avatars** - Your Reddit avatar (56×56px) above progress bar, leaderboard avatars (36×36px) along the bar
+- **Single horizontal progress bar** always mounted at top with smooth animations
+- **Clear avatars** - Your Reddit avatar (40×40px) bounces above progress bar, leaderboard avatars (26×26px) along the bar
 - **White borders and shadows** on all avatars for clear visibility against gradient background
-- **Bouncy arrow marker** shows current round score with 2-bounce animation for visual feedback
-- **Tier emoji anchors** below progress bar: 💀🙈😬😎🦸‍♂️ for visual context
+- **Continuous bouncing animation** - Your avatar bounces up and down while positioned at your overall average
+- **Tier emoji anchors with labels** below progress bar: 💀🤷🏽😤😎🦸🏽 (Embarrassing, Just a Guy, Recovering Guy, Decent Human, Golden Retriever)
 - **Choice shuffling** with A, B, C labels staying in exact order, content randomized, no emojis inside buttons
 - **Light theme** throughout: gray background page, white cards with rounded corners and subtle shadows
 - **Tier chip colors** with proper contrast for accessibility

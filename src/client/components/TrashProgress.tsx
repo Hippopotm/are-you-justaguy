@@ -4,10 +4,10 @@ type LB = { username: string; score: number; iconUrl: string };
 
 const ANCHORS = [
   { at: 0, emoji: '💀', label: 'Embarrassing' },
-  { at: 25, emoji: '🙈', label: 'Cringe' },
-  { at: 50, emoji: '😬', label: 'Mixed' },
-  { at: 75, emoji: '😎', label: 'Cool' },
-  { at: 100, emoji: '🦸‍♂️', label: 'Hero' },
+  { at: 25, emoji: '🤷🏽', label: 'Just a Guy' },
+  { at: 50, emoji: '😤', label: 'Recovering Guy' },
+  { at: 75, emoji: '😎', label: 'Decent Human' },
+  { at: 100, emoji: '🦸🏽', label: 'Golden Retriever' },
 ];
 
 export default function TrashProgress({
@@ -28,14 +28,14 @@ export default function TrashProgress({
     <div className="w-full">
       {/* rail */}
       <div className="relative w-full h-14">
-        {/* track */}
-        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-3 rounded-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-400" />
+        {/* gradient track - flipped so green is at 100% (Golden Retriever) */}
+        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-3 rounded-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-400" />
 
-        {/* anchor emojis on the rail */}
+        {/* anchor emojis along the rail */}
         {ANCHORS.map((a) => (
           <div
             key={a.at}
-            className="absolute top-1/2 -translate-y-1/2"
+            className="absolute top-1/2 -translate-y-1/2 text-center"
             style={{ left: `${a.at}%`, transform: 'translate(-50%, -50%)' }}
             aria-hidden
           >
@@ -43,7 +43,7 @@ export default function TrashProgress({
           </div>
         ))}
 
-        {/* small leaderboard avatars pinned to their score positions */}
+        {/* small leaderboard avatars */}
         {leaderboard.map((m) => (
           <div
             key={`${m.username}-${m.score}`}
@@ -61,7 +61,7 @@ export default function TrashProgress({
           </div>
         ))}
 
-        {/* YOUR avatar (no arrow) – this alone indicates position */}
+        {/* YOUR avatar (no arrow) */}
         {avatarUrl && (
           <motion.div
             className="absolute z-10"
@@ -80,12 +80,12 @@ export default function TrashProgress({
         )}
       </div>
 
-      {/* descriptors row under emojis (BLACK for visibility) */}
+      {/* emoji labels (black for visibility) */}
       <div className="relative mt-2 h-5">
         {ANCHORS.map((a) => (
           <div
             key={`label-${a.at}`}
-            className="absolute text-[11px] text-black"
+            className="absolute text-[11px] text-black font-medium text-center w-max"
             style={{ left: `${a.at}%`, transform: 'translateX(-50%)' }}
           >
             {a.label}
