@@ -97,27 +97,7 @@ export default function TrashProgress({
           </motion.div>
         )}
 
-        {/* Bouncy arrow for current round score (NO TEXT) */}
-        {typeof roundScore === 'number' && (
-          <motion.div
-            className="absolute z-15"
-            style={{ left: `${clamp(roundScore)}%`, top: '-12px', transform: 'translateX(-50%)' }}
-            initial={{ y: -10, opacity: 0, scale: 0.8 }}
-            animate={{ 
-              y: [0, -4, 0, -2, 0], 
-              opacity: 1, 
-              scale: 1 
-            }}
-            transition={{ 
-              duration: 0.7,
-              delay: 0.1,
-              ease: "easeOut",
-              times: [0, 0.3, 0.5, 0.7, 1]
-            }}
-          >
-            <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-b-[12px] border-l-transparent border-r-transparent border-b-gray-800" />
-          </motion.div>
-        )}
+
       </div>
 
       {/* Labels row with emojis (responsive, won't collide on mobile) */}
