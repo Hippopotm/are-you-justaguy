@@ -1,40 +1,49 @@
 # Are You Just a Guy? 🎮
 
-A Reddit-based interactive game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
+A single-player Reddit-based training game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
 
 ## 🎯 What This Game Is
 
-**"Are You Just a Guy?"** is an educational social game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
+**"Are You Just a Guy?"** is a single-player educational game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-### Core Gameplay
+The game features an engaging splash screen with a robot mascot (🤖) that introduces players to the core concept: "Test your bystander skills in awkward social situations." Players can immediately see what they'll get - quick scenarios with real choices, progress tracking, and streak building.
+
+### Core Gameplay (v2 Single-Player)
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
-- **Choose your response** from 3 options (A/B/C) based on real intervention frameworks
-- **Get scored** on a "Trash Meter" from 💀 Embarrassing to 🦸🏽 Golden Retriever
-- **Track your progress** with XP gains/losses and overall average score
-- **Compare with community** and see how other players voted
-- **Build streaks** for consecutive daily play
+- **Choose your response** from 3 shuffled options (A/B/C) based on real intervention frameworks
+- **Get exact scores** of 0%, 60%, or 100% (no gradual scoring)
+- **Track your progress** on a single "Trash Meter" with your robot avatar (🤖) riding at your overall average
+- **Earn/lose XP** with immediate feedback: Golden (+20 XP), Partial (+10 XP), Embarrassing (-5 XP)
+- **Build daily streaks** with fire emoji badges for consecutive play
+- **No scenario repeats** - each user sees unique scenarios
 
 ## 🚀 What Makes This Game Innovative
 
-### 1. **Reddit-Native Social Learning**
-- Runs directly inside Reddit posts as a Devvit app
-- Uses familiar Reddit confessional tone that feels authentic
-- Creates community discussions around real social issues
-- Leverages Reddit's existing social dynamics for peer accountability
+### 1. **Engaging Splash Screen Experience**
+- Beautiful animated splash screen with robot mascot (🤖) that immediately communicates the game's purpose
+- Clear value proposition: "Test your bystander skills in awkward social situations"
+- Feature highlights that show players what to expect: quick scenarios, progress tracking, and streak building
+- Smooth animations and gradient button design that invites interaction
 
-### 2. **Evidence-Based Teaching**
+### 2. **Single-Player Focus with Personal Growth**
+- Runs directly inside Reddit posts as a Devvit app
+- Uses familiar Reddit confessional tone that feels authentic (r/AITA, r/TwoXChromosomes style)
+- Focuses on personal skill building rather than social comparison
+- Clean, light-themed interface optimized for mobile Reddit users
+
+### 3. **Evidence-Based Teaching with Exact Scoring**
 - Integrates proven frameworks: 5 D's, DEARMAN, LIVES, COOPER
 - Provides practical micro-scripts players can use in real life
-- Focuses on bystander intervention, not just personal behavior
+- Exact 3-tier scoring system: 0% (Embarrassing), 60% (Partial), 100% (Golden)
 - Teaches through humor and relatability, not preaching
 
-### 3. **Gamified Behavior Change**
-- "Trash Meter" scoring system with memorable emoji rankings
-- XP system with immediate feedback (+20, +5, -10 XP per choice)
-- Community leaderboards showing top performers
-- Immediate feedback on choices with community voting results
+### 4. **Gamified Personal Development**
+- "Trash Meter" with robot avatar (🤖) showing your overall progress
+- XP system with immediate toast notifications (+20, +10, -5 XP per choice)
+- Bouncy arrow animation shows your current round score (without text)
+- Daily streak tracking with fire emoji badges encourages consistent practice
 
-### 4. **Kiro-Powered Content Pipeline**
+### 5. **Kiro-Powered Content Pipeline**
 - Automated scenario validation prevents low-quality content
 - AI-assisted content generation maintains consistent tone
 - Quality gates ensure all scenarios meet educational standards
@@ -45,52 +54,79 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
 ### Getting Started
 1. **Find the game** in a Reddit post (look for "Are You Just a Guy?" with a Play button)
 2. **Click "Launch App"** to open the game in full screen
-3. **Read the scenario** - a Reddit-style confessional story about a social situation
-4. **Choose your response** by clicking A, B, or C
+3. **See the splash screen** - Robot mascot (🤖) welcomes you with the tagline "Test your bystander skills in awkward social situations"
+4. **Tap "🎮 Tap to Start"** - The gradient button takes you into the game
+5. **Check your streak** - Fire emoji badge shows consecutive days played in the header
+6. **View your average** - Your overall score percentage appears in the top right
 
 ### During Gameplay
-1. **Read the scenario** - First-person confessional stories about realistic social situations
-2. **Consider the context** - Look for social cues, power dynamics, and safety concerns
-3. **Pick your choice** - Each option represents a different approach (safer/partial/riskier)
-4. **Submit your answer** - Click your choice to lock it in
+1. **Read the scenario** - First-person confessional stories about realistic social situations (120-220 words)
+   - Examples: Bar situations, workplace harassment, digital consent, campus parties
+   - Written in authentic Reddit confessional tone (like r/AITA posts)
+   - Situations include context about social cues, power dynamics, and safety concerns
+
+2. **Consider your options** - Three choices (A, B, C) with shuffled content but consistent labels
+   - Each choice represents a different approach to the situation
+   - Options range from safer interventions to riskier or passive responses
+   - No emojis inside choice buttons - clean text only
+
+3. **Submit your answer** - Click your choice to lock it in
+   - Choices become disabled after submission (gray background, gray text)
+   - Your selection is highlighted with blue styling
 
 ### After Each Round
-1. **See your score** - Get 0, 60, or 100 points based on your choice outcome:
-   - **Safer choices** (90-100 points): +20 XP, demonstrates best practices
-   - **Partial choices** (55-75 points): +5 XP, better than nothing but not ideal
-   - **Riskier choices** (0-40 points): -10 XP, problematic or passive responses
+1. **See your exact score** - Get exactly 0%, 60%, or 100% based on your choice:
+   - **Golden choices** (90-100 points): +20 XP, demonstrates best practices with evidence-based frameworks
+   - **Partial choices** (55-75 points): +10 XP, better than nothing but not ideal
+   - **Embarrassing choices** (0-40 points): -5 XP penalty, problematic or passive responses
 
-2. **Check your ranking** - See where you land on the Trash Meter:
-   - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch."
-   - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm."
-   - 😤 **Recovering Guy** (41-70): "Keep trying, you got this."
-   - 😎 **Decent Human** (71-90): "You're learning and it shows."
-   - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed."
+2. **Check your tier chip** - Colored badge shows where you land with exact tier colors:
+   - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch." (bg-red-50 text-red-700)
+   - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm." (bg-orange-50 text-orange-700)
+   - 😤 **Recovering Guy** (41-70): "Keep trying, you got this." (bg-amber-50 text-amber-700)
+   - 😎 **Decent Human** (71-90): "You're learning and it shows." (bg-blue-50 text-blue-700)
+   - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (bg-green-50 text-green-700)
 
-3. **View community results** - See how other players voted on the same scenario
-4. **Track your progress** - Watch your overall average improve over time
-5. **Try new scenarios** - Click "🎲 Try Another Scenario" to keep playing
+3. **Watch the Trash Meter** - Single progress bar with smooth spring animations:
+   - **Robot avatar (🤖)** ≥48×48px riding at your overall average position
+   - **Bouncy arrow** appears at your current round score (no text near arrow)
+   - **Spring animation** with exact specs (stiffness: 260, damping: 24, mass: 0.9)
+   - **Color gradient** from red → amber → green (left to right)
+
+4. **Get XP feedback** - Animated toast notification shows your XP change (+20, +10, or -5)
+   - Green background for positive XP, red for penalties
+   - Appears for 1.2 seconds with smooth fade animation
+
+5. **Try new scenarios** - Click "🎲 Try Another Scenario" to continue
+   - Server prevents scenario repeats per user
+   - Each scenario teaches different intervention frameworks
 
 ### Building Your Profile
-- **Track your average** - Your overall Trash Meter score shows long-term progress
-- **Earn/lose XP** - Immediate feedback with toast animations (+20 XP, +5 XP, -10 XP)
-- **Maintain streaks** - Play daily to build your intervention skills
-- **Compete with community** - See the current best player in the header
-- **Learn from mistakes** - Lower scores help you understand better approaches
+- **Track your average** - Your overall Trash Meter score shows long-term progress (displayed in header)
+- **Earn/lose XP** - Immediate feedback with animated toast notifications
+- **Maintain streaks** - Play daily to build your intervention skills with fire emoji badges (🔥 Day N)
+- **Learn frameworks** - Each scenario teaches evidence-based intervention techniques:
+  - **5 D's**: Direct, Distract, Delegate, Delay, Document
+  - **DEARMAN**: Describe, Express, Assert, Reinforce, Mindful, Appear Confident, Negotiate
+  - **LIVES**: Listen, Inquire, Validate, Enhance Safety, Support
+  - **COOPER**: White, Yellow, Orange, Red (awareness states)
+- **Practice micro-scripts** - Get real phrases you can use in similar situations (default and gentle versions)
+- **No scenario repeats** - Server tracks which scenarios you've seen to ensure fresh content
 
 ## 🏆 Hackathon Categories
 
-### Community Play
-- **Massively multiplayer voting** inside Reddit posts
-- Friends and communities compare "Trash Meter" scores
-- Sparks conversation and self-reflection through humor
-- Teaches bystander intervention through peer accountability
+### Community Play (v2 Single-Player Focus)
+- **Personal growth tracking** inside Reddit posts
+- Individual skill building with "Trash Meter" progress
+- Sparks self-reflection and behavior change through humor
+- Teaches bystander intervention through personal practice and streaks
 
 ### Best Kiro Developer Experience
-- **Spec-driven development** with `.kiro/specs/scenario_schema.md`
+- **Complete spec-driven development** with `.kiro/specs/game_contract.md` and `.kiro/specs/ui_contract.md`
 - **Automated validation** via `.kiro/hooks/validate_scenarios.mjs`
 - **Content generation** with `.kiro/steering/generator.prompt.md`
 - **Quality gates** that prevent bad scenarios from being committed
+- **UI rules enforcement** with `.kiro/steering/ui_rules.prompt.md`
 
 ## 🚀 Quick Start
 
@@ -127,40 +163,63 @@ npm run build
 npm run deploy
 ```
 
-### API Endpoints
+### API Endpoints (v2 Single-Player)
 The game uses these main endpoints:
 
-- **GET /api/scenario** - Returns a random scenario (static or Kiro-generated)
-- **POST /api/vote** - Records player choice, returns score and XP change
-- **GET /api/reveal** - Returns community voting results for a scenario
+- **GET /api/scenario** - Returns a random scenario (no repeats per user)
+- **POST /api/vote** - Records player choice, returns exact score and XP change
 - **GET /api/best** - Returns current best player (username and XP)
 - **GET /api/generate-scenario** - Generates new scenario using Kiro AI
 
+**Removed in v2**: `/api/reveal` (no community results in single-player mode)
+
+### Current Scenario Content
+The game includes 9 realistic scenarios covering:
+- **Bar/Social situations** - Bystander intervention in nightlife settings
+- **Workplace harassment** - Professional boundary setting and ally behavior
+- **Digital consent** - Online harassment and image sharing
+- **Campus parties** - College social dynamics and safety
+- **Gym environments** - Addressing unwanted attention and staring
+- **Dating app boundaries** - Recognizing and respecting disinterest signals
+- **Friend group dynamics** - Calling out problematic behavior among peers
+
 ## 🧠 How It Works
 
-### Game Flow
-1. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words)
-2. **Choice Phase**: Player picks A/B/C response (no timer, thoughtful consideration encouraged)
-3. **Vote Recording**: Server tracks choice, prevents duplicate votes, returns points and XP
-4. **Immediate Feedback**: Shows player's score, tier ranking, and XP change
-5. **Community Results**: Displays how all players voted with percentage bars
-6. **Progress Tracking**: Updates overall average score and Trash Meter position
+### Game Flow (v2 Single-Player)
+1. **Splash Screen**: Animated welcome screen with robot mascot and clear value proposition
+2. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) - no repeats per user
+3. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order)
+4. **Vote Recording**: Server tracks choice via `/api/vote`, prevents duplicate votes, returns exact score and XP
+5. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, and animated XP toast
+6. **Trash Meter Display**: Single meter with robot avatar at overall average, bouncy arrow at round score
+7. **Progress Tracking**: Updates overall average score and daily streak counter with fire emoji badges
 
-### Trash Meter System
-The game uses a visual progress bar with a robot avatar (🤖) that moves along based on your overall average:
+### Trash Meter System (v2 Single-Player)
+The game uses a single visual progress bar with a robot avatar (🤖) that rides along based on your overall average:
 
-| Score Range | Tier | Emoji | Message | XP Change |
-|-------------|------|-------|---------|-----------|
-| 0-20 | Embarrassing | 💀 | "Bro… that was painful to watch." | -10 XP |
-| 21-40 | Just a Guy | 🤷🏽 | "Mhhmmm." | -10 XP |
-| 41-70 | Recovering Guy | 😤 | "Keep trying, you got this." | +5 XP |
-| 71-90 | Decent Human | 😎 | "You're learning and it shows." | +5 XP |
-| 91-100 | Golden Retriever | 🦸🏽 | "You're the adult child you needed." | +20 XP |
+| Score Range | Tier | Emoji | Message | Chip Colors |
+|-------------|------|-------|---------|-------------|
+| 0-20 | Embarrassing | 💀 | "Bro… that was painful to watch." | bg-red-50 text-red-700 |
+| 21-40 | Just a Guy | 🤷🏽 | "Mhhmmm." | bg-orange-50 text-orange-700 |
+| 41-70 | Recovering Guy | 😤 | "Keep trying, you got this." | bg-amber-50 text-amber-700 |
+| 71-90 | Decent Human | 😎 | "You're learning and it shows." | bg-blue-50 text-blue-700 |
+| 91-100 | Golden Retriever | 🦸🏽 | "You're the adult child you needed." | bg-green-50 text-green-700 |
 
-### Choice Scoring System
-- **Safer choices** (90-100 points): Demonstrate best practices, earn +20 XP
-- **Partial choices** (55-75 points): Better than nothing but not ideal, earn +5 XP  
-- **Riskier choices** (0-40 points): Problematic or passive responses, lose -10 XP
+### Exact Scoring System (v2)
+- **Golden choices** (100%): Demonstrate best practices with evidence-based frameworks, earn +20 XP
+- **Partial choices** (60%): Better than nothing but not ideal, earn +10 XP  
+- **Embarrassing choices** (0%): Problematic or passive responses, lose -5 XP
+
+### Visual Features
+- **Engaging splash screen** with animated robot mascot and gradient CTA button
+- **Single trash meter** appears after submission with spring animation (stiffness: 260, damping: 24, mass: 0.9)
+- **Robot avatar (🤖)** ≥48×48px rides the bar at overall average position
+- **Bouncy arrow** shows current round score position (strictly no text near arrow)
+- **Choice shuffling** with A, B, C labels staying in exact order, content randomized
+- **Light theme** throughout: bg-gray-50 page, bg-white cards with rounded corners
+- **Tier chips** with exact contrast colors (red-50/red-700, orange-50/orange-700, etc.)
+- **Animated XP toasts** with green/red backgrounds and smooth fade transitions
+- **Streak badges** with fire emoji (🔥) showing consecutive days played
 
 ### Learning Standards
 - **5 D's**: Direct, Distract, Delegate, Delay, Document
@@ -171,6 +230,8 @@ The game uses a visual progress bar with a robot avatar (🤖) that moves along 
 ## 🛠️ Kiro Integration (For $10k Prize)
 
 ### Specs (`.kiro/specs/`)
+- **game_contract.md**: Defines complete v2 game specification and requirements
+- **ui_contract.md**: Non-negotiable UI rules for single-player experience
 - **scenario_schema.md**: Defines required fields, tone, and quality standards
 - Ensures every scenario has proper framework mapping and micro-scripts
 
@@ -241,13 +302,15 @@ src/
 
 ## 🏅 Competition Strategy
 
-### For Community Play Prize
-- **Multiplayer focus**: Emphasize how friends can compare scores
-- **Social accountability**: Show how Trash Meter creates peer pressure to improve
+### For Community Play Prize (v2 Single-Player)
+- **Personal development focus**: Emphasize individual skill building and progress tracking
+- **Habit formation**: Show how daily streaks and XP system encourage consistent practice
 - **Reddit-native**: Use confessional tone that feels like r/AITA or r/TwoXChromosomes
+- **Mobile-optimized**: Clean, light interface perfect for Reddit mobile users
 
 ### For Kiro Prize
-- **Demonstrate workflow**: Show specs → generation → validation → deployment
+- **Complete spec enforcement**: Show how `.kiro/specs/` files define exact game behavior
+- **UI contract compliance**: Demonstrate strict adherence to `.kiro/specs/ui_contract.md`
 - **Quality automation**: Prove how Kiro prevents bad content from reaching users
 - **Scalable content**: Show how steering helps generate many scenarios quickly
 - **Video submission**: Record 3-minute demo of Kiro improving your DX

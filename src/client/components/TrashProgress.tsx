@@ -18,24 +18,21 @@ export default function TrashProgress({ overallAverage, roundScore, avatarUrl }:
   const avatarLeft = useTransform(spring, (v) => `${v}%`);
 
   return (
-    <div className="mt-4">
+    <div className="mb-6">
       {/* Progress Bar */}
-      <div className="relative h-4 rounded-full overflow-hidden bg-gray-200">
+      <div className="relative h-6 rounded-full overflow-hidden bg-gray-200">
         {/* Gradient fill */}
         <div 
-          className="absolute left-0 top-0 bottom-0 rounded-full"
-          style={{ 
-            width: `${safeAverage}%`,
-            background: 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #22c55e 100%)'
-          }}
+          className="absolute left-0 top-0 bottom-0 rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-green-600"
+          style={{ width: `${safeAverage}%` }}
         />
         
-        {/* Avatar riding the bar */}
+        {/* Avatar above the bar - clearly visible */}
         <motion.div 
-          className="absolute -top-4 -ml-6"
-          style={{ left: avatarLeft }}
+          className="absolute -top-6 z-20"
+          style={{ left: avatarLeft, marginLeft: '-16px' }}
         >
-          <div className="w-12 h-12 rounded-full border-2 border-white shadow-lg bg-blue-500 flex items-center justify-center text-xl">
+          <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 shadow-md flex items-center justify-center text-lg">
             {avatarUrl ? (
               <img src={avatarUrl} alt="Avatar" className="w-full h-full rounded-full object-cover" />
             ) : (
@@ -47,22 +44,22 @@ export default function TrashProgress({ overallAverage, roundScore, avatarUrl }:
         {/* Bouncy arrow for current round (NO TEXT) */}
         {typeof roundScore === 'number' && (
           <motion.div
-            className="absolute -top-2 -ml-1"
-            style={{ left: `${clamp(roundScore, 2, 98)}%` }}
-            initial={{ y: -10, opacity: 0, scale: 0.8 }}
+            className="absolute -top-3 z-10"
+            style={{ left: `${clamp(roundScore, 2, 98)}%`, marginLeft: '-4px' }}
+            initial={{ y: -2, opacity: 0 }}
             animate={{ 
-              y: [0, -4, 0, -2, 0], 
-              opacity: 1, 
-              scale: 1 
+              y: [-2, -12, -2], 
+              opacity: 1
             }}
             transition={{ 
               duration: 0.7,
-              delay: 0.1,
               ease: "easeOut",
-              times: [0, 0.3, 0.5, 0.7, 1]
+              times: [0, 0.5, 1]
             }}
           >
-            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-gray-800" />
+            <svg width="8" height="8" viewBox="0 0 8 8" className="fill-gray-800">
+              <polygon points="4,0 8,8 0,8" />
+            </svg>
           </motion.div>
         )}
       </div>

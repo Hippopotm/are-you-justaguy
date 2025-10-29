@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { Scenario } from '../shared/types';
 import TrashProgress from './components/TrashProgress';
-import { motion, AnimatePresence } from 'framer-motion';
+import Header from './components/Header';
+import Splash from './components/Splash';
 import { tierFrom, getXPDelta, getWittyFeedback } from '../shared/tiers';
 
 const PROF_KEY = 'guy_profile_v2';
@@ -46,6 +47,7 @@ function avgScore() {
 }
 
 export const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -64,27 +66,32 @@ export const App = () => {
       points: c.points,
     }));
     
-    // Shuffle the content array
+    // Shuffle the content array using Fisher-Yates algorithm
     for (let i = content.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      const temp = content[i];
-      content[i] = content[j];
+      const temp = content[i]!;
+      content[i] = content[j]!;
       content[j] = temp;
     }
     
     // Return choices with shuffled content but original keys/labels
-    return choices.map((choice, index) => ({
-      ...choice,
-      text: content[index].text,
-      points: content[index].points,
-    }));
+    return choices.map((choice, index) => {
+      const contentItem = content[index];
+      return {
+        ...choice,
+        text: contentItem ? contentItem.text : choice.text,
+        points: contentItem ? contentItem.points : choice.points,
+      };
+    });
   };
 
   // Load scenario on mount
   useEffect(() => {
-    loadNewScenario();
+    if (!showSplash) {
+      loadNewScenario();
+    }
     setProfile(loadProfile());
-  }, []);
+  }, [showSplash]);
 
   const loadNewScenario = async () => {
     try {
@@ -114,8 +121,8 @@ export const App = () => {
       const selectedChoice = shuffledChoices.find(choice => choice.key === choiceKey);
       const roundScore = selectedChoice?.points || 0;
       
-      // Call vote API to record the choice
-      await fetch('/api/vote', {
+      // Call submit API to record the choice and update leaderboard
+      await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scenarioId: scenario.id, choiceKey }),
@@ -139,44 +146,27 @@ export const App = () => {
     }
   };
 
+  // Show splash screen first
+  if (showSplash) {
+    return <Splash onStart={() => setShowSplash(false)} />;
+  }
+
   return (
     <div className="min-h-screen text-gray-900 bg-gray-50">
-      <div className="max-w-[760px] mx-auto p-4 space-y-3">
+      <div className="max-w-[760px] mx-auto p-4 space-y-4">
         
-        {/* Header with streak and XP toast */}
-        <header className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold text-gray-900">Are You Just a Guy?</h1>
-            {profile.streak > 0 && (
-              <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
-                🔥 Day {profile.streak}
-              </div>
-            )}
-            {/* XP toast */}
-            <AnimatePresence>
-              {lastDelta !== 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                  transition={{ duration: 0.35 }}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium ${
-                    lastDelta > 0 
-                      ? 'bg-green-100 text-green-700' 
-                      : 'bg-red-100 text-red-700'
-                  }`}
-                >
-                  {lastDelta > 0 ? '+' : ''}{lastDelta} XP
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          <div className="text-sm text-gray-600">
-            Avg: {avgScore()}%
-          </div>
-        </header>
+        {/* Header with leaderboard and streak */}
+        <Header streak={profile.streak} lastDelta={lastDelta} />
 
-        {/* Main card */}
+        {/* Trash Meter - always visible */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <TrashProgress 
+            overallAverage={avgScore()} 
+            {...(submitted && roundResult ? { roundScore: roundResult.score } : {})}
+          />
+        </div>
+
+        {/* Main game card */}
         <main className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           {!scenario && <div className="text-center text-gray-600">Loading scenario…</div>}
           
@@ -221,7 +211,7 @@ export const App = () => {
 
               {/* Results - shown after submission */}
               {submitted && roundResult && (
-                <>
+                <div className="mb-6">
                   {/* Verdict chip */}
                   <div className="mb-4">
                     <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${roundResult.tier.chipClass}`}>
@@ -234,18 +224,12 @@ export const App = () => {
                       {getWittyFeedback(roundResult.score)}
                     </p>
                   </div>
-
-                  {/* Trash Meter */}
-                  <TrashProgress 
-                    score={avgScore()} 
-                    arrowAt={roundResult.score}
-                  />
-                </>
+                </div>
               )}
 
               {/* Next Scenario Button */}
               {submitted && (
-                <div className="mt-6 pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-gray-200">
                   <button
                     className="w-full px-4 py-3 bg-gray-900 text-white rounded-xl font-medium transition-colors duration-200 hover:bg-gray-800 transform hover:scale-[0.98] active:scale-[0.98]"
                     onClick={loadNewScenario}
