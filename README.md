@@ -4,20 +4,20 @@ A single-player Reddit-based bystander intervention training game that teaches m
 
 ## 🎯 What This Game Is
 
-**"Are You Just a Guy?"** is an inline educational game that helps men practice bystander intervention skills through humor and real-world scenarios. Players read Reddit-style confessional stories (like r/AITA posts) about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
+**"Are You Just a Guy?"** is an interactive educational game that helps men practice bystander intervention skills through humor and real-world scenarios. Players read Reddit-style confessional stories (like r/AITA posts) about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-The game runs completely inline within Reddit posts with immediate gameplay - no splash screens or barriers to entry. Players track their progress on a visual "Trash Meter" featuring their real Reddit avatar that bounces and moves along a progress bar based on their overall average score. The leaderboard shows other players' avatars positioned at their exact score percentages for social motivation without pressure.
+The game features a unique "Trash Meter" progress system where your real Reddit avatar (40×40px) bounces continuously above a horizontal progress bar, positioned at your overall average score. Other players' avatars (26×26px) appear along the bar at their exact score percentages, creating social motivation without pressure. The meter uses a gradient background from green to red with tier emoji anchors (💀🤷🏽😤😎🦸🏽) and descriptive labels below.
 
 ### Core Gameplay Features
-- **Immediate start** - Game loads instantly with first scenario visible, no splash screens or loading barriers
-- **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
-- **Choose your response** from 3 shuffled options (A/B/C) based on real intervention frameworks
-- **Get exact scores** - Points range from 0-100 based on choice quality with 5 distinct tiers
-- **Track your progress** on a single "Trash Meter" with your real Reddit avatar (40×40px) that bounces and moves to your overall average
-- **See leaderboard players** with their real Reddit avatars (26×26px) positioned at their exact score percentages along the progress bar
-- **Earn/lose XP** with immediate animated feedback: Golden Retriever (+20 XP), Decent Human (+15 XP), Recovering Guy (+10 XP), Just a Guy (0 XP), Embarrassing (-5 XP)
-- **Build daily streaks** with fire emoji badges (🔥 Day N) for consecutive play days
-- **Dynamic content** - Mix of curated scenarios and AI-generated content for endless variety
+- **Immediate start** - Game loads instantly with first scenario visible, fetching user data, leaderboard, and scenario simultaneously
+- **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone) covering bars, workplaces, campus parties, digital spaces, and gym environments
+- **Choose your response** from 3 shuffled options (A/B/C) based on real intervention frameworks (5Ds, DEARMAN, LIVES, COOPER)
+- **Get exact scores** - Points range from 0-100 based on choice quality with 5 distinct tiers and immediate tier chip feedback
+- **Track your progress** on a single "Trash Meter" with your real Reddit avatar (40×40px) that bounces continuously and moves to your overall average position
+- **See leaderboard players** with their real Reddit avatars (26×26px) positioned at their exact score percentages along the progress bar with username tooltips
+- **Earn/lose XP** with immediate animated toast feedback: Golden Retriever (+20 XP), Decent Human (+15 XP), Recovering Guy (+10 XP), Just a Guy (0 XP), Embarrassing (-5 XP penalty)
+- **Build daily streaks** with fire emoji badges (🔥 Day N) for consecutive play days, encouraging habit formation
+- **Learn micro-scripts** - Get actual phrases you can use in similar real-world situations (default and gentle versions)
 
 ### Recent Major Updates (Complete Inline Experience)
 - **Streamlined progress visualization** - Single horizontal progress bar with gradient background (green to red)
@@ -30,52 +30,52 @@ The game runs completely inline within Reddit posts with immediate gameplay - no
 
 ## 🚀 What Makes This Game Innovative
 
-### 1. **Complete Inline Reddit Experience**
-- **No barriers to entry** - Game loads immediately on mount with first scenario visible, no splash screens or "Tap to Start"
-- **Truly inline gameplay** - Runs directly inside Reddit posts as native content, not in popups or external windows
-- **Immediate data loading** - Fetches user data, leaderboard, and scenario simultaneously on load for instant gameplay
-- **Professional polish** - Smooth transitions, hover effects, and bouncy animations create a premium feel
+### 1. **Unique Visual Progress System**
+- **Bouncing avatar meter** - Your real Reddit avatar (40×40px) bounces continuously above a horizontal progress bar, positioned at your overall average score
+- **Live leaderboard integration** - Other players' real Reddit avatars (26×26px) positioned precisely along the bar at their exact score percentages with username tooltips
+- **Gradient progress visualization** - Green to red gradient background with tier emoji anchors (💀🤷🏽😤😎🦸🏽) and descriptive labels below
+- **Smooth animations** - Avatar moves fluidly to reflect cumulative performance with spring physics (stiffness: 260, damping: 24, mass: 0.9)
 
-### 2. **Real Reddit Avatar Integration**
-- **Your avatar prominently displayed** - Real Reddit profile picture (40×40px) bounces above the progress bar at your overall average
-- **Leaderboard avatars positioned precisely** - Other players' avatars (26×26px) positioned along the bar at their exact score percentages
-- **White borders and shadows** - Clear visibility against the gradient background for professional appearance
-- **Tier emoji anchors** - 💀🤷🏽😤😎🦸🏽 with descriptive labels below the bar provide context and visual interest
+### 2. **Reddit-Native Educational Gaming**
+- **Authentic confessional scenarios** - Stories written in genuine r/AITA and r/TwoXChromosomes style that feel like real Reddit posts
+- **Evidence-based learning** - Integrates proven intervention frameworks (5Ds, DEARMAN, LIVES, COOPER) with practical micro-scripts you can actually use
+- **Real-world applicability** - Covers diverse situations: bars, workplaces, campus parties, digital spaces, gym environments, friend groups
+- **Personal development focus** - Individual skill building through realistic scenario practice with immediate feedback
 
-### 3. **Immediate Visual Feedback System**
-- **Trash meter always visible** - Mounted at top of screen, shows current progress with smooth animations
-- **Real-time updates** - Meter updates immediately after each answer submission with bouncy avatar movement
-- **Animated avatar positioning** - Your avatar bounces continuously and moves to reflect your overall average score
-- **Animated XP toasts** - Immediate feedback in header with green/red backgrounds and smooth fade transitions
-
-### 4. **Educational Gaming with Social Context**
-- **Personal development focus** - Individual skill building through realistic scenario practice
-- **Social leaderboard context** - See other players' progress for motivation without comparison pressure
-- **Reddit-authentic tone** - Scenarios written like r/AITA confessionals that feel genuine and relatable
-- **Evidence-based learning** - Integrates proven frameworks (5 D's, DEARMAN, LIVES, COOPER) with practical micro-scripts
-
-### 5. **Streamlined User Experience**
-- **Choices lock immediately** - No confusion about submission state, clear visual feedback with disabled styling
-- **Content shuffling** - Choice content is randomized while A/B/C labels stay consistent for familiarity
-- **Leaderboard refreshes automatically** - Updates after each submission to show current standings
+### 3. **Immediate Feedback & Engagement**
+- **Instant visual feedback** - Choices lock immediately on click with clear disabled styling, no confusion about submission state
+- **Animated XP toasts** - Immediate feedback in header with green/red backgrounds, smooth fade transitions, 1.2-second duration
+- **Exact scoring system** - 5 distinct tiers with specific point ranges and XP rewards/penalties, not gradual percentages
 - **Daily streak tracking** - Fire emoji badges (🔥 Day N) encourage consistent practice and habit formation
 
+### 4. **Streamlined User Experience**
+- **No barriers to entry** - Game loads immediately with first scenario visible, fetching all data simultaneously for instant gameplay
+- **Content shuffling intelligence** - Choice content randomized while A/B/C labels stay consistent for familiarity, no emojis inside buttons
+- **Professional polish** - Light theme throughout, hover effects on main card, smooth transitions, rounded corners with subtle shadows
+- **Mobile-optimized** - Clean interface perfect for Reddit mobile users with responsive design
+
+### 5. **Social Motivation Without Pressure**
+- **Leaderboard context** - See other players' progress for motivation without direct comparison pressure
+- **Avatar positioning** - Visual representation of where you stand relative to others without explicit rankings
+- **Community building** - Shared experience of learning intervention skills through humor and realistic scenarios
+- **Streak competition** - Friendly competition through daily play streaks rather than just scores
+
 ### 6. **Kiro-Powered Development Excellence**
-- **Complete specification enforcement** - `.kiro/specs/` files define exact game behavior and UI requirements
-- **Automated quality gates** - Scenario validation prevents low-quality content from reaching users
-- **AI-assisted content generation** - Dynamic scenario generation mixed with curated content
-- **Scalable content pipeline** - Quality automation enables rapid scenario creation while maintaining standards
+- **Complete specification enforcement** - `.kiro/specs/game_contract.md` and `.kiro/specs/ui_contract.md` define exact game behavior and UI requirements
+- **Automated quality gates** - `.kiro/hooks/validate_scenarios.mjs` prevents low-quality content from reaching users
+- **AI-assisted content generation** - `.kiro/steering/generator.prompt.md` enables scalable scenario creation while maintaining quality standards
+- **Strict UI compliance** - `.kiro/steering/ui_rules.prompt.md` ensures consistent implementation of v2 single-player specification
 
 ## 📱 How to Play: Step-by-Step
 
 ### Getting Started
 1. **Find the game** in a Reddit post (look for "Are You Just a Guy?" with a Launch App button)
 2. **Click "Launch App"** to open the game inline within the Reddit post
-3. **Game starts immediately** - No splash screen, first scenario loads instantly with all data
-4. **Check the header** - Shows game title, your streak badge (🔥 Day N), and current leaderboard leader (🏆 Best: username)
-5. **See your Trash Meter** - Always visible at top with your real Reddit avatar (40×40px) bouncing above the progress bar
-6. **View leaderboard avatars** - Other players' real Reddit avatars (26×26px) positioned along the progress bar at their score percentages
-7. **Notice the tier anchors** - Emoji indicators (💀🙈😬😎🦸‍♂️) with descriptive labels below the progress bar show the scoring tiers
+3. **Game starts immediately** - No splash screen, first scenario loads instantly while fetching your user data, leaderboard, and scenario simultaneously
+4. **Check the header** - Shows game title "Are You Just a Guy?", your streak badge (🔥 Day N if you have one), current leaderboard leader (🏆 Best: username), and space for animated XP toasts
+5. **See your Trash Meter** - Always visible at top with your real Reddit avatar (40×40px) bouncing continuously above the horizontal progress bar at your overall average position
+6. **View leaderboard avatars** - Other players' real Reddit avatars (26×26px) positioned precisely along the progress bar at their exact score percentages with username tooltips on hover
+7. **Notice the tier anchors** - Emoji indicators (💀🤷🏽😤😎🦸🏽) with descriptive labels below the progress bar (Embarrassing, Just a Guy, Recovering Guy, Decent Human, Golden Retriever) show the scoring tiers
 
 ### During Gameplay
 1. **Read the scenario** - First-person confessional stories about realistic social situations
