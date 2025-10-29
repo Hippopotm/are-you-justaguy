@@ -1,12 +1,11 @@
-import React from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 
 const levels = [
-  { emoji: '💀', label: 'Embarrassing' },
-  { emoji: '🤷🏽', label: 'Just a Guy' },
-  { emoji: '😤', label: 'Recovering' },
-  { emoji: '😎', label: 'Decent' },
-  { emoji: '🦸🏽', label: 'Golden' },
+  { emoji: '💀', label: 'Embarrassing', range: [0, 20] as const },
+  { emoji: '🤷🏽', label: 'Just a Guy', range: [21, 40] as const },
+  { emoji: '😤', label: 'Recovering', range: [41, 70] as const },
+  { emoji: '😎', label: 'Decent', range: [71, 90] as const },
+  { emoji: '🦸🏽', label: 'Golden', range: [91, 100] as const },
 ];
 
 const clamp = (n: number, min = 0, max = 100) => Math.max(min, Math.min(max, n));
@@ -16,12 +15,17 @@ export default function TrashProgress({
   arrowAt,
 }: {
   score: number;        // overall avg 0–100
-  arrowAt?: number;     // this round (0,60,100). if present, show bouncy arrow
+  arrowAt?: number;     // this round points. if present, show bouncy arrow
 }) {
   const safe = clamp(score);
   const spring = useSpring(safe, { stiffness: 120, damping: 20, mass: 0.6 });
   const left = useTransform(spring, (v) => `${v}%`);
-  const idx = Math.min(levels.length - 1, Math.floor(safe / 20));
+  
+  // Find current tier based on score
+  const currentTier = levels.find(level => {
+    const [min, max] = level.range;
+    return safe >= min && safe <= max;
+  }) || levels[0];
 
   return (
     <div className="mt-3">
@@ -36,24 +40,30 @@ export default function TrashProgress({
           <div className="text-xl select-none">🤖</div>
         </motion.div>
 
-        {/* arrow for this round */}
+        {/* bouncy arrow for this round */}
         {typeof arrowAt === 'number' && (
           <motion.div
             className="absolute -top-3"
             style={{ left: `${clamp(arrowAt, 2, 98)}%` }}
-            initial={{ y: -8, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+            initial={{ y: -8, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 10, bounce: 0.6 }}
           >
-            <div className="w-0 h-0 border-l-6 border-r-6 border-t-8 border-l-transparent border-r-transparent border-t-white mx-auto" />
+            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[8px] border-l-transparent border-r-transparent border-t-gray-800 mx-auto" />
           </motion.div>
         )}
       </div>
 
-      {/* milestone avatars */}
-      <div className="flex justify-between text-[10px] text-gray-400 mt-1">
-        {levels.map((lvl, i) => (
-          <div key={lvl.label} className={`flex flex-col items-center ${i === idx ? 'text-white' : ''}`}>
+      {/* milestone tiers with proper contrast */}
+      <div className="flex justify-between text-[10px] mt-1">
+        {levels.map((lvl) => (
+          <div key={lvl.label} className={`flex flex-col items-center ${
+            lvl.label === 'Embarrassing' 
+              ? 'bg-red-50 text-red-700 px-1 rounded' 
+              : currentTier?.label === lvl.label 
+                ? 'text-gray-900 font-medium' 
+                : 'text-gray-400'
+          }`}>
             <div className="text-lg mb-1">{lvl.emoji}</div>
             <div className="text-[8px]">{lvl.label}</div>
           </div>

@@ -10,9 +10,9 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
 - **Choose your response** from 3 options (A/B/C) based on real intervention frameworks
 - **Get scored** on a "Trash Meter" from 💀 Embarrassing to 🦸🏽 Golden Retriever
-- **Learn micro-scripts** you can actually use in real situations
-- **Track your progress** with XP, streaks, and community leaderboards
-- **Compare with friends** and see how the community voted
+- **Track your progress** with XP gains/losses and overall average score
+- **Compare with community** and see how other players voted
+- **Build streaks** for consecutive daily play
 
 ## 🚀 What Makes This Game Innovative
 
@@ -30,9 +30,9 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
 
 ### 3. **Gamified Behavior Change**
 - "Trash Meter" scoring system with memorable emoji rankings
-- XP system with streaks to encourage daily practice
+- XP system with immediate feedback (+20, +5, -10 XP per choice)
 - Community leaderboards showing top performers
-- Immediate feedback on choices with rationale explanations
+- Immediate feedback on choices with community voting results
 
 ### 4. **Kiro-Powered Content Pipeline**
 - Automated scenario validation prevents low-quality content
@@ -49,30 +49,34 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
 4. **Choose your response** by clicking A, B, or C
 
 ### During Gameplay
-1. **Read carefully** - scenarios are 120-220 words describing realistic situations
-2. **Consider the context** - look for social cues, power dynamics, and safety concerns
-3. **Pick your choice** - each option represents a different approach to the situation
-4. **Submit your answer** - you can't change it once submitted
+1. **Read the scenario** - First-person confessional stories about realistic social situations
+2. **Consider the context** - Look for social cues, power dynamics, and safety concerns
+3. **Pick your choice** - Each option represents a different approach (safer/partial/riskier)
+4. **Submit your answer** - Click your choice to lock it in
 
 ### After Each Round
-1. **See your score** - get 0-100 points based on how well your choice aligns with best practices
-2. **Check your ranking** - see where you land on the Trash Meter:
+1. **See your score** - Get 0, 60, or 100 points based on your choice outcome:
+   - **Safer choices** (90-100 points): +20 XP, demonstrates best practices
+   - **Partial choices** (55-75 points): +5 XP, better than nothing but not ideal
+   - **Riskier choices** (0-40 points): -10 XP, problematic or passive responses
+
+2. **Check your ranking** - See where you land on the Trash Meter:
    - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch."
    - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm."
    - 😤 **Recovering Guy** (41-70): "Keep trying, you got this."
    - 😎 **Decent Human** (71-90): "You're learning and it shows."
-   - 🦸🏽 **Golden Retriever** (91-100): "Unproblematic king energy."
+   - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed."
 
-3. **Learn the framework** - see which intervention standard applies and why
-4. **Get micro-scripts** - learn actual phrases you can use in similar situations
-5. **View community results** - see how other players voted on the same scenario
+3. **View community results** - See how other players voted on the same scenario
+4. **Track your progress** - Watch your overall average improve over time
+5. **Try new scenarios** - Click "🎲 Try Another Scenario" to keep playing
 
 ### Building Your Profile
-- **Track your average** - your overall Trash Meter score improves over time
-- **Maintain streaks** - play daily to build your intervention skills
-- **Earn XP** - gain experience points for consistent good choices
-- **Compete with friends** - compare scores and discuss scenarios
-- **Try new scenarios** - click "🎲 Try Another Scenario" to keep playing
+- **Track your average** - Your overall Trash Meter score shows long-term progress
+- **Earn/lose XP** - Immediate feedback with toast animations (+20 XP, +5 XP, -10 XP)
+- **Maintain streaks** - Play daily to build your intervention skills
+- **Compete with community** - See the current best player in the header
+- **Learn from mistakes** - Lower scores help you understand better approaches
 
 ## 🏆 Hackathon Categories
 
@@ -110,33 +114,53 @@ npm run dev
 
 ### Development
 ```bash
-# Run the game locally
+# Run the game locally (starts client, server, and Devvit playtest)
 npm run dev
 
 # Validate scenario quality
 npm run kiro:validate
 
+# Build for production
+npm run build
+
 # Deploy to Reddit
 npm run deploy
 ```
 
+### API Endpoints
+The game uses these main endpoints:
+
+- **GET /api/scenario** - Returns a random scenario (static or Kiro-generated)
+- **POST /api/vote** - Records player choice, returns score and XP change
+- **GET /api/reveal** - Returns community voting results for a scenario
+- **GET /api/best** - Returns current best player (username and XP)
+- **GET /api/generate-scenario** - Generates new scenario using Kiro AI
+
 ## 🧠 How It Works
 
 ### Game Flow
-1. **Scenario Load**: Player reads a confessional Reddit-style story
-2. **Choice Phase**: Player picks A/B/C response (30-60s timer)
-3. **Vote Recording**: Server tracks choice + returns points for Trash Meter
-4. **Reveal Phase**: Shows community percentages + correct standard + micro-script
-5. **Rank Update**: Player's Trash Meter score updates based on choice
+1. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words)
+2. **Choice Phase**: Player picks A/B/C response (no timer, thoughtful consideration encouraged)
+3. **Vote Recording**: Server tracks choice, prevents duplicate votes, returns points and XP
+4. **Immediate Feedback**: Shows player's score, tier ranking, and XP change
+5. **Community Results**: Displays how all players voted with percentage bars
+6. **Progress Tracking**: Updates overall average score and Trash Meter position
 
-### Trash Meter Ranks
-| Score | Rank | Message |
-|-------|------|---------|
-| 0-20 | 💀 Embarrassing | "Bro… that was painful to watch." |
-| 21-40 | 🤷🏽 Just a Guy | "Mhhmmm." |
-| 41-70 | 😤 Recovering Guy | "Keep trying, you got this." |
-| 71-90 | 😎 Decent (sort of enough) Human | "You're learning and it shows." |
-| 91-100 | 🦸🏽 Golden Retriever | "You're the adult child you needed." |
+### Trash Meter System
+The game uses a visual progress bar with a robot avatar (🤖) that moves along based on your overall average:
+
+| Score Range | Tier | Emoji | Message | XP Change |
+|-------------|------|-------|---------|-----------|
+| 0-20 | Embarrassing | 💀 | "Bro… that was painful to watch." | -10 XP |
+| 21-40 | Just a Guy | 🤷🏽 | "Mhhmmm." | -10 XP |
+| 41-70 | Recovering Guy | 😤 | "Keep trying, you got this." | +5 XP |
+| 71-90 | Decent Human | 😎 | "You're learning and it shows." | +5 XP |
+| 91-100 | Golden Retriever | 🦸🏽 | "You're the adult child you needed." | +20 XP |
+
+### Choice Scoring System
+- **Safer choices** (90-100 points): Demonstrate best practices, earn +20 XP
+- **Partial choices** (55-75 points): Better than nothing but not ideal, earn +5 XP  
+- **Riskier choices** (0-40 points): Problematic or passive responses, lose -10 XP
 
 ### Learning Standards
 - **5 D's**: Direct, Distract, Delegate, Delay, Document
@@ -171,20 +195,32 @@ npm run deploy
 ```
 src/
 ├── client/
-│   └── App.tsx              # Game UI (React)
+│   ├── App.tsx                    # Main game UI (React)
+│   ├── main.tsx                   # React app entry point
+│   ├── index.html                 # HTML template
+│   ├── index.css                  # Global styles
+│   └── components/
+│       └── TrashProgress.tsx      # Trash Meter visualization with robot avatar
 ├── server/
-│   └── index.ts             # API endpoints (/api/scenario, /api/vote, /api/reveal)
+│   ├── index.ts                   # API endpoints and game logic
+│   └── core/
+│       └── post.ts                # Reddit post creation
 └── shared/
-    ├── types.ts             # TypeScript interfaces
-    └── scenarios.ts         # Scenario content
+    ├── types.ts                   # TypeScript interfaces
+    ├── scenarios.ts               # Static scenario content
+    └── types/
+        └── api.ts                 # API response types
 
 .kiro/
 ├── specs/
-│   └── scenario_schema.md   # Content requirements
+│   ├── scenario_schema.md         # Content requirements and validation rules
+│   └── ui_contract.md             # Complete UI specification and rules
 ├── hooks/
-│   └── validate_scenarios.mjs  # Quality validation
+│   └── validate_scenarios.mjs     # Quality validation hook
 └── steering/
-    └── generator.prompt.md  # Content generation template
+    ├── generator.prompt.md        # Content generation template
+    ├── ui_rules.prompt.md         # UI development rules
+    └── [other steering files]     # Additional development guidance
 ```
 
 ## 🎮 Adding New Scenarios

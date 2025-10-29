@@ -46,20 +46,53 @@ function avgScore() {
 export const App = () => {
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [reveal, setReveal] = useState<Reveal | null>(null);
-  const [voted, setVoted] = useState<string | null>(null);
   const [, setProfile] = useState(loadProfile());
-  const [, setCurrentAnswerScore] = useState<number | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [picked, setPicked] = useState<{ points: number } | null>(null); // roundScore (0,60,100)
   const [lastDelta, setLastDelta] = useState<number>(0);                 // XP gain/loss for toast
   const [best, setBest] = useState<{ username: string|null; xp: number|null }>({ username: null, xp: null });
+  const [shuffledChoices, setShuffledChoices] = useState<any[]>([]);
+
+  // Shuffle choice content while keeping A, B, C labels in order
+  const shuffleChoiceContent = (choices: any[]) => {
+    if (!choices || choices.length === 0) return [];
+    
+    // Create array of choice content (text, points, outcome, rationale)
+    const content = choices.map(c => ({
+      text: c.text,
+      points: c.points,
+      outcome: c.outcome,
+      rationale: c.rationale
+    }));
+    
+    // Shuffle the content array
+    for (let i = content.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [content[i], content[j]] = [content[j], content[i]];
+    }
+    
+    // Return choices with shuffled content but original keys/labels
+    return choices.map((choice, index) => ({
+      ...choice,
+      text: content[index].text,
+      points: content[index].points,
+      outcome: content[index].outcome,
+      rationale: content[index].rationale
+    }));
+  };
 
   // Load one scenario from the server when the app mounts
   useEffect(() => {
     fetch('/api/scenario')
       .then((r) => r.json())
-      .then(setScenario)
+      .then((data) => {
+        setScenario(data);
+        // Shuffle choices when scenario loads
+        if (data && data.choices) {
+          setShuffledChoices(shuffleChoiceContent(data.choices));
+        }
+      })
       .catch((e) => console.error('load scenario error', e));
     setProfile(loadProfile());
   }, []);
@@ -70,8 +103,23 @@ export const App = () => {
   }, []);
 
 
-  // Use original choices without shuffling to prevent movement
-  const choices = scenario ? scenario.choices : [];
+  // Get XP delta based on points
+  const getXPDelta = (points: number) => {
+    if (points >= 91) return 20;      // Golden Retriever
+    if (points >= 71) return 15;      // Decent Human  
+    if (points >= 41) return 10;      // Recovering Guy
+    if (points >= 21) return 0;       // Just a Guy
+    return -5;                        // Embarrassing (penalty)
+  };
+
+  // Get tier info based on points
+  const getTierInfo = (points: number) => {
+    if (points >= 91) return { emoji: '🦸🏽', title: 'Golden Retriever', feedback: 'You\'re the adult child you needed.' };
+    if (points >= 71) return { emoji: '😎', title: 'Decent Human', feedback: 'You\'re learning and it shows.' };
+    if (points >= 41) return { emoji: '😤', title: 'Recovering Guy', feedback: 'Keep trying, you got this.' };
+    if (points >= 21) return { emoji: '🤷🏽', title: 'Just a Guy', feedback: 'Mhhmmm.' };
+    return { emoji: '💀', title: 'Embarrassing', feedback: 'Bro… that was painful to watch.' };
+  };
 
   return (
     <div className="min-h-screen text-gray-900 bg-gray-50">
@@ -112,7 +160,7 @@ export const App = () => {
 
               {/* Choices */}
               <div className="space-y-3 mb-6">
-                {choices.map((c) => (
+                {shuffledChoices.map((c) => (
                   <button
                     key={c.key}
                     disabled={submitted}
@@ -135,10 +183,13 @@ export const App = () => {
                       }).then(r => r.json());
 
                       if (!res.alreadyVoted) {
-                        // roundScore: 0/60/100 affects the overall average
-                        setPicked({ points: res.roundScore });
-                        setProfile(addPlay(res.roundScore)); // updates overall average
-                        setLastDelta(res.xpDelta || 0);      // +XP / -XP toast
+                        // Use the points from the shuffled choice
+                        const selectedChoice = shuffledChoices.find(choice => choice.key === c.key);
+                        const points = selectedChoice ? selectedChoice.points : 0;
+                        
+                        setPicked({ points });
+                        setProfile(addPlay(points)); // updates overall average
+                        setLastDelta(getXPDelta(points)); // Calculate XP based on points
                         setTimeout(() => setLastDelta(0), 1200);
                       } else {
                         setPicked(null); // they had already voted — don't re-count
@@ -175,17 +226,13 @@ export const App = () => {
                 <>
                   {/* verdict text */}
                   <div className="mt-4 p-4 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
-                    {picked.points === 0   && <div className="text-2xl">💀</div>}
-                    {picked.points === 60  && <div className="text-2xl">😤</div>}
-                    {picked.points === 100 && <div className="text-2xl">🦸🏽</div>}
+                    <div className="text-2xl">{getTierInfo(picked.points).emoji}</div>
 
                     <div className="text-xl font-bold mt-1 text-gray-800">
-                      {picked.points}% {picked.points===0 ? 'Embarrassing' : picked.points===60 ? 'Recovering Guy' : 'Golden Retriever'}
+                      {picked.points}% {getTierInfo(picked.points).title}
                     </div>
                     <div className="text-gray-600 mt-1">
-                      {picked.points===0 ? 'Bro… that was painful to watch.' :
-                       picked.points===60 ? 'Keep trying, you got this.' :
-                       'Unproblematic king energy.'}
+                      {getTierInfo(picked.points).feedback}
                     </div>
                   </div>
 
@@ -233,9 +280,12 @@ export const App = () => {
                       try {
                         const data = await fetch('/api/scenario').then((r) => r.json());
                         setScenario(data);
+                        // Shuffle choices for new scenario
+                        if (data && data.choices) {
+                          setShuffledChoices(shuffleChoiceContent(data.choices));
+                        }
                         // Reset all states for new scenario
                         setReveal(null);
-                        setCurrentAnswerScore(null);
                         setSelected(null);
                         setSubmitted(false);
                         setPicked(null);
