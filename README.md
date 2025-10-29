@@ -1,16 +1,78 @@
 # Are You Just a Guy? 🎮
 
-A Reddit-based interactive simulation that trains men in bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
+A Reddit-based interactive game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
 
-## 🎯 What It Does
+## 🎯 What This Game Is
 
-**"Are You Just a Guy?"** is a social experiment disguised as a game where players:
+**"Are You Just a Guy?"** is an educational social game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-- Read Reddit-style confessional scenarios about real social situations
-- Choose how they'd respond (A/B/C options)
-- See their "Trash Meter" score and rank (💀 Embarrassing → 🦸🏽 Golden Retriever)
-- Learn evidence-based standards like the 5 D's, DEARMAN, and LIVES frameworks
-- Practice micro-scripts they can actually use in real life
+### Core Gameplay
+- **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
+- **Choose your response** from 3 options (A/B/C) based on real intervention frameworks
+- **Get scored** on a "Trash Meter" from 💀 Embarrassing to 🦸🏽 Golden Retriever
+- **Learn micro-scripts** you can actually use in real situations
+- **Track your progress** with XP, streaks, and community leaderboards
+- **Compare with friends** and see how the community voted
+
+## 🚀 What Makes This Game Innovative
+
+### 1. **Reddit-Native Social Learning**
+- Runs directly inside Reddit posts as a Devvit app
+- Uses familiar Reddit confessional tone that feels authentic
+- Creates community discussions around real social issues
+- Leverages Reddit's existing social dynamics for peer accountability
+
+### 2. **Evidence-Based Teaching**
+- Integrates proven frameworks: 5 D's, DEARMAN, LIVES, COOPER
+- Provides practical micro-scripts players can use in real life
+- Focuses on bystander intervention, not just personal behavior
+- Teaches through humor and relatability, not preaching
+
+### 3. **Gamified Behavior Change**
+- "Trash Meter" scoring system with memorable emoji rankings
+- XP system with streaks to encourage daily practice
+- Community leaderboards showing top performers
+- Immediate feedback on choices with rationale explanations
+
+### 4. **Kiro-Powered Content Pipeline**
+- Automated scenario validation prevents low-quality content
+- AI-assisted content generation maintains consistent tone
+- Quality gates ensure all scenarios meet educational standards
+- Scalable content creation for ongoing engagement
+
+## 📱 How to Play: Step-by-Step
+
+### Getting Started
+1. **Find the game** in a Reddit post (look for "Are You Just a Guy?" with a Play button)
+2. **Click "Launch App"** to open the game in full screen
+3. **Read the scenario** - a Reddit-style confessional story about a social situation
+4. **Choose your response** by clicking A, B, or C
+
+### During Gameplay
+1. **Read carefully** - scenarios are 120-220 words describing realistic situations
+2. **Consider the context** - look for social cues, power dynamics, and safety concerns
+3. **Pick your choice** - each option represents a different approach to the situation
+4. **Submit your answer** - you can't change it once submitted
+
+### After Each Round
+1. **See your score** - get 0-100 points based on how well your choice aligns with best practices
+2. **Check your ranking** - see where you land on the Trash Meter:
+   - 💀 **Embarrassing** (0-20): "Bro… that was painful to watch."
+   - 🤷🏽 **Just a Guy** (21-40): "Mhhmmm."
+   - 😤 **Recovering Guy** (41-70): "Keep trying, you got this."
+   - 😎 **Decent Human** (71-90): "You're learning and it shows."
+   - 🦸🏽 **Golden Retriever** (91-100): "Unproblematic king energy."
+
+3. **Learn the framework** - see which intervention standard applies and why
+4. **Get micro-scripts** - learn actual phrases you can use in similar situations
+5. **View community results** - see how other players voted on the same scenario
+
+### Building Your Profile
+- **Track your average** - your overall Trash Meter score improves over time
+- **Maintain streaks** - play daily to build your intervention skills
+- **Earn XP** - gain experience points for consistent good choices
+- **Compete with friends** - compare scores and discuss scenarios
+- **Try new scenarios** - click "🎲 Try Another Scenario" to keep playing
 
 ## 🏆 Hackathon Categories
 

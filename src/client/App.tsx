@@ -70,21 +70,8 @@ export const App = () => {
   }, []);
 
 
-  // Shuffle choice content while keeping A, B, C order
-  const shuffleChoiceContent = (choices: any[]) => {
-    const shuffled = [...choices];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      // Swap the content but keep the key (A, B, C) in order
-      const temp = shuffled[i];
-      shuffled[i] = { ...shuffled[j], key: shuffled[i].key, label: shuffled[i].label };
-      shuffled[j] = { ...temp, key: shuffled[j].key, label: shuffled[j].label };
-    }
-    return shuffled;
-  };
-
-  // Get choices with shuffled content but A, B, C order
-  const shuffledChoices = scenario ? shuffleChoiceContent(scenario.choices) : [];
+  // Use original choices without shuffling to prevent movement
+  const choices = scenario ? scenario.choices : [];
 
   return (
     <div className="min-h-screen text-gray-900 bg-gray-50">
@@ -125,7 +112,7 @@ export const App = () => {
 
               {/* Choices */}
               <div className="space-y-3 mb-6">
-                {shuffledChoices.map((c) => (
+                {choices.map((c) => (
                   <button
                     key={c.key}
                     disabled={submitted}
@@ -208,7 +195,7 @@ export const App = () => {
               )}
 
               {/* Community Results - shown immediately after voting */}
-              {voted && reveal && (
+              {submitted && reveal && (
                 <div className="mt-4 bg-gray-50 rounded-lg p-4">
                   <h3 className="font-bold text-gray-900 mb-2">Community Results</h3>
                   <p className="text-sm text-gray-600 mb-2">Total votes: {reveal.total}</p>
@@ -246,7 +233,7 @@ export const App = () => {
                       try {
                         const data = await fetch('/api/scenario').then((r) => r.json());
                         setScenario(data);
-                        setVoted(null);
+                        // Reset all states for new scenario
                         setReveal(null);
                         setCurrentAnswerScore(null);
                         setSelected(null);
