@@ -71,7 +71,7 @@ export const App = () => {
     // Fetch leaderboard
     fetch('/api/best')
       .then(r => r.json())
-      .then(setLeaderboard)
+      .then((d) => Array.isArray(d) ? setLeaderboard(d) : setLeaderboard([]))
       .catch(() => {});
 
     // Load first scenario immediately
@@ -168,7 +168,7 @@ export const App = () => {
       // Refresh leaderboard after submit
       fetch('/api/best')
         .then(r => r.json())
-        .then(setLeaderboard)
+        .then((d) => Array.isArray(d) ? setLeaderboard(d) : setLeaderboard([]))
         .catch(() => {});
       
     } catch (e) {
