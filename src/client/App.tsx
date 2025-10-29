@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import type { Scenario } from '../shared/types';
 import TrashProgress from './components/TrashProgress';
 import { motion, AnimatePresence } from 'framer-motion';
+import { tierFrom, getXPDelta, getWittyFeedback } from '../shared/tiers';
 
-type Reveal = { counts: Record<string, number>; total: number };
+const PROF_KEY = 'guy_profile_v2';
 
-const PROF_KEY = 'guy_profile_v1';
-
-// ---- simple local profile helpers (streak + average Trash Meter) ----
+// Profile helpers for streak and average
 function loadProfile() {
   try {
     return JSON.parse(
@@ -17,12 +16,15 @@ function loadProfile() {
     return { plays: 0, total: 0, last: '', streak: 0 };
   }
 }
+
 function saveProfile(p: any) {
   localStorage.setItem(PROF_KEY, JSON.stringify(p));
 }
+
 function today() {
   return new Date().toISOString().slice(0, 10);
 }
+
 function addPlay(points: number) {
   const p = loadProfile();
   const t = today();
@@ -37,39 +39,37 @@ function addPlay(points: number) {
   saveProfile(p);
   return p;
 }
+
 function avgScore() {
   const p = loadProfile();
   return p.plays ? Math.round(p.total / p.plays) : 0;
 }
 
-
 export const App = () => {
   const [scenario, setScenario] = useState<Scenario | null>(null);
-  const [reveal, setReveal] = useState<Reveal | null>(null);
-  const [, setProfile] = useState(loadProfile());
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [picked, setPicked] = useState<{ points: number } | null>(null); // roundScore (0,60,100)
-  const [lastDelta, setLastDelta] = useState<number>(0);                 // XP gain/loss for toast
-  const [best, setBest] = useState<{ username: string|null; xp: number|null }>({ username: null, xp: null });
+  const [roundResult, setRoundResult] = useState<{ score: number; tier: any } | null>(null);
+  const [lastDelta, setLastDelta] = useState<number>(0);
+  const [profile, setProfile] = useState(loadProfile());
   const [shuffledChoices, setShuffledChoices] = useState<any[]>([]);
 
   // Shuffle choice content while keeping A, B, C labels in order
   const shuffleChoiceContent = (choices: any[]) => {
     if (!choices || choices.length === 0) return [];
     
-    // Create array of choice content (text, points, outcome, rationale)
+    // Create array of choice content
     const content = choices.map(c => ({
       text: c.text,
       points: c.points,
-      outcome: c.outcome,
-      rationale: c.rationale
     }));
     
     // Shuffle the content array
     for (let i = content.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [content[i], content[j]] = [content[j], content[i]];
+      const temp = content[i];
+      content[i] = content[j];
+      content[j] = temp;
     }
     
     // Return choices with shuffled content but original keys/labels
@@ -77,223 +77,178 @@ export const App = () => {
       ...choice,
       text: content[index].text,
       points: content[index].points,
-      outcome: content[index].outcome,
-      rationale: content[index].rationale
     }));
   };
 
-  // Load one scenario from the server when the app mounts
+  // Load scenario on mount
   useEffect(() => {
-    fetch('/api/scenario')
-      .then((r) => r.json())
-      .then((data) => {
-        setScenario(data);
-        // Shuffle choices when scenario loads
-        if (data && data.choices) {
-          setShuffledChoices(shuffleChoiceContent(data.choices));
-        }
-      })
-      .catch((e) => console.error('load scenario error', e));
+    loadNewScenario();
     setProfile(loadProfile());
   }, []);
 
-  // Load best player on mount
-  useEffect(() => {
-    fetch('/api/best').then(r=>r.json()).then(setBest).catch(()=>{});
-  }, []);
-
-
-  // Get XP delta based on points
-  const getXPDelta = (points: number) => {
-    if (points >= 91) return 20;      // Golden Retriever
-    if (points >= 71) return 15;      // Decent Human  
-    if (points >= 41) return 10;      // Recovering Guy
-    if (points >= 21) return 0;       // Just a Guy
-    return -5;                        // Embarrassing (penalty)
+  const loadNewScenario = async () => {
+    try {
+      const data = await fetch('/api/scenario').then((r) => r.json());
+      setScenario(data);
+      if (data && data.choices) {
+        setShuffledChoices(shuffleChoiceContent(data.choices));
+      }
+      // Reset states
+      setSelected(null);
+      setSubmitted(false);
+      setRoundResult(null);
+      setLastDelta(0);
+    } catch (e) {
+      console.error('scenario error', e);
+    }
   };
 
-  // Get tier info based on points
-  const getTierInfo = (points: number) => {
-    if (points >= 91) return { emoji: '🦸🏽', title: 'Golden Retriever', feedback: 'You\'re the adult child you needed.' };
-    if (points >= 71) return { emoji: '😎', title: 'Decent Human', feedback: 'You\'re learning and it shows.' };
-    if (points >= 41) return { emoji: '😤', title: 'Recovering Guy', feedback: 'Keep trying, you got this.' };
-    if (points >= 21) return { emoji: '🤷🏽', title: 'Just a Guy', feedback: 'Mhhmmm.' };
-    return { emoji: '💀', title: 'Embarrassing', feedback: 'Bro… that was painful to watch.' };
+  const handleSubmit = async (choiceKey: string) => {
+    if (submitted || !scenario) return;
+    
+    setSelected(choiceKey);
+    setSubmitted(true);
+
+    try {
+      // Get the points from the shuffled choice
+      const selectedChoice = shuffledChoices.find(choice => choice.key === choiceKey);
+      const roundScore = selectedChoice?.points || 0;
+      
+      // Call vote API to record the choice
+      await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenarioId: scenario.id, choiceKey }),
+      });
+
+      // Update local profile
+      const updatedProfile = addPlay(roundScore);
+      setProfile(updatedProfile);
+      
+      // Set round result for display
+      const tier = tierFrom(roundScore);
+      setRoundResult({ score: roundScore, tier });
+      
+      // Show XP toast
+      const xpDelta = getXPDelta(roundScore);
+      setLastDelta(xpDelta);
+      setTimeout(() => setLastDelta(0), 1200);
+      
+    } catch (e) {
+      console.error('submit error', e);
+    }
   };
 
   return (
     <div className="min-h-screen text-gray-900 bg-gray-50">
       <div className="max-w-[760px] mx-auto p-4 space-y-3">
-        {/* Header with XP toast and best player */}
-        <header className="bg-gradient-to-r from-blue-500 to-purple-600 border border-blue-300 rounded-2xl p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="font-semibold text-white">Are You Just a Guy?</div>
+        
+        {/* Header with streak and XP toast */}
+        <header className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+          <div className="flex items-center gap-3">
+            <h1 className="text-xl font-bold text-gray-900">Are You Just a Guy?</h1>
+            {profile.streak > 0 && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-700 rounded-full text-sm">
+                🔥 Day {profile.streak}
+              </div>
+            )}
             {/* XP toast */}
-            <AnimatePresence>{lastDelta !== 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.35 }}
-                className={`px-2 py-1 rounded-lg text-sm ${lastDelta > 0 ? 'bg-emerald-500/20 text-emerald-200' : 'bg-red-500/20 text-red-200'}`}
-              >
-                {lastDelta > 0 ? '+' : ''}{lastDelta} XP
-              </motion.div>
-            )}</AnimatePresence>
+            <AnimatePresence>
+              {lastDelta !== 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                  transition={{ duration: 0.35 }}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                    lastDelta > 0 
+                      ? 'bg-green-100 text-green-700' 
+                      : 'bg-red-100 text-red-700'
+                  }`}
+                >
+                  {lastDelta > 0 ? '+' : ''}{lastDelta} XP
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <div className="text-xs text-gray-400">
-            {best.username ? <>🏆 Best: u/{best.username} · {best.xp} XP</> : <>🏆 Be the first on the board</>}
+          <div className="text-sm text-gray-600">
+            Avg: {avgScore()}%
           </div>
         </header>
 
         {/* Main card */}
         <main className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          {!scenario && <div className="text-center text-gray-600">Loading…</div>}
+          {!scenario && <div className="text-center text-gray-600">Loading scenario…</div>}
+          
           {scenario && (
             <>
-
-              {/* Text */}
-              <h1 className="text-2xl font-bold mb-4 text-gray-900">{scenario.title}</h1>
-              <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <p className="text-gray-800 leading-relaxed">{scenario.body}</p>
+              {/* Scenario */}
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold mb-4 text-gray-900">{scenario.title}</h2>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-gray-800 leading-relaxed">{scenario.body}</p>
+                </div>
               </div>
 
               {/* Choices */}
               <div className="space-y-3 mb-6">
-                {shuffledChoices.map((c) => (
+                {shuffledChoices.map((choice) => (
                   <button
-                    key={c.key}
+                    key={choice.key}
                     disabled={submitted}
-                    className={`w-full text-left rounded-xl px-4 py-4 transition-all duration-300 shadow-sm hover:shadow-lg transform hover:scale-[1.02] ${
-                      selected === c.key
-                        ? 'bg-blue-100 border-2 border-blue-400 shadow-blue-200' 
+                    className={`w-full text-left rounded-xl px-4 py-3 transition-all duration-200 ${
+                      selected === choice.key
+                        ? 'bg-blue-100 border-2 border-blue-400' 
                         : submitted 
-                          ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
-                          : 'bg-white hover:bg-blue-50 border border-gray-300 hover:border-blue-300'
+                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border border-gray-300'
+                          : 'bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-400 transform hover:scale-[0.98] active:scale-[0.98]'
                     }`}
-                    onClick={async () => {
-                      if (submitted) return;
-                      setSelected(c.key);
-                      setSubmitted(true);
-
-                      const res = await fetch('/api/vote', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ scenarioId: scenario.id, choiceKey: c.key }),
-                      }).then(r => r.json());
-
-                      if (!res.alreadyVoted) {
-                        // Use the points from the shuffled choice
-                        const selectedChoice = shuffledChoices.find(choice => choice.key === c.key);
-                        const points = selectedChoice ? selectedChoice.points : 0;
-                        
-                        setPicked({ points });
-                        setProfile(addPlay(points)); // updates overall average
-                        setLastDelta(getXPDelta(points)); // Calculate XP based on points
-                        setTimeout(() => setLastDelta(0), 1200);
-                      } else {
-                        setPicked(null); // they had already voted — don't re-count
-                      }
-
-                      // reveal after submit
-                      const data = await fetch('/api/reveal?scenarioId='+encodeURIComponent(scenario.id)).then(r=>r.json());
-                      setReveal(data);
-
-                      // refresh best player
-                      fetch('/api/best').then(r=>r.json()).then(setBest).catch(()=>{});
-                    }}
+                    onClick={() => handleSubmit(choice.key)}
                   >
-                    <div className="flex items-start">
-                      <span className={`text-sm font-bold px-3 py-1 rounded-full mr-3 mt-1 ${
-                        selected === c.key 
+                    <div className="flex items-start gap-3">
+                      <span className={`text-sm font-bold px-2 py-1 rounded-full ${
+                        selected === choice.key 
                           ? 'bg-blue-200 text-blue-800' 
                           : 'bg-gray-100 text-gray-600'
                       }`}>
-                        {c.label}
+                        {choice.label}
                       </span>
-                      <span className="text-gray-800 flex-1">{c.text}</span>
-                      {selected === c.key && !submitted ? (
-                        <span className="ml-2 text-blue-600 font-bold text-xl animate-bounce">👆</span>
-                      ) : null}
+                      <span className="text-gray-800 flex-1">{choice.text}</span>
                     </div>
                   </button>
                 ))}
               </div>
 
-
-              {/* Verdict text only (no learning moment) */}
-              {submitted && picked && (
+              {/* Results - shown after submission */}
+              {submitted && roundResult && (
                 <>
-                  {/* verdict text */}
-                  <div className="mt-4 p-4 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
-                    <div className="text-2xl">{getTierInfo(picked.points).emoji}</div>
-
-                    <div className="text-xl font-bold mt-1 text-gray-800">
-                      {picked.points}% {getTierInfo(picked.points).title}
+                  {/* Verdict chip */}
+                  <div className="mb-4">
+                    <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${roundResult.tier.chipClass}`}>
+                      <span className="text-lg">{roundResult.tier.emoji}</span>
+                      <span className="font-medium">
+                        {roundResult.score}% {roundResult.tier.label}
+                      </span>
                     </div>
-                    <div className="text-gray-600 mt-1">
-                      {getTierInfo(picked.points).feedback}
-                    </div>
+                    <p className="text-gray-700 mt-2 text-sm">
+                      {getWittyFeedback(roundResult.score)}
+                    </p>
                   </div>
 
-                  {/* ONE trash meter at the bottom */}
-                  <TrashProgress score={avgScore()} arrowAt={picked.points} />
+                  {/* Trash Meter */}
+                  <TrashProgress 
+                    score={avgScore()} 
+                    arrowAt={roundResult.score}
+                  />
                 </>
               )}
 
-              {/* Community Results - shown immediately after voting */}
-              {submitted && reveal && (
-                <div className="mt-4 bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">Community Results</h3>
-                  <p className="text-sm text-gray-600 mb-2">Total votes: {reveal.total}</p>
-                  <div className="space-y-2">
-                    {scenario.choices.map((c) => {
-                      const count = reveal.counts[c.key] || 0;
-                      const percentage = reveal.total > 0 ? Math.round((count / reveal.total) * 100) : 0;
-                      return (
-                        <div key={c.key} className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-gray-700">
-                            {c.label}: {c.text}
-                          </span>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-20 bg-gray-200 rounded-full h-2">
-                              <div 
-                                className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                                style={{ width: `${percentage}%` }}
-                              ></div>
-                            </div>
-                            <span className="text-sm text-gray-600 w-12 text-right">{percentage}%</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               {/* Next Scenario Button */}
-              {reveal && (
+              {submitted && (
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <button
-                    className="w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition-colors duration-200 transform hover:scale-[1.02]"
-                    onClick={async () => {
-                      try {
-                        const data = await fetch('/api/scenario').then((r) => r.json());
-                        setScenario(data);
-                        // Shuffle choices for new scenario
-                        if (data && data.choices) {
-                          setShuffledChoices(shuffleChoiceContent(data.choices));
-                        }
-                        // Reset all states for new scenario
-                        setReveal(null);
-                        setSelected(null);
-                        setSubmitted(false);
-                        setPicked(null);
-                        setLastDelta(0);
-                      } catch (e) {
-                        console.error('scenario error', e);
-                      }
-                    }}
+                    className="w-full px-4 py-3 bg-gray-900 text-white rounded-xl font-medium transition-colors duration-200 hover:bg-gray-800 transform hover:scale-[0.98] active:scale-[0.98]"
+                    onClick={loadNewScenario}
                   >
                     🎲 Try Another Scenario
                   </button>

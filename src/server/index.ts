@@ -217,7 +217,7 @@ async function generateKiroScenario(framework: string, step: string, setting: st
           label: "B",
           text: "Laugh it off and change the subject.",
           outcome: "partial",
-          points: 60,
+          points: 65,
           rationale: "Helps but doesn't address the issue."
         },
         {
@@ -225,7 +225,7 @@ async function generateKiroScenario(framework: string, step: string, setting: st
           label: "C",
           text: "Record it for the group chat.",
           outcome: "riskier",
-          points: 10,
+          points: 15,
           rationale: "Makes it worse for everyone."
         }
       ],
@@ -254,7 +254,7 @@ async function generateKiroScenario(framework: string, step: string, setting: st
           label: "A",
           text: "Create a distraction and pull him away.",
           outcome: "safer",
-          points: 90,
+          points: 92,
           rationale: "Saves everyone from the awkwardness."
         },
         {
@@ -262,7 +262,7 @@ async function generateKiroScenario(framework: string, step: string, setting: st
           label: "B",
           text: "Wait and see if he figures it out.",
           outcome: "partial",
-          points: 45,
+          points: 65,
           rationale: "She's stuck dealing with it longer."
         },
         {
@@ -270,7 +270,7 @@ async function generateKiroScenario(framework: string, step: string, setting: st
           label: "C",
           text: "Join in and try to help him out.",
           outcome: "riskier",
-          points: 15,
+          points: 20,
           rationale: "Makes it worse for her."
         }
       ],
@@ -308,11 +308,16 @@ router.post('/api/vote', async (req, res) => {
     }
     await redis.set(votedKey, '1', { ex: 60 * 60 * 24 * 90 });
 
-    // Map outcomes → roundScore (for UI) and XP delta (for progression)
-    // safer => 100%, +20 XP | partial => 60%, +5 XP | riskier => 0%, -10 XP
-    const outcome = choice.outcome;
-    const roundScore = outcome === 'safer' ? 100 : outcome === 'partial' ? 60 : 0;
-    const xpDelta   = outcome === 'safer' ? 20  : outcome === 'partial' ? 5  : -10;
+    // Use the exact points from the choice (already set in scenarios)
+    const roundScore = choice.points;
+    
+    // Calculate XP delta based on exact specification tiers
+    let xpDelta = 0;
+    if (roundScore >= 91) xpDelta = 20;      // Golden Retriever (+20 XP)
+    else if (roundScore >= 71) xpDelta = 15; // Decent Human (+15 XP)
+    else if (roundScore >= 41) xpDelta = 10; // Recovering Guy (+10 XP)
+    else if (roundScore >= 21) xpDelta = 0;  // Just a Guy (0 XP)
+    else xpDelta = -5;                       // Embarrassing (-5 XP penalty)
 
     // persist community tally
     const tallyKey = `tally:${scenarioId}:${choiceKey}`;

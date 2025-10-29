@@ -1,73 +1,79 @@
 import { motion, useSpring, useTransform } from 'framer-motion';
 
-const levels = [
-  { emoji: '💀', label: 'Embarrassing', range: [0, 20] as const },
-  { emoji: '🤷🏽', label: 'Just a Guy', range: [21, 40] as const },
-  { emoji: '😤', label: 'Recovering', range: [41, 70] as const },
-  { emoji: '😎', label: 'Decent', range: [71, 90] as const },
-  { emoji: '🦸🏽', label: 'Golden', range: [91, 100] as const },
-];
-
 const clamp = (n: number, min = 0, max = 100) => Math.max(min, Math.min(max, n));
 
-export default function TrashProgress({
-  score,
-  arrowAt,
-}: {
-  score: number;        // overall avg 0–100
-  arrowAt?: number;     // this round points. if present, show bouncy arrow
-}) {
-  const safe = clamp(score);
-  const spring = useSpring(safe, { stiffness: 120, damping: 20, mass: 0.6 });
-  const left = useTransform(spring, (v) => `${v}%`);
-  
-  // Find current tier based on score
-  const currentTier = levels.find(level => {
-    const [min, max] = level.range;
-    return safe >= min && safe <= max;
-  }) || levels[0];
+interface TrashProgressProps {
+  overallAverage: number;    // Player's running average 0-100
+  roundScore?: number;       // Current round score (0, 60, or 100) - shows bouncy arrow
+  avatarUrl?: string;        // Optional avatar URL
+}
+
+export default function TrashProgress({ overallAverage, roundScore, avatarUrl }: TrashProgressProps) {
+  const safeAverage = clamp(overallAverage);
+  const spring = useSpring(safeAverage, { 
+    stiffness: 260, 
+    damping: 24, 
+    mass: 0.9 
+  });
+  const avatarLeft = useTransform(spring, (v) => `${v}%`);
 
   return (
-    <div className="mt-3">
-      <div className="relative h-3 rounded-full overflow-hidden bg-[#202028]">
-        {/* gradient fill to your current avg */}
-        <motion.div
-          className="absolute left-0 top-0 bottom-0"
-          style={{ width: left, background: 'linear-gradient(90deg,#ef4444,#f59e0b,#4ade80)' }}
+    <div className="mt-4">
+      {/* Progress Bar */}
+      <div className="relative h-4 rounded-full overflow-hidden bg-gray-200">
+        {/* Gradient fill */}
+        <div 
+          className="absolute left-0 top-0 bottom-0 rounded-full"
+          style={{ 
+            width: `${safeAverage}%`,
+            background: 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #22c55e 100%)'
+          }}
         />
-        {/* your avatar riding the line */}
-        <motion.div className="absolute -top-4" style={{ left }}>
-          <div className="text-xl select-none">🤖</div>
+        
+        {/* Avatar riding the bar */}
+        <motion.div 
+          className="absolute -top-4 -ml-6"
+          style={{ left: avatarLeft }}
+        >
+          <div className="w-12 h-12 rounded-full border-2 border-white shadow-lg bg-blue-500 flex items-center justify-center text-xl">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="w-full h-full rounded-full object-cover" />
+            ) : (
+              '🤖'
+            )}
+          </div>
         </motion.div>
 
-        {/* bouncy arrow for this round */}
-        {typeof arrowAt === 'number' && (
+        {/* Bouncy arrow for current round (NO TEXT) */}
+        {typeof roundScore === 'number' && (
           <motion.div
-            className="absolute -top-3"
-            style={{ left: `${clamp(arrowAt, 2, 98)}%` }}
-            initial={{ y: -8, opacity: 0, scale: 0.8 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 10, bounce: 0.6 }}
+            className="absolute -top-2 -ml-1"
+            style={{ left: `${clamp(roundScore, 2, 98)}%` }}
+            initial={{ y: -10, opacity: 0, scale: 0.8 }}
+            animate={{ 
+              y: [0, -4, 0, -2, 0], 
+              opacity: 1, 
+              scale: 1 
+            }}
+            transition={{ 
+              duration: 0.7,
+              delay: 0.1,
+              ease: "easeOut",
+              times: [0, 0.3, 0.5, 0.7, 1]
+            }}
           >
-            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[8px] border-l-transparent border-r-transparent border-t-gray-800 mx-auto" />
+            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-gray-800" />
           </motion.div>
         )}
       </div>
 
-      {/* milestone tiers with proper contrast */}
-      <div className="flex justify-between text-[10px] mt-1">
-        {levels.map((lvl) => (
-          <div key={lvl.label} className={`flex flex-col items-center ${
-            lvl.label === 'Embarrassing' 
-              ? 'bg-red-50 text-red-700 px-1 rounded' 
-              : currentTier?.label === lvl.label 
-                ? 'text-gray-900 font-medium' 
-                : 'text-gray-400'
-          }`}>
-            <div className="text-lg mb-1">{lvl.emoji}</div>
-            <div className="text-[8px]">{lvl.label}</div>
-          </div>
-        ))}
+      {/* Scale markers */}
+      <div className="flex justify-between text-xs text-gray-400 mt-2 px-1">
+        <span>0%</span>
+        <span>25%</span>
+        <span>50%</span>
+        <span>75%</span>
+        <span>100%</span>
       </div>
     </div>
   );

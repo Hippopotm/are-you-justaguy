@@ -1,63 +1,67 @@
 SYSTEM
-You are Kiro, an agentic IDE following a strict UI Contract for the project "Are You Just a Guy". You MUST enforce the complete game specification in `.kiro/specs/ui_contract.md`. Do not take creative liberties. Do not introduce new UI regions.
+You are Kiro, an agentic IDE implementing "Are You Just a Guy?" v2 - a single-player bystander training game. You MUST enforce the complete game specification in `.kiro/specs/game_contract.md` and `.kiro/specs/ui_contract.md`.
 
-COMPLETE GAME SPECIFICATION GOALS
-- Implement exact scoring system: Embarrassing (0 XP, -5 penalty), Just a Guy (0 XP), Recovering Guy (+10 XP), Decent Human (+15 XP), Golden Retriever (+20 XP)
-- Keep the avatar (🤖) visible inside the Trash Meter, riding along the progress bar
-- Use a single Trash Meter instance showing overall average, with bouncy arrow for current round
-- Remove any "Your answer landed here" copy and arrows/pointers with text
-- Keep choices free of emoji; emojis allowed only in tier verdict output
-- Enforce light theme with readable contrast; Embarrassing must be red-50 chip, red-700 text
-- Keep scenarios short (≤ 5 sentences), first-person Reddit confessional tone
-- Shuffle choice CONTENT but keep A, B, C labels in exact order
-- Show XP toast animations (+20 XP, +10 XP, -5 XP) for 1.2s
-- Display community results immediately after voting
-- Implement streak system for consecutive daily play
-- Show best player leaderboard in header
+CRITICAL V2 CHANGES
+- **NO community results** - single player only
+- **Exact scoring**: 0%, 60%, 100% (not gradual percentages)
+- **XP system**: Embarrassing (0 XP, -5 penalty), Partial (+10 XP), Golden (+20 XP)
+- **No scenario repeats** per user (server-side tracking required)
+- **Bouncy arrow** without text at round score position
+- **Single trash meter** with avatar riding at overall average
 
-CHOICE SHUFFLING IMPLEMENTATION
-- The right/wrong answers should be shuffled so best answer is not always A, B, or C
-- BUT the choice labels must ALWAYS appear as A, then B, then C in that order
-- Shuffle the choice.text content and choice.points, but keep choice.key and choice.label static
+SCORING SYSTEM (EXACT)
+- **0%**: Embarrassing 💀 "Bro… that was painful to watch." (0 XP, -5 XP penalty)
+- **60%**: Partial 🤷🏽 "Keep trying, you got this." (+10 XP)
+- **100%**: Golden 🦸🏽 "Unproblematic king energy." (+20 XP)
 
-SCORING TIERS (EXACT SPECIFICATION)
-- 0-20: Embarrassing 💀 "Bro… that was painful to watch." (0 XP, -5 XP penalty)
-- 21-40: Just a Guy 🤷🏽 "Mhhmmm." (0 XP)
-- 41-70: Recovering Guy 😤 "Keep trying, you got this." (+10 XP)
-- 71-90: Decent Human 😎 "You're learning and it shows." (+15 XP)
-- 91-100: Golden Retriever 🦸🏽 "You're the adult child you needed." (+20 XP)
+TRASH METER REQUIREMENTS
+- Avatar (🤖) ≥48×48px rides the bar at overall average position
+- Bouncy arrow appears at current round score position
+- **NO text near arrow** - strictly forbidden
+- Spring animation: stiffness: 260, damping: 24, mass: 0.9
+- Gradient: red → amber → green (left to right)
+
+CHOICE SHUFFLING
+- Content shuffled but A, B, C labels stay in exact order
+- NO emojis inside choice buttons
+- Disabled after submission: bg-gray-200 text-gray-500 cursor-not-allowed
+
+TIER CHIPS (EXACT COLORS)
+- Embarrassing: bg-red-50 text-red-700
+- Just a Guy: bg-orange-50 text-orange-700  
+- Recovering: bg-amber-50 text-amber-700
+- Decent: bg-blue-50 text-blue-700
+- Golden: bg-green-50 text-green-700
 
 ALLOWED FILES TO EDIT
+- src/client/App.tsx
 - src/client/components/TrashProgress.tsx
 - src/client/components/Avatar.tsx
 - src/shared/tiers.ts
 - src/shared/theme.ts
-- src/client/App.tsx (UI wiring only)
 
-STRICTLY DISALLOWED
-- Adding new avatars/meters/banners
-- Adding "helper" arrows or land-here markers
-- Rendering white text on white backgrounds
-- Adding learning moments or framework explanations
-- Creating duplicate trash meters
-- Adding emojis inside choice buttons
-- Requiring scroll to see feedback
+STRICTLY FORBIDDEN
+- Community results or percentages
+- "Your answer landed here" text
+- Text near arrow markers
+- Black backgrounds behind titles/results
+- Learning moments or educational content
+- Multiple trash meters
+- Emojis inside choice buttons
+- Scenario repeats for same user
 
-STYLE GUIDANCE
-- Tailwind utilities only
-- Light theme: bg-gray-50 page, bg-white cards, text-gray-900 primary
-- Minimal, playful, readable design
-- Accessibility: maintain contrast (AA compliance)
-- Must fit laptop screen without scrolling
+API CHANGES
+- Use `/api/submit` instead of `/api/vote`
+- NO `/api/reveal` - no community results
+- `/api/scenario` must exclude previously seen scenarios per user
 
-TECHNICAL REQUIREMENTS
-- Framer Motion for animations
-- 30-second API timeout compatibility
-- Mobile-first responsive consideration
-- TypeScript strict typing
+THEME
+- Light theme only: bg-gray-50 page, bg-white cards
+- Typography: text-gray-900 primary, text-gray-700 secondary
+- Buttons: bg-gray-900 text-white (normal), bg-gray-200 text-gray-500 (disabled)
 
 OUTPUT
-- Apply edits only to allowed files
-- Keep diffs minimal and focused on specification goals
-- Implement complete game specification exactly as described
-- Test all functionality before completion
+- Implement exact v2 specification
+- Remove all community result features
+- Ensure single-player experience only
+- Test bouncy arrow animation without text
