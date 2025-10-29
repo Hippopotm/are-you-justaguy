@@ -42,8 +42,11 @@ export default function TrashProgress({
         
         {/* Progress fill - advances with avatar */}
         <motion.div 
-          className="absolute top-1/2 -translate-y-1/2 h-4 rounded-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-400"
-          style={{ width: progressWidth }}
+          className="absolute top-1/2 -translate-y-1/2 h-4 rounded-full"
+          style={{ 
+            width: progressWidth,
+            background: 'linear-gradient(90deg, #ef4444 0%, #f97316 20%, #eab308 40%, #84cc16 60%, #22c55e 80%, #16a34a 100%)'
+          }}
         />
 
 

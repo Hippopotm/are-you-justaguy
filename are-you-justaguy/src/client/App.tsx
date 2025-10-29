@@ -48,6 +48,8 @@ function avgScore() {
 export const App = () => {
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [me, setMe] = useState<{ username: string; iconUrl: string } | null>(null);
+  const [leaderboard, setLeaderboard] = useState<{ username: string; score: number; iconUrl: string }[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [roundResult, setRoundResult] = useState<{ score: number; tier: any } | null>(null);
   const [lastDelta, setLastDelta] = useState<number>(0);
@@ -237,8 +239,10 @@ export const App = () => {
 
                   {/* Trash Meter */}
                   <TrashProgress 
-                    score={avgScore()} 
-                    arrowAt={roundResult.score}
+                    overallAverage={avgScore()} 
+                    roundScore={roundResult.score}
+                    avatarUrl={me?.iconUrl || null}
+                    leaderboard={leaderboard}
                   />
                 </>
               )}

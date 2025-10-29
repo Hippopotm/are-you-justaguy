@@ -306,7 +306,7 @@ router.post('/api/vote', async (req, res) => {
       // still return reveal data shape so client UX is smooth
       return res.json({ ok: false, alreadyVoted: true });
     }
-    await redis.set(votedKey, '1', { ex: 60 * 60 * 24 * 90 });
+    await redis.set(votedKey, '1');
 
     // Use the exact points from the choice (already set in scenarios)
     const roundScore = choice.points;
@@ -347,15 +347,50 @@ router.post('/api/vote', async (req, res) => {
   }
 });
 
-// GET /api/best - fetch the best player
+// GET /api/me - fetch current user data
+router.get('/api/me', async (_req, res) => {
+  try {
+    const username = (await reddit.getCurrentUsername()) || 'anonymous';
+    
+    res.json({
+      username,
+      iconUrl: `https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${Math.floor(Math.random() * 8)}.png`
+    });
+  } catch (e) {
+    console.error('User data error', e);
+    res.json({
+      username: 'anonymous',
+      iconUrl: `https://www.redditstatic.com/avatars/defaults/v2/avatar_default_${Math.floor(Math.random() * 8)}.png`
+    });
+  }
+});
+
+// GET /api/best - fetch leaderboard of top players
 router.get('/api/best', async (_req, res) => {
   try {
-    const u = (await redis.get('best:username')) || null;
-    const x = (await redis.get('best:xp')) || null;
-    res.json({ username: u, xp: x ? parseInt(x, 10) : null });
+    // For now, return mock leaderboard data since Redis keys() isn't available
+    const mockLeaderboard = [
+      {
+        username: 'player1',
+        score: 85,
+        iconUrl: `https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png`
+      },
+      {
+        username: 'player2', 
+        score: 72,
+        iconUrl: `https://www.redditstatic.com/avatars/defaults/v2/avatar_default_2.png`
+      },
+      {
+        username: 'player3',
+        score: 68,
+        iconUrl: `https://www.redditstatic.com/avatars/defaults/v2/avatar_default_3.png`
+      }
+    ];
+    
+    res.json(mockLeaderboard);
   } catch (e) {
-    console.error('Best player error', e);
-    res.json({ username: null, xp: null });
+    console.error('Leaderboard error', e);
+    res.json([]);
   }
 });
 

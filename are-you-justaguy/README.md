@@ -1,19 +1,19 @@
 # Are You Just a Guy? 🎮
 
-A Reddit-based interactive game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
+A Reddit-based single-player educational game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
 
 ## 🎯 What This Game Is
 
-**"Are You Just a Guy?"** is a single-player educational social game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
+**"Are You Just a Guy?"** is an interactive social learning game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
 ### Core Gameplay
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
 - **Choose your response** from 3 shuffled options (A/B/C) based on real intervention frameworks
-- **Get exact scores** of 0%, 60%, or 100% on evidence-based intervention techniques
+- **Get precise scores** (0-100 points) based on the effectiveness of your intervention approach
 - **Track your progress** on an animated "Trash Meter" from 💀 Embarrassing to 🦸🏽 Golden Retriever
-- **Earn/lose XP** with immediate animated feedback (+20, +10, 0, or -5 XP)
+- **Earn/lose XP** with immediate animated feedback (+20, +15, +10, 0, or -5 XP based on performance)
 - **Build daily streaks** for consecutive play with fire emoji indicators
-- **Watch your avatar** ride the progress bar as your overall average improves
+- **Watch your avatar** ride the progress bar as your overall average improves with smooth spring animations
 
 ## 🚀 What Makes This Game Innovative
 
@@ -31,14 +31,15 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
 
 ### 3. **Animated Progress Visualization**
 - Interactive "Trash Meter" with smooth spring animations using Framer Motion
-- Player avatar (48x48px) rides along the progress bar showing overall improvement
+- Player avatar rides along the progress bar showing overall improvement with gentle floating animation
 - Bouncy arrow indicators show current round performance without text clutter
-- Gradient progress bar (red → amber → green) with clean milestone labels
-- Immediate XP feedback with animated toast notifications (+20, +10, 0, -5 XP)
+- Gradient progress bar (red → amber → green) with clean milestone labels and emoji anchors
+- Immediate XP feedback with animated toast notifications (+20, +15, +10, 0, -5 XP)
 
-### 4. **Smart Content Shuffling & Single-Player Focus**
+### 4. **Smart Content Shuffling & Hybrid Content System**
 - Choice content is shuffled while maintaining A/B/C labels for consistency
 - Prevents players from memorizing "correct" answers by position
+- Hybrid content system: 50% static scenarios, 50% Kiro-generated scenarios for variety
 - No scenario repeats per user (server-side tracking prevents duplicates)
 - Single-player experience focused on personal growth and learning
 
@@ -58,15 +59,16 @@ A Reddit-based interactive game that teaches men bystander intervention and resp
    - Digital harassment in group chats
    - Gym creepy behavior
    - Dating app boundary crossing
+   - Friend group dynamics and accountability
 
 2. **Consider the context** - Look for social cues, power dynamics, and safety concerns mentioned in the scenario
 
-3. **Pick your choice** - Click A, B, or C. Each represents a different approach:
-   - **A choices** typically demonstrate best practices (safer outcomes)
-   - **B choices** are partial solutions (better than nothing but not ideal)
-   - **C choices** are often problematic or passive (riskier outcomes)
+3. **Pick your choice** - Click A, B, or C. Each represents a different approach with shuffled content:
+   - **Safer choices** (85-100 points): Evidence-based interventions demonstrating best practices
+   - **Partial choices** (55-75 points): Better than inaction but not optimal approaches
+   - **Riskier choices** (0-40 points): Problematic, passive, or potentially harmful responses
 
-4. **Submit your answer** - Click your choice to lock it in (choices are disabled after submission)
+4. **Submit your answer** - Click your choice to lock it in (choices are disabled after submission with gray styling)
 
 ### After Each Round
 1. **See your exact score** - Get precise points based on your choice outcome:

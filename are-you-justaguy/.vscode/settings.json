@@ -20,5 +20,6 @@
     "**/.git": false
   },
   "git.ignoreLimitWarning": true,
-  "kiroAgent.configureMCP": "Disabled"
+  "kiroAgent.configureMCP": "Disabled",
+  "typescript.autoClosingTags": false
 }
