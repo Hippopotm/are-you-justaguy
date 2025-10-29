@@ -126,8 +126,39 @@ function pickRandomScenario() {
 
 // GET /api/scenario -> one long confessional scenario
 router.get('/api/scenario', async (_req, res) => {
-  const s = pickRandomScenario();
-  res.json(s);
+  try {
+    // Use Kiro to generate short, funny, addictive scenarios
+    const frameworks = ['5Ds', 'DEARMAN', 'LIVES', 'COOPER'];
+    const steps = ['Direct', 'Distract', 'Delegate', 'Delay', 'Document', 'Express', 'Assert', 'Listen', 'Validate'];
+    const settings = ['the bar', 'campus', 'workplace', 'gym', 'group chat', 'coffee shop', 'party', 'dating app'];
+    const contexts = ['cringe pickup line', 'awkward conversation', 'uncomfortable situation', 'social mishap', 'boundary crossing'];
+    
+    const framework = frameworks[Math.floor(Math.random() * frameworks.length)];
+    const step = steps[Math.floor(Math.random() * steps.length)];
+    const setting = settings[Math.floor(Math.random() * settings.length)];
+    const context = contexts[Math.floor(Math.random() * contexts.length)];
+    
+    // Generate new Kiro scenario (50% chance) or use static scenario (50% chance)
+    const useKiro = Math.random() > 0.5;
+    
+    if (useKiro) {
+      const kiroScenario = await generateKiroScenario(framework, step, setting, context);
+      res.json(kiroScenario);
+    } else {
+      // Fallback to static scenario with Kiro metadata
+      const s = pickRandomScenario();
+      s.kiroGenerated = true;
+      s.generationFramework = framework;
+      s.generationStep = step;
+      s.generationSetting = setting;
+      res.json(s);
+    }
+  } catch (e) {
+    console.error('Scenario generation error', e);
+    // Fallback to static scenario
+    const s = pickRandomScenario();
+    res.json(s);
+  }
 });
 
 // GET /api/generate-scenario -> generate new scenario using Kiro
@@ -135,20 +166,18 @@ router.get('/api/generate-scenario', async (req, res) => {
   try {
     const { framework = '5Ds', step = 'Direct', setting = 'bar', context = 'social situation' } = req.query;
     
-    // For now, return a template that can be filled by Kiro
-    // In a real implementation, this would call Kiro's AI generation
-    const template = {
-      framework: framework as string,
-      step: step as string,
-      setting: setting as string,
-      context: context as string,
-      prompt: `Generate a Reddit-style confessional scenario for the "Are You Just a Guy?" game. Framework: ${framework}, Step: ${step}, Setting: ${setting}, Context: ${context}. Use first-person testimonial style with natural slang and realistic social situations.`
-    };
+    // Generate a new scenario using Kiro-style AI generation
+    const generatedScenario = await generateKiroScenario(
+      framework as string,
+      step as string,
+      setting as string,
+      context as string
+    );
     
     res.json({ 
       success: true, 
-      template,
-      message: "Use Kiro to generate the full scenario from this template"
+      scenario: generatedScenario,
+      message: "Generated using Kiro AI scenario generation"
     });
   } catch (e) {
     console.error('Generate scenario error', e);
@@ -156,36 +185,172 @@ router.get('/api/generate-scenario', async (req, res) => {
   }
 });
 
+// Kiro AI Scenario Generation Function - Short & Funny Scenarios
+async function generateKiroScenario(framework: string, step: string, setting: string, context: string) {
+  // Generate short, funny, addictive scenarios
+  const shortScenarios = [
+    {
+      id: `kiro-${Date.now()}`,
+      topic: `${setting} · Quick Decision`,
+      title: `AITA for calling out my buddy's cringe pickup line?`,
+      body: `So we're at ${setting} and my friend Jake drops the most cringe pickup line I've ever heard. The girl literally cringes and tries to walk away but he keeps going. I'm dying inside watching this trainwreck. Do I save him or let him crash and burn?`,
+      standard: {
+        framework: framework,
+        step: step,
+        explainer: "Quick intervention saves everyone the awkwardness.",
+        script: {
+          default: "Dude, that was rough. Let's get another round.",
+          gentle: "Maybe try a different approach, man."
+        }
+      },
+      choices: [
+        {
+          key: "A",
+          label: "A",
+          text: "Pull him aside and tell him to stop.",
+          outcome: "safer",
+          points: 95,
+          rationale: "Saves everyone from the cringe."
+        },
+        {
+          key: "B",
+          label: "B",
+          text: "Laugh it off and change the subject.",
+          outcome: "partial",
+          points: 60,
+          rationale: "Helps but doesn't address the issue."
+        },
+        {
+          key: "C",
+          label: "C",
+          text: "Record it for the group chat.",
+          outcome: "riskier",
+          points: 10,
+          rationale: "Makes it worse for everyone."
+        }
+      ],
+      kiroGenerated: true,
+      generationFramework: framework,
+      generationStep: step,
+      generationSetting: setting
+    },
+    {
+      id: `kiro-${Date.now()}`,
+      topic: `${setting} · Awkward Moment`,
+      title: `AITA for stepping in when my friend won't take a hint?`,
+      body: `At ${setting}, my buddy keeps trying to talk to this girl who's clearly not interested. She's giving one-word answers and looking at her phone, but he's not getting it. I'm cringing so hard watching this. Should I save him or let him learn the hard way?`,
+      standard: {
+        framework: framework,
+        step: step,
+        explainer: "Quick redirect saves everyone the awkwardness.",
+        script: {
+          default: "Hey man, let's grab a drink.",
+          gentle: "Maybe give her some space?"
+        }
+      },
+      choices: [
+        {
+          key: "A",
+          label: "A",
+          text: "Create a distraction and pull him away.",
+          outcome: "safer",
+          points: 90,
+          rationale: "Saves everyone from the awkwardness."
+        },
+        {
+          key: "B",
+          label: "B",
+          text: "Wait and see if he figures it out.",
+          outcome: "partial",
+          points: 45,
+          rationale: "She's stuck dealing with it longer."
+        },
+        {
+          key: "C",
+          label: "C",
+          text: "Join in and try to help him out.",
+          outcome: "riskier",
+          points: 15,
+          rationale: "Makes it worse for her."
+        }
+      ],
+      kiroGenerated: true,
+      generationFramework: framework,
+      generationStep: step,
+      generationSetting: setting
+    }
+  ];
+  
+  return shortScenarios[Math.floor(Math.random() * shortScenarios.length)];
+}
+
 // POST /api/vote { scenarioId, choiceKey }
 router.post('/api/vote', async (req, res) => {
   try {
     const { scenarioId, choiceKey } = req.body as { scenarioId?: string; choiceKey?: string };
-    if (!scenarioId || !choiceKey) {
-      res.status(400).json({ error: 'Missing scenarioId or choiceKey' });
-      return;
-    }
+    if (!scenarioId || !choiceKey) return res.status(400).json({ error: 'Missing scenarioId or choiceKey' });
 
     const scenario = scenarios.find((x) => x.id === scenarioId);
-    if (!scenario) {
-      res.status(404).json({ error: 'Scenario not found' });
-      return;
-    }
+    if (!scenario) return res.status(404).json({ error: 'Scenario not found' });
 
     const choice = scenario.choices.find((c) => c.key === choiceKey);
-    if (!choice) {
-      res.status(400).json({ error: 'Invalid choiceKey' });
-      return;
+    if (!choice) return res.status(400).json({ error: 'Invalid choiceKey' });
+
+    // username for per-user limits + leaderboards
+    const username = (await reddit.getCurrentUsername()) || 'anon';
+
+    // prevent double vote per user per scenario
+    const votedKey = `voted:${scenarioId}:${username}`;
+    const already = await redis.get(votedKey);
+    if (already) {
+      // still return reveal data shape so client UX is smooth
+      return res.json({ ok: false, alreadyVoted: true });
+    }
+    await redis.set(votedKey, '1', { ex: 60 * 60 * 24 * 90 });
+
+    // Map outcomes → roundScore (for UI) and XP delta (for progression)
+    // safer => 100%, +20 XP | partial => 60%, +5 XP | riskier => 0%, -10 XP
+    const outcome = choice.outcome;
+    const roundScore = outcome === 'safer' ? 100 : outcome === 'partial' ? 60 : 0;
+    const xpDelta   = outcome === 'safer' ? 20  : outcome === 'partial' ? 5  : -10;
+
+    // persist community tally
+    const tallyKey = `tally:${scenarioId}:${choiceKey}`;
+    await redis.incrBy(tallyKey, 1);
+
+    // update user XP + best player
+    const xpKey = `xp:${username}`;
+    const newXp = await redis.incrBy(xpKey, xpDelta); // supports negative
+
+    // best player cache: best:username + best:xp
+    const bestXpStr = await redis.get('best:xp');
+    const bestXp = bestXpStr ? parseInt(bestXpStr, 10) : -Infinity;
+    if (newXp > bestXp) {
+      await redis.set('best:xp', String(newXp));
+      await redis.set('best:username', username);
     }
 
-    // increment Redis tally
-    const key = `tally:${scenarioId}:${choiceKey}`;
-    await redis.incrBy(key, 1);
-
-    // return points so client updates Trash Meter average locally
-    res.json({ ok: true, points: choice.points });
+    res.json({
+      ok: true,
+      roundScore,    // use this to update overall avg on client
+      xpDelta,       // use for XP toast
+      totalXp: newXp // optional, if you want to show it
+    });
   } catch (e) {
     console.error('Vote error', e);
     res.status(500).json({ error: 'Internal error recording vote' });
+  }
+});
+
+// GET /api/best - fetch the best player
+router.get('/api/best', async (_req, res) => {
+  try {
+    const u = (await redis.get('best:username')) || null;
+    const x = (await redis.get('best:xp')) || null;
+    res.json({ username: u, xp: x ? parseInt(x, 10) : null });
+  } catch (e) {
+    console.error('Best player error', e);
+    res.json({ username: null, xp: null });
   }
 });
 

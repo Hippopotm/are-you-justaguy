@@ -6,7 +6,7 @@ export const scenarios: Scenario[] = [
     topic: "Friends · Consent Assumption",
     title: "AITA for calling out my friend when he assumed he could crash at this girl's place?",
     body:
-      "So this happened last night and I'm still kinda pissed about it. I'm hanging out with my boys after game night, just chilling, when I see Dan start talking about how he's gonna 'crash' at Maya's place. They've hung out a few times in our group but like... there's no clear thing between them? They barely talk one-on-one. I hear Dan say 'She's chill, she wouldn't care if I crash at her place' and I see the whole room just go quiet. I look at Maya and her face is completely blank, like she's trying not to make it awkward but I can tell she's uncomfortable. I'm close enough to Dan that he'd actually listen if I said something, but I also don't want to embarrass him in front of everyone. I've been that dude who stayed quiet before and it always felt gross afterwards. I'm just a guy trying to figure out the right thing to do here. Should I have said something? How do you even handle this without making it weird?",
+      "Last night after game night, Dan says he's gonna 'crash' at Maya's place. They barely know each other. I see Maya's face go blank - she's uncomfortable but trying not to make it awkward. Dan assumes she's cool with it without asking. I could say something but don't want to embarrass him. What's the right move here?",
     cues: [
       "Maya’s neutral face / discomfort",
       "Dan assumes consent, hasn’t asked Maya",
@@ -43,7 +43,7 @@ export const scenarios: Scenario[] = [
     topic: "Bar · Bystander Ally",
     title: "WIBTA if I stepped in when this guy wouldn't stop touching a girl at the bar?",
     body:
-      "Okay so I'm at this bar last night with my boys, music's blasting, typical Saturday night vibes. I see this dude keeps putting his hand on this girl's arm and I watch her lean away but he's not getting the hint. I see her forcing a smile and nodding but I can tell she's looking around for an escape route. I'm standing there with my friends and I'm like... do I say something? If I make it obvious, this guy might get defensive and make it worse. But if I don't do anything, I see she's stuck dealing with this creep. I don't want to be that white knight dude but I also don't want to just watch this happen. I'm just a guy trying to figure out what the right move is here. What would you do? I've got maybe ten seconds before this gets more awkward.",
+      "At the bar, this guy keeps touching a girl's arm. She's leaning away but he's not getting the hint. She's forcing a smile but looking around for an exit. Do I say something? If I make it obvious, he might get defensive. But if I don't, she's stuck with this creep. What's the right move?",
     cues: [
       "She leans away; forced smile",
       "Repeated touch without invite",
@@ -79,7 +79,7 @@ export const scenarios: Scenario[] = [
     topic: "Digital · Consent",
     title: "AITA for calling out my boys when someone dropped a nude in the group chat?",
     body:
-      "So this happened in our guys' group chat last night and I'm still kinda shook about it. Out of nowhere, someone posts a nude of a woman I don't even know. The chat just explodes with fire emojis and 'damn' reactions. A couple of my boys are saying it's no big deal because 'it's already online somewhere' and 'she probably posted it herself.' I'm sitting there feeling this instant urge to just mute the chat and keep scrolling, but I also know that if nobody says something clear, this becomes the new normal for our group. I don't want to be that dude who lectures everyone, but I also don't want to just let this slide. I'm just a guy trying to figure out how to reset the vibe without making it weird. What would you do?",
+      "Someone posted a nude of a woman I don't know in our group chat. The chat explodes with fire emojis. My boys say 'it's no big deal' and 'she probably posted it herself.' I want to mute the chat, but if nobody says something, this becomes normal. How do I reset the vibe without being preachy?",
     cues: [
       "Non-consensual image sharing",
       "Rationalizing with ‘it’s online’",
@@ -115,7 +115,7 @@ export const scenarios: Scenario[] = [
     topic: "Campus · Party Boundaries",
     title: "AITA for stepping in when this dude wouldn't leave a girl alone at the party?",
     body:
-      "So it's Friday night at my boy's house party and I'm in the kitchen grabbing drinks when I notice this guy from my dorm who's been trying to talk to this girl all night. She's been polite but clearly not interested—I've seen her step back, look around for exits, and give short answers. Now he's cornered her near the fridge, leaning in way too close while she's trying to get a water bottle. She's holding her phone tight and keeps glancing toward the door. I know this guy—he's not a bad dude, but he's definitely not reading the room. The music's loud, people are dancing, and no one else seems to notice. I'm close enough that I could say something without making a scene, but I also don't want to embarrass him in front of everyone. Part of me wants to just grab another beer and let them figure it out, but I remember my sister telling me about times guys wouldn't leave her alone and how much it sucked when no one stepped in. I'm just a guy trying to figure out the right move here.",
+      "At a party, this guy from my dorm has been trying to talk to a girl all night. She's been polite but clearly not interested - stepping back, looking for exits. Now he's cornered her by the fridge, leaning in too close. She's holding her phone tight, glancing at the door. I could say something but don't want to embarrass him. What's the right move?",
     cues: [
       "She's stepped back multiple times",
       "Looking around for exits",
@@ -151,9 +151,9 @@ export const scenarios: Scenario[] = [
   {
     id: "workplace-comment-001", 
     topic: "Workplace · Inappropriate Comments",
-    title: "Your coworker makes a 'joke' about the new intern's outfit.",
+    title: "AITA for calling out my coworker's 'joke' about the new intern's outfit?",
     body:
-      "It's Monday morning in the break room. You're grabbing coffee when your coworker Jake starts talking about the new intern, Maya, who started last week. 'Did you see what she was wearing Friday?' he says to the group. 'That dress was... well, let's just say she's definitely trying to get ahead in this company.' A couple of guys laugh nervously. You know Maya—she's smart, professional, and always appropriately dressed. Jake's comment feels gross and completely off-base. The other guys are looking uncomfortable but not saying anything. You're the same level as Jake, so you could call it out without it being weird. But you also don't want to make the break room awkward for everyone. Part of you wants to just grab your coffee and leave, but you remember HR training about how these 'jokes' create a hostile environment. You also know Maya would probably hear about this eventually, and that's not fair to her.",
+      "In the break room, Jake makes a comment about our new intern Maya's outfit: 'That dress was... well, she's definitely trying to get ahead in this company.' The other guys laugh nervously. Maya's smart and professional. Jake's comment feels gross. I could call it out but don't want to make it awkward. What should I do?",
     cues: [
       "Sexualizing professional clothing",
       "Other guys laughing nervously",
@@ -190,7 +190,7 @@ export const scenarios: Scenario[] = [
     topic: "Gym · Unwanted Attention", 
     title: "This guy won't stop staring at women working out.",
     body:
-      "You're at the gym on a Tuesday evening, doing your usual routine. You notice this guy who's been there for about 30 minutes, but he's barely working out—mostly just standing around and staring at women on the cardio machines. It's making everyone uncomfortable. You've seen him do this before, and you know the staff has talked to him about it. The women are clearly aware of his staring and are trying to ignore it, but you can see them adjusting their positions and looking around for staff. You're finishing your workout and could easily just leave, but you also know this is a pattern and it's making the gym feel unsafe for women. You don't want to cause a scene, but you also don't want to just walk away and let it continue. The gym has a policy about this, but the staff isn't always around to enforce it.",
+      "At the gym, this guy's been staring at women on cardio machines for 30 minutes. He's barely working out. The women are adjusting their positions, looking for staff. I've seen him do this before. The gym has a policy but staff isn't always around. I could leave, but this makes the gym feel unsafe. What should I do?",
     cues: [
       "Staring instead of working out",
       "Women adjusting positions",
@@ -225,9 +225,9 @@ export const scenarios: Scenario[] = [
   {
     id: "dating-app-boundaries-001",
     topic: "Digital · Dating Boundaries",
-    title: "Your friend won't stop texting this girl who's clearly not interested.",
+    title: "AITA for telling my friend to stop texting this girl who's clearly not interested?",
     body:
-      "You're hanging out with your friend Marcus when his phone keeps buzzing. He's been texting this girl, Jessica, for a few days after matching on a dating app. At first it seemed normal, but now he's showing you the conversation and it's clear she's not interested—she's giving one-word responses, taking hours to reply, and even said 'I'm not really looking for anything right now.' But Marcus keeps texting her, saying things like 'I know you're busy but I just want to get to know you' and 'I'm not like other guys, I'm different.' You've seen this pattern before with him, and it's getting uncomfortable. He's asking you what to text next, and you can tell he's not picking up on her signals. You don't want to be harsh, but you also don't want to encourage behavior that's clearly making her uncomfortable. You know if the roles were reversed, you'd want someone to say something.",
+      "Marcus is texting Jessica from a dating app. She's giving one-word responses, taking hours to reply, even said 'I'm not really looking for anything right now.' But Marcus keeps texting: 'I know you're busy but I just want to get to know you' and 'I'm not like other guys.' He's asking me what to text next. She's clearly not interested. What should I say?",
     cues: [
       "One-word responses",
       "Long delays in replies", 
@@ -264,7 +264,7 @@ export const scenarios: Scenario[] = [
     topic: "Workplace · Sexual Harassment",
     title: "AITA for calling out my coworker's inappropriate comments about our intern?",
     body:
-      "So I'm in the break room yesterday and I see my coworker Jake making comments about our new intern Sarah's outfit. I hear him say stuff like 'That dress really shows off your figure' and 'You should wear that more often.' I can see Sarah is clearly uncomfortable - she's looking down, not making eye contact, and trying to change the subject. I'm just a guy who's been in this situation before and I know how awkward it is. I want to say something but Jake is technically my senior and I don't want to make things weird at work. I see Sarah is trying to leave but Jake keeps talking. I'm standing there thinking - do I step in? Do I report it? Do I just ignore it? I feel like I should do something but I'm not sure what the right move is here.",
+      "Jake's making comments about our intern Sarah's outfit: 'That dress really shows off your figure' and 'You should wear that more often.' Sarah's clearly uncomfortable - looking down, avoiding eye contact, trying to change the subject. Jake's my senior. Sarah's trying to leave but Jake keeps talking. What should I do?",
     cues: [
       "Sarah's body language shows discomfort",
       "Jake's comments are sexual in nature",
@@ -300,7 +300,7 @@ export const scenarios: Scenario[] = [
     topic: "Gym · Unwanted Attention",
     title: "WIBTA if I told this guy at the gym to stop staring at women?",
     body:
-      "I'm at the gym yesterday and I notice this guy keeps staring at women while they're working out. I see him literally following this one woman around with his eyes while she's doing squats. I can tell she's aware of it because she keeps adjusting her clothes and looking around nervously. I'm just a guy who goes to this gym regularly and I've seen this happen before. I want to say something but I don't want to cause a scene or make it worse for the women. I'm thinking maybe I should go talk to the staff, but I also feel like I should do something right now. I see the woman is clearly uncomfortable and I don't want to just stand there and watch. What would you do in this situation?",
+      "At the gym, this guy keeps staring at women working out. He's literally following one woman with his eyes while she's doing squats. She's adjusting her clothes, looking around nervously. I've seen this before. I want to say something but don't want to cause a scene. Should I talk to staff or do something now?",
     cues: [
       "Following women with eyes",
       "Women adjusting clothes nervously", 
