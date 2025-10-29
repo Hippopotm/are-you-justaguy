@@ -7,6 +7,17 @@ import { tierFrom, getXPDelta, getWittyFeedback } from '../shared/tiers';
 
 const PROF_KEY = 'guy_profile_v2';
 
+type LeaderboardPlayer = {
+  username: string;
+  score: number;
+  iconUrl: string;
+};
+
+type Me = {
+  username?: string | null;
+  iconUrl?: string | null;
+};
+
 // Profile helpers for streak and average
 function loadProfile() {
   try {
@@ -55,6 +66,21 @@ export const App = () => {
   const [lastDelta, setLastDelta] = useState<number>(0);
   const [profile, setProfile] = useState(loadProfile());
   const [shuffledChoices, setShuffledChoices] = useState<any[]>([]);
+  const [me, setMe] = useState<Me>({});
+  const [leaderboardAvatars, setLeaderboardAvatars] = useState<LeaderboardPlayer[]>([]);
+
+  // Fetch me + leaderboard on mount
+  useEffect(() => {
+    fetch('/api/me')
+      .then(r => r.json())
+      .then(setMe)
+      .catch(() => {});
+    
+    fetch('/api/best')
+      .then(r => r.json())
+      .then(setLeaderboardAvatars)
+      .catch(() => {});
+  }, []);
 
   // Shuffle choice content while keeping A, B, C labels in order
   const shuffleChoiceContent = (choices: any[]) => {
@@ -140,6 +166,12 @@ export const App = () => {
       const xpDelta = getXPDelta(roundScore);
       setLastDelta(xpDelta);
       setTimeout(() => setLastDelta(0), 1200);
+
+      // Refresh leaderboard after submit
+      fetch('/api/best')
+        .then(r => r.json())
+        .then(setLeaderboardAvatars)
+        .catch(() => {});
       
     } catch (e) {
       console.error('submit error', e);
@@ -148,7 +180,11 @@ export const App = () => {
 
   // Show splash screen first
   if (showSplash) {
-    return <Splash onStart={() => setShowSplash(false)} />;
+    return (
+      <div className="min-h-screen bg-gray-50 p-4 flex items-center justify-center">
+        <Splash onStart={() => setShowSplash(false)} />
+      </div>
+    );
   }
 
   return (
@@ -158,11 +194,13 @@ export const App = () => {
         {/* Header with leaderboard and streak */}
         <Header streak={profile.streak} lastDelta={lastDelta} />
 
-        {/* Trash Meter - always visible */}
+        {/* Trash Meter - always visible with real avatars */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           <TrashProgress 
             overallAverage={avgScore()} 
             {...(submitted && roundResult ? { roundScore: roundResult.score } : {})}
+            avatarUrl={me.iconUrl || null}
+            leaderboard={leaderboardAvatars}
           />
         </div>
 
@@ -212,7 +250,7 @@ export const App = () => {
               {/* Results - shown after submission */}
               {submitted && roundResult && (
                 <div className="mb-6">
-                  {/* Verdict chip */}
+                  {/* Verdict chip with proper contrast */}
                   <div className="mb-4">
                     <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg ${roundResult.tier.chipClass}`}>
                       <span className="text-lg">{roundResult.tier.emoji}</span>

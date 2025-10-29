@@ -1,4 +1,4 @@
-# Are You Just a Guy? 🎮
+# Are You Just a Guy? 🍻
 
 A single-player Reddit-based training game that teaches men bystander intervention and respect standards through realistic, confessional scenarios. Built for the Reddit + Kiro Community Games Challenge.
 
@@ -6,7 +6,7 @@ A single-player Reddit-based training game that teaches men bystander interventi
 
 **"Are You Just a Guy?"** is a single-player educational game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-The game features an engaging splash screen with a robot mascot (🤖) that introduces players to the core concept: "Test your bystander skills in awkward social situations." Players can immediately see what they'll get - quick scenarios with real choices, progress tracking, and streak building.
+The game features an engaging splash screen with an animated beer mug emoji (🍻) that introduces players to the core concept: "Short stories. Quick choices. Big truths." The clean, minimalist design immediately communicates the game's purpose while maintaining a welcoming, non-intimidating atmosphere.
 
 ### Core Gameplay (v2 Single-Player)
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
@@ -20,10 +20,10 @@ The game features an engaging splash screen with a robot mascot (🤖) that intr
 ## 🚀 What Makes This Game Innovative
 
 ### 1. **Engaging Splash Screen Experience**
-- Beautiful animated splash screen with robot mascot (🤖) that immediately communicates the game's purpose
-- Clear value proposition: "Test your bystander skills in awkward social situations"
-- Feature highlights that show players what to expect: quick scenarios, progress tracking, and streak building
-- Smooth animations and gradient button design that invites interaction
+- Clean, minimalist splash screen with animated beer mug emoji (🍻) that subtly rotates to catch attention
+- Clear, concise value proposition: "Short stories. Quick choices. Big truths."
+- Soft gradient background with rounded corners that feels welcoming and modern
+- Simple "Tap to Start" button with hover effects that invites immediate interaction
 
 ### 2. **Single-Player Focus with Personal Growth**
 - Runs directly inside Reddit posts as a Devvit app
@@ -38,10 +38,11 @@ The game features an engaging splash screen with a robot mascot (🤖) that intr
 - Teaches through humor and relatability, not preaching
 
 ### 4. **Gamified Personal Development**
-- "Trash Meter" with robot avatar (🤖) showing your overall progress
-- XP system with immediate toast notifications (+20, +10, -5 XP per choice)
-- Bouncy arrow animation shows your current round score (without text)
-- Daily streak tracking with fire emoji badges encourages consistent practice
+- "Trash Meter" with robot avatar (🤖) showing your overall progress at ≥48×48px size
+- XP system with immediate animated toast notifications (+20, +10, -5 XP per choice)
+- Bouncy arrow animation shows your current round score (strictly no text near arrow)
+- Daily streak tracking with fire emoji badges (🔥 Day N) encourages consistent practice
+- Leaderboard in header showing current best player with score percentage
 
 ### 5. **Kiro-Powered Content Pipeline**
 - Automated scenario validation prevents low-quality content
@@ -54,10 +55,11 @@ The game features an engaging splash screen with a robot mascot (🤖) that intr
 ### Getting Started
 1. **Find the game** in a Reddit post (look for "Are You Just a Guy?" with a Play button)
 2. **Click "Launch App"** to open the game in full screen
-3. **See the splash screen** - Robot mascot (🤖) welcomes you with the tagline "Test your bystander skills in awkward social situations"
-4. **Tap "🎮 Tap to Start"** - The gradient button takes you into the game
-5. **Check your streak** - Fire emoji badge shows consecutive days played in the header
-6. **View your average** - Your overall score percentage appears in the top right
+3. **See the splash screen** - Animated beer mug emoji (🍻) welcomes you with the tagline "Short stories. Quick choices. Big truths."
+4. **Tap "Tap to Start"** - The blue button takes you into the game
+5. **Check your streak** - Fire emoji badge (🔥 Day N) shows consecutive days played in the header
+6. **View the leaderboard** - Current best player and their score percentage appears in the top right
+7. **See your Trash Meter** - Always visible progress bar with your robot avatar (🤖) showing your overall average
 
 ### During Gameplay
 1. **Read the scenario** - First-person confessional stories about realistic social situations (120-220 words)
@@ -87,15 +89,15 @@ The game features an engaging splash screen with a robot mascot (🤖) that intr
    - 😎 **Decent Human** (71-90): "You're learning and it shows." (bg-blue-50 text-blue-700)
    - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (bg-green-50 text-green-700)
 
-3. **Watch the Trash Meter** - Single progress bar with smooth spring animations:
-   - **Robot avatar (🤖)** ≥48×48px riding at your overall average position
-   - **Bouncy arrow** appears at your current round score (no text near arrow)
+3. **Watch the Trash Meter animate** - Single progress bar with smooth spring animations:
+   - **Robot avatar (🤖)** at 32×32px (w-8 h-8) with white border and shadow, riding at your overall average position
+   - **Bouncy arrow** appears at your current round score with 2-bounce animation (strictly no text near arrow)
    - **Spring animation** with exact specs (stiffness: 260, damping: 24, mass: 0.9)
-   - **Color gradient** from red → amber → green (left to right)
+   - **Color gradient** from red → amber → green (left to right) with 6px height (h-6)
 
 4. **Get XP feedback** - Animated toast notification shows your XP change (+20, +10, or -5)
    - Green background for positive XP, red for penalties
-   - Appears for 1.2 seconds with smooth fade animation
+   - Appears in header for 1.2 seconds with smooth fade animation
 
 5. **Try new scenarios** - Click "🎲 Try Another Scenario" to continue
    - Server prevents scenario repeats per user
@@ -167,32 +169,33 @@ npm run deploy
 The game uses these main endpoints:
 
 - **GET /api/scenario** - Returns a random scenario (no repeats per user)
-- **POST /api/vote** - Records player choice, returns exact score and XP change
-- **GET /api/best** - Returns current best player (username and XP)
+- **POST /api/submit** - Records player choice, returns exact score and XP change
+- **GET /api/best** - Returns current best player (username and score percentage)
 - **GET /api/generate-scenario** - Generates new scenario using Kiro AI
 
 **Removed in v2**: `/api/reveal` (no community results in single-player mode)
 
 ### Current Scenario Content
 The game includes 9 realistic scenarios covering:
-- **Bar/Social situations** - Bystander intervention in nightlife settings
-- **Workplace harassment** - Professional boundary setting and ally behavior
-- **Digital consent** - Online harassment and image sharing
-- **Campus parties** - College social dynamics and safety
-- **Gym environments** - Addressing unwanted attention and staring
-- **Dating app boundaries** - Recognizing and respecting disinterest signals
-- **Friend group dynamics** - Calling out problematic behavior among peers
+- **Bar/Social situations** - Bystander intervention in nightlife settings ("Bar · Bystander Ally")
+- **Workplace harassment** - Professional boundary setting and ally behavior ("Workplace · Inappropriate Comments", "Workplace · Sexual Harassment")
+- **Digital consent** - Online harassment and image sharing ("Digital · Consent", "Digital · Dating Boundaries")
+- **Campus parties** - College social dynamics and safety ("Campus · Party Boundaries")
+- **Gym environments** - Addressing unwanted attention and staring ("Gym · Unwanted Attention")
+- **Friend group dynamics** - Calling out problematic behavior among peers ("Friends · Consent Assumption")
 
 ## 🧠 How It Works
 
 ### Game Flow (v2 Single-Player)
-1. **Splash Screen**: Animated welcome screen with robot mascot and clear value proposition
-2. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) - no repeats per user
-3. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order)
-4. **Vote Recording**: Server tracks choice via `/api/vote`, prevents duplicate votes, returns exact score and XP
-5. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, and animated XP toast
-6. **Trash Meter Display**: Single meter with robot avatar at overall average, bouncy arrow at round score
-7. **Progress Tracking**: Updates overall average score and daily streak counter with fire emoji badges
+1. **Splash Screen**: Clean animated welcome screen with beer mug emoji (🍻) and "Short stories. Quick choices. Big truths."
+2. **Header Display**: Shows game title, streak badge (🔥 Day N), leaderboard (🏆 Best player), and animated XP toasts
+3. **Trash Meter**: Always visible progress bar with robot avatar (🤖) at overall average position
+4. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) - no repeats per user
+5. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order, no emojis in buttons)
+6. **Vote Recording**: Server tracks choice via `/api/submit`, prevents duplicate votes, returns exact score and XP
+7. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, and animated XP toast in header
+8. **Trash Meter Animation**: Bouncy arrow appears at round score with 2-bounce animation (no text), avatar moves to new average
+9. **Progress Tracking**: Updates overall average score and daily streak counter with fire emoji badges
 
 ### Trash Meter System (v2 Single-Player)
 The game uses a single visual progress bar with a robot avatar (🤖) that rides along based on your overall average:
@@ -211,15 +214,16 @@ The game uses a single visual progress bar with a robot avatar (🤖) that rides
 - **Embarrassing choices** (0%): Problematic or passive responses, lose -5 XP
 
 ### Visual Features
-- **Engaging splash screen** with animated robot mascot and gradient CTA button
-- **Single trash meter** appears after submission with spring animation (stiffness: 260, damping: 24, mass: 0.9)
-- **Robot avatar (🤖)** ≥48×48px rides the bar at overall average position
-- **Bouncy arrow** shows current round score position (strictly no text near arrow)
+- **Engaging splash screen** with animated beer mug emoji (🍻) and clean blue CTA button
+- **Single trash meter** always visible with spring animation (stiffness: 260, damping: 24, mass: 0.9)
+- **Robot avatar (🤖)** at 32×32px (w-8 h-8) with white border and shadow, positioned above the progress bar
+- **Bouncy arrow** shows current round score position with 2-bounce animation (strictly no text near arrow)
 - **Choice shuffling** with A, B, C labels staying in exact order, content randomized
-- **Light theme** throughout: bg-gray-50 page, bg-white cards with rounded corners
+- **Light theme** throughout: bg-gray-50 page, bg-white cards with rounded-2xl corners
 - **Tier chips** with exact contrast colors (red-50/red-700, orange-50/orange-700, etc.)
-- **Animated XP toasts** with green/red backgrounds and smooth fade transitions
-- **Streak badges** with fire emoji (🔥) showing consecutive days played
+- **Animated XP toasts** in header with green/red backgrounds and smooth fade transitions
+- **Streak badges** with fire emoji (🔥 Day N) showing consecutive days played
+- **Leaderboard display** showing current best player and score percentage
 
 ### Learning Standards
 - **5 D's**: Direct, Distract, Delegate, Delay, Document
@@ -261,7 +265,9 @@ src/
 │   ├── index.html                 # HTML template
 │   ├── index.css                  # Global styles
 │   └── components/
-│       └── TrashProgress.tsx      # Trash Meter visualization with robot avatar
+│       ├── TrashProgress.tsx      # Trash Meter visualization with robot avatar
+│       ├── Header.tsx             # Header with leaderboard, streak, and XP toasts
+│       └── Splash.tsx             # Animated splash screen with beer emoji
 ├── server/
 │   ├── index.ts                   # API endpoints and game logic
 │   └── core/

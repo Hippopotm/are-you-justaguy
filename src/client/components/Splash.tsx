@@ -1,57 +1,30 @@
 import { motion } from 'framer-motion';
 
-interface SplashProps {
-  onStart: () => void;
-}
-
-export default function Splash({ onStart }: SplashProps) {
+export default function Splash({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full text-center"
-      >
-        {/* Mascot */}
-        <div className="text-6xl mb-4">🤖</div>
-        
-        {/* Title */}
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">
-          Are You Just a Guy?
-        </h1>
-        
-        {/* Hook */}
-        <p className="text-lg text-gray-600 mb-6">
-          Test your bystander skills in awkward social situations
-        </p>
-        
-        {/* Features */}
-        <div className="space-y-2 mb-8 text-sm text-gray-500">
-          <div className="flex items-center justify-center gap-2">
-            <span>🎯</span>
-            <span>Quick scenarios, real choices</span>
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <span>📊</span>
-            <span>Track your progress</span>
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <span>🔥</span>
-            <span>Build your streak</span>
-          </div>
-        </div>
-        
-        {/* CTA Button */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onStart}
-          className="w-full px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-shadow duration-200"
+    <div className="relative overflow-hidden rounded-2xl bg-white shadow-md p-8 text-gray-900">
+      {/* soft bar background */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-gray-50 to-white" />
+      
+      <div className="relative flex flex-col items-center text-center gap-3">
+        <motion.div
+          animate={{ rotate: [0, 1.5, -1.5, 0] }}
+          transition={{ repeat: Infinity, duration: 3.2 }}
+          className="text-6xl"
         >
-          🎮 Tap to Start
-        </motion.button>
-      </motion.div>
+          🍻
+        </motion.div>
+
+        <h1 className="text-3xl md:text-4xl font-bold">Are You Just a Guy?</h1>
+        <p className="text-gray-600">Short stories. Quick choices. Big truths.</p>
+
+        <button
+          onClick={onStart}
+          className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 shadow-lg transition-transform hover:scale-105"
+        >
+          Tap to Start
+        </button>
+      </div>
     </div>
   );
 }
