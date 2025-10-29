@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import type { Scenario } from '../shared/types';
 import TrashProgress from './components/TrashProgress';
 import Header from './components/Header';
-import Splash from './components/Splash';
 import { tierFrom, getXPDelta, getWittyFeedback } from '../shared/tiers';
 
 const PROF_KEY = 'guy_profile_v2';
@@ -58,7 +57,6 @@ function avgScore() {
 }
 
 export const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -68,18 +66,29 @@ export const App = () => {
   const [shuffledChoices, setShuffledChoices] = useState<any[]>([]);
   const [me, setMe] = useState<Me>({});
   const [leaderboardAvatars, setLeaderboardAvatars] = useState<LeaderboardPlayer[]>([]);
+  const [overallAverage, setOverallAverage] = useState<number>(0);
+  const [roundScore, setRoundScore] = useState<number | undefined>(undefined);
 
-  // Fetch me + leaderboard on mount
+  // Fetch me + leaderboard + scenario immediately on mount
   useEffect(() => {
+    // Fetch user info
     fetch('/api/me')
       .then(r => r.json())
       .then(setMe)
       .catch(() => {});
     
+    // Fetch leaderboard
     fetch('/api/best')
       .then(r => r.json())
       .then(setLeaderboardAvatars)
       .catch(() => {});
+
+    // Load first scenario immediately
+    fetchNextScenario();
+    
+    // Set initial profile
+    setProfile(loadProfile());
+    setOverallAverage(avgScore());
   }, []);
 
   // Shuffle choice content while keeping A, B, C labels in order
@@ -111,15 +120,7 @@ export const App = () => {
     });
   };
 
-  // Load scenario on mount
-  useEffect(() => {
-    if (!showSplash) {
-      loadNewScenario();
-    }
-    setProfile(loadProfile());
-  }, [showSplash]);
-
-  const loadNewScenario = async () => {
+  const fetchNextScenario = async () => {
     try {
       const data = await fetch('/api/scenario').then((r) => r.json());
       setScenario(data);
@@ -130,6 +131,7 @@ export const App = () => {
       setSelected(null);
       setSubmitted(false);
       setRoundResult(null);
+      setRoundScore(undefined);
       setLastDelta(0);
     } catch (e) {
       console.error('scenario error', e);
@@ -145,7 +147,7 @@ export const App = () => {
     try {
       // Get the points from the shuffled choice
       const selectedChoice = shuffledChoices.find(choice => choice.key === choiceKey);
-      const roundScore = selectedChoice?.points || 0;
+      const currentRoundScore = selectedChoice?.points || 0;
       
       // Call submit API to record the choice and update leaderboard
       await fetch('/api/submit', {
@@ -155,15 +157,20 @@ export const App = () => {
       });
 
       // Update local profile
-      const updatedProfile = addPlay(roundScore);
+      const updatedProfile = addPlay(currentRoundScore);
       setProfile(updatedProfile);
       
+      // Update overall average and round score for meter animation
+      const newAverage = avgScore();
+      setOverallAverage(newAverage);
+      setRoundScore(currentRoundScore);
+      
       // Set round result for display
-      const tier = tierFrom(roundScore);
-      setRoundResult({ score: roundScore, tier });
+      const tier = tierFrom(currentRoundScore);
+      setRoundResult({ score: currentRoundScore, tier });
       
       // Show XP toast
-      const xpDelta = getXPDelta(roundScore);
+      const xpDelta = getXPDelta(currentRoundScore);
       setLastDelta(xpDelta);
       setTimeout(() => setLastDelta(0), 1200);
 
@@ -178,15 +185,6 @@ export const App = () => {
     }
   };
 
-  // Show splash screen first
-  if (showSplash) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-4 flex items-center justify-center">
-        <Splash onStart={() => setShowSplash(false)} />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen text-gray-900 bg-gray-50">
       <div className="max-w-[760px] mx-auto p-4 space-y-4">
@@ -194,18 +192,23 @@ export const App = () => {
         {/* Header with leaderboard and streak */}
         <Header streak={profile.streak} lastDelta={lastDelta} />
 
-        {/* Trash Meter - always visible with real avatars */}
+        {/* Trash Meter - always visible with big avatars */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
           <TrashProgress 
-            overallAverage={avgScore()} 
-            {...(submitted && roundResult ? { roundScore: roundResult.score } : {})}
+            overallAverage={overallAverage} 
+            {...(submitted && typeof roundScore === 'number' ? { roundScore } : {})}
             avatarUrl={me.iconUrl || null}
             leaderboard={leaderboardAvatars}
           />
         </div>
 
-        {/* Main game card */}
-        <main className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+        {/* Main game card with hover affordance */}
+        <main 
+          className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm transition-transform hover:shadow-lg hover:-translate-y-0.5"
+          onPointerEnter={() => {
+            // Optional: prefetch next scenario, preload assets, etc.
+          }}
+        >
           {!scenario && <div className="text-center text-gray-600">Loading scenario…</div>}
           
           {scenario && (
@@ -270,7 +273,7 @@ export const App = () => {
                 <div className="pt-4 border-t border-gray-200">
                   <button
                     className="w-full px-4 py-3 bg-gray-900 text-white rounded-xl font-medium transition-colors duration-200 hover:bg-gray-800 transform hover:scale-[0.98] active:scale-[0.98]"
-                    onClick={loadNewScenario}
+                    onClick={fetchNextScenario}
                   >
                     🎲 Try Another Scenario
                   </button>

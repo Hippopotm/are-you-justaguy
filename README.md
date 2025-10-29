@@ -6,7 +6,7 @@ A single-player Reddit-based training game that teaches men bystander interventi
 
 **"Are You Just a Guy?"** is a single-player educational game that helps men practice being better allies through humor and real-world scenarios. Players read Reddit-style confessional stories about uncomfortable social situations and choose how they'd respond, learning evidence-based intervention techniques along the way.
 
-The game features an engaging splash screen with an animated beer mug emoji (🍻) that introduces players to the core concept: "Short stories. Quick choices. Big truths." The clean, minimalist design immediately communicates the game's purpose while maintaining a welcoming, non-intimidating atmosphere.
+The game runs inline directly within Reddit posts, providing an immediate, seamless experience without popups or external navigation. Players see their progress tracked on a visual "Trash Meter" with real Reddit avatars, including their own profile picture riding along the progress bar.
 
 ### Core Gameplay (v2 Single-Player)
 - **Read realistic scenarios** written in Reddit confessional style (r/AITA, r/TwoXChromosomes tone)
@@ -19,32 +19,39 @@ The game features an engaging splash screen with an animated beer mug emoji (�
 
 ## 🚀 What Makes This Game Innovative
 
-### 1. **Engaging Splash Screen Experience**
-- Clean, minimalist splash screen with animated beer mug emoji (🍻) that subtly rotates to catch attention
-- Clear, concise value proposition: "Short stories. Quick choices. Big truths."
-- Soft gradient background with rounded corners that feels welcoming and modern
-- Simple "Tap to Start" button with hover effects that invites immediate interaction
+### 1. **Inline Reddit Integration**
+- Runs directly inside Reddit posts with tall height configuration for seamless feed integration
+- No popup windows or external navigation - plays like native Reddit content
+- Optimized for mobile Reddit users with clean, responsive design
+- Immediate gameplay start without splash screens or loading delays
 
-### 2. **Single-Player Focus with Personal Growth**
-- Runs directly inside Reddit posts as a Devvit app
+### 2. **Real Reddit Avatar Integration**
+- Fetches and displays your actual Reddit profile picture on the progress bar
+- Shows leaderboard players' real Reddit avatars positioned at their score percentages
+- Your avatar (12×12px) prominently animated above the progress bar
+- Leaderboard avatars (8×8px) positioned at exact score locations with tooltips
+- Proper fallback support for avatar loading errors
+
+### 3. **Single-Player Focus with Personal Growth**
 - Uses familiar Reddit confessional tone that feels authentic (r/AITA, r/TwoXChromosomes style)
 - Focuses on personal skill building rather than social comparison
 - Clean, light-themed interface optimized for mobile Reddit users
+- No community results or peer pressure - purely personal development
 
-### 3. **Evidence-Based Teaching with Exact Scoring**
+### 4. **Evidence-Based Teaching with Exact Scoring**
 - Integrates proven frameworks: 5 D's, DEARMAN, LIVES, COOPER
 - Provides practical micro-scripts players can use in real life
 - Exact 3-tier scoring system: 0% (Embarrassing), 60% (Partial), 100% (Golden)
 - Teaches through humor and relatability, not preaching
 
-### 4. **Gamified Personal Development**
-- "Trash Meter" with robot avatar (🤖) showing your overall progress at ≥48×48px size
+### 5. **Gamified Personal Development**
+- "Trash Meter" with your real Reddit avatar showing overall progress at 12×12px size
 - XP system with immediate animated toast notifications (+20, +10, -5 XP per choice)
 - Bouncy arrow animation shows your current round score (strictly no text near arrow)
 - Daily streak tracking with fire emoji badges (🔥 Day N) encourages consistent practice
-- Leaderboard in header showing current best player with score percentage
+- Leaderboard showing real Reddit usernames and avatars with score percentages
 
-### 5. **Kiro-Powered Content Pipeline**
+### 6. **Kiro-Powered Content Pipeline**
 - Automated scenario validation prevents low-quality content
 - AI-assisted content generation maintains consistent tone
 - Quality gates ensure all scenarios meet educational standards
@@ -54,12 +61,12 @@ The game features an engaging splash screen with an animated beer mug emoji (�
 
 ### Getting Started
 1. **Find the game** in a Reddit post (look for "Are You Just a Guy?" with a Play button)
-2. **Click "Launch App"** to open the game in full screen
-3. **See the splash screen** - Animated beer mug emoji (🍻) welcomes you with the tagline "Short stories. Quick choices. Big truths."
-4. **Tap "Tap to Start"** - The blue button takes you into the game
-5. **Check your streak** - Fire emoji badge (🔥 Day N) shows consecutive days played in the header
-6. **View the leaderboard** - Current best player and their score percentage appears in the top right
-7. **See your Trash Meter** - Always visible progress bar with your robot avatar (🤖) showing your overall average
+2. **Click "Launch App"** to open the game inline within the Reddit post
+3. **Game starts immediately** - No splash screen, direct access to gameplay
+4. **Check your streak** - Fire emoji badge (🔥 Day N) shows consecutive days played in the header
+5. **View the leaderboard** - Current best player and their score percentage appears in the top right
+6. **See your Trash Meter** - Always visible progress bar with your real Reddit avatar showing your overall average
+7. **Your avatar loads** - The game fetches your actual Reddit profile picture to display on the progress bar
 
 ### During Gameplay
 1. **Read the scenario** - First-person confessional stories about realistic social situations (120-220 words)
@@ -90,10 +97,11 @@ The game features an engaging splash screen with an animated beer mug emoji (�
    - 🦸🏽 **Golden Retriever** (91-100): "You're the adult child you needed." (bg-green-50 text-green-700)
 
 3. **Watch the Trash Meter animate** - Single progress bar with smooth spring animations:
-   - **Robot avatar (🤖)** at 32×32px (w-8 h-8) with white border and shadow, riding at your overall average position
+   - **Your Reddit avatar** at 12×12px (w-12 h-12) with white border and shadow, riding at your overall average position
+   - **Leaderboard avatars** at 8×8px (w-8 h-8) positioned at their exact score percentages with tooltips
    - **Bouncy arrow** appears at your current round score with 2-bounce animation (strictly no text near arrow)
    - **Spring animation** with exact specs (stiffness: 260, damping: 24, mass: 0.9)
-   - **Color gradient** from red → amber → green (left to right) with 6px height (h-6)
+   - **Color gradient** from red → amber → green (left to right) with tier emoji anchors below
 
 4. **Get XP feedback** - Animated toast notification shows your XP change (+20, +10, or -5)
    - Green background for positive XP, red for penalties
@@ -170,7 +178,8 @@ The game uses these main endpoints:
 
 - **GET /api/scenario** - Returns a random scenario (no repeats per user)
 - **POST /api/submit** - Records player choice, returns exact score and XP change
-- **GET /api/best** - Returns current best player (username and score percentage)
+- **GET /api/me** - Returns user's Reddit username and avatar URL
+- **GET /api/best** - Returns leaderboard with usernames, scores, and avatar URLs
 - **GET /api/generate-scenario** - Generates new scenario using Kiro AI
 
 **Removed in v2**: `/api/reveal` (no community results in single-player mode)
@@ -187,15 +196,16 @@ The game includes 9 realistic scenarios covering:
 ## 🧠 How It Works
 
 ### Game Flow (v2 Single-Player)
-1. **Splash Screen**: Clean animated welcome screen with beer mug emoji (🍻) and "Short stories. Quick choices. Big truths."
+1. **Immediate Start**: Game loads directly inline within Reddit post with no splash screen
 2. **Header Display**: Shows game title, streak badge (🔥 Day N), leaderboard (🏆 Best player), and animated XP toasts
-3. **Trash Meter**: Always visible progress bar with robot avatar (🤖) at overall average position
-4. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) - no repeats per user
-5. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order, no emojis in buttons)
-6. **Vote Recording**: Server tracks choice via `/api/submit`, prevents duplicate votes, returns exact score and XP
-7. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, and animated XP toast in header
-8. **Trash Meter Animation**: Bouncy arrow appears at round score with 2-bounce animation (no text), avatar moves to new average
-9. **Progress Tracking**: Updates overall average score and daily streak counter with fire emoji badges
+3. **Avatar Loading**: Fetches your real Reddit profile picture and leaderboard players' avatars via `/api/me` and `/api/best`
+4. **Trash Meter**: Always visible progress bar with your real Reddit avatar at overall average position
+5. **Scenario Load**: Player reads a confessional Reddit-style story (120-220 words) - no repeats per user
+6. **Choice Phase**: Player picks A/B/C response (content shuffled, labels stay in order, no emojis in buttons)
+7. **Vote Recording**: Server tracks choice via `/api/submit`, prevents duplicate votes, returns exact score and XP
+8. **Immediate Feedback**: Shows exact score, tier chip with proper contrast colors, and animated XP toast in header
+9. **Trash Meter Animation**: Bouncy arrow appears at round score with 2-bounce animation (no text), avatar moves to new average
+10. **Progress Tracking**: Updates overall average score and daily streak counter with fire emoji badges
 
 ### Trash Meter System (v2 Single-Player)
 The game uses a single visual progress bar with a robot avatar (🤖) that rides along based on your overall average:
@@ -214,16 +224,18 @@ The game uses a single visual progress bar with a robot avatar (🤖) that rides
 - **Embarrassing choices** (0%): Problematic or passive responses, lose -5 XP
 
 ### Visual Features
-- **Engaging splash screen** with animated beer mug emoji (🍻) and clean blue CTA button
+- **Inline Reddit integration** with tall height configuration for seamless feed experience
 - **Single trash meter** always visible with spring animation (stiffness: 260, damping: 24, mass: 0.9)
-- **Robot avatar (🤖)** at 32×32px (w-8 h-8) with white border and shadow, positioned above the progress bar
+- **Real Reddit avatars** - Your avatar at 12×12px (w-12 h-12) positioned above the progress bar
+- **Leaderboard avatars** at 8×8px (w-8 h-8) positioned at exact score percentages with tooltips
 - **Bouncy arrow** shows current round score position with 2-bounce animation (strictly no text near arrow)
+- **Tier emoji anchors** below the progress bar: 💀🙈😬😎🦸‍♂️
 - **Choice shuffling** with A, B, C labels staying in exact order, content randomized
 - **Light theme** throughout: bg-gray-50 page, bg-white cards with rounded-2xl corners
 - **Tier chips** with exact contrast colors (red-50/red-700, orange-50/orange-700, etc.)
 - **Animated XP toasts** in header with green/red backgrounds and smooth fade transitions
 - **Streak badges** with fire emoji (🔥 Day N) showing consecutive days played
-- **Leaderboard display** showing current best player and score percentage
+- **Leaderboard display** showing real Reddit usernames and score percentages
 
 ### Learning Standards
 - **5 D's**: Direct, Distract, Delegate, Delay, Document
